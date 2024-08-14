@@ -1,0 +1,6 @@
+query GetVinyls {
+    vinyls {
+        idVinyl
+        catNumber
+    }
+}

@@ -3,10 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E9C8E12C2C6BDED0003D0ECF /* Querries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = E9D3B75B2C6BD9A900862236 /* Querries.graphql */; };
+		E9C8E12F2C6BDFF0003D0ECF /* VinylventoryAPI in Frameworks */ = {isa = PBXBuildFile; productRef = E9C8E12E2C6BDFF0003D0ECF /* VinylventoryAPI */; };
+		E9C8E1312C6BE070003D0ECF /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C8E1302C6BE070003D0ECF /* Network.swift */; };
 		E9D3B7232C6A3D0A00862236 /* VinylventoryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B7222C6A3D0A00862236 /* VinylventoryApp.swift */; };
 		E9D3B7252C6A3D0A00862236 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B7242C6A3D0A00862236 /* ContentView.swift */; };
 		E9D3B7272C6A3D0B00862236 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9D3B7262C6A3D0B00862236 /* Assets.xcassets */; };
@@ -14,6 +17,9 @@
 		E9D3B7342C6A3D0B00862236 /* VinylventoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B7332C6A3D0B00862236 /* VinylventoryTests.swift */; };
 		E9D3B73E2C6A3D0B00862236 /* VinylventoryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B73D2C6A3D0B00862236 /* VinylventoryUITests.swift */; };
 		E9D3B7402C6A3D0B00862236 /* VinylventoryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B73F2C6A3D0B00862236 /* VinylventoryUITestsLaunchTests.swift */; };
+		E9D3B74F2C6A717A00862236 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B74E2C6A717A00862236 /* AddView.swift */; };
+		E9D3B7512C6A720C00862236 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B7502C6A720C00862236 /* ListView.swift */; };
+		E9D3B7562C6BD72200862236 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = E9D3B7552C6BD72200862236 /* Apollo */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E9C8E1302C6BE070003D0ECF /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		E9D3B71F2C6A3D0A00862236 /* Vinylventory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vinylventory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9D3B7222C6A3D0A00862236 /* VinylventoryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinylventoryApp.swift; sourceTree = "<group>"; };
 		E9D3B7242C6A3D0A00862236 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +51,10 @@
 		E9D3B7392C6A3D0B00862236 /* VinylventoryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VinylventoryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9D3B73D2C6A3D0B00862236 /* VinylventoryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinylventoryUITests.swift; sourceTree = "<group>"; };
 		E9D3B73F2C6A3D0B00862236 /* VinylventoryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinylventoryUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		E9D3B74E2C6A717A00862236 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
+		E9D3B7502C6A720C00862236 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		E9D3B75A2C6BD95800862236 /* schema.graphqls */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
+		E9D3B75B2C6BD9A900862236 /* Querries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Querries.graphql; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9C8E12F2C6BDFF0003D0ECF /* VinylventoryAPI in Frameworks */,
+				E9D3B7562C6BD72200862236 /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,10 +107,15 @@
 		E9D3B7212C6A3D0A00862236 /* Vinylventory */ = {
 			isa = PBXGroup;
 			children = (
-				E9D3B7222C6A3D0A00862236 /* VinylventoryApp.swift */,
+				E9D3B75A2C6BD95800862236 /* schema.graphqls */,
+				E9D3B75B2C6BD9A900862236 /* Querries.graphql */,
 				E9D3B7242C6A3D0A00862236 /* ContentView.swift */,
+				E9D3B7502C6A720C00862236 /* ListView.swift */,
+				E9D3B74E2C6A717A00862236 /* AddView.swift */,
+				E9D3B7222C6A3D0A00862236 /* VinylventoryApp.swift */,
 				E9D3B7262C6A3D0B00862236 /* Assets.xcassets */,
 				E9D3B7282C6A3D0B00862236 /* Preview Content */,
+				E9C8E1302C6BE070003D0ECF /* Network.swift */,
 			);
 			path = Vinylventory;
 			sourceTree = "<group>";
@@ -143,6 +161,10 @@
 			dependencies = (
 			);
 			name = Vinylventory;
+			packageProductDependencies = (
+				E9D3B7552C6BD72200862236 /* Apollo */,
+				E9C8E12E2C6BDFF0003D0ECF /* VinylventoryAPI */,
+			);
 			productName = Vinylventory;
 			productReference = E9D3B71F2C6A3D0A00862236 /* Vinylventory.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +237,10 @@
 				Base,
 			);
 			mainGroup = E9D3B7162C6A3D0A00862236;
+			packageReferences = (
+				E9D3B7542C6BD6D100862236 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				E9C8E12D2C6BDFF0003D0ECF /* XCLocalSwiftPackageReference "VinylventoryAPI" */,
+			);
 			productRefGroup = E9D3B7202C6A3D0A00862236 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -232,6 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9D3B72A2C6A3D0B00862236 /* Preview Assets.xcassets in Resources */,
+				E9C8E12C2C6BDED0003D0ECF /* Querries.graphql in Resources */,
 				E9D3B7272C6A3D0B00862236 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,8 +284,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9D3B7512C6A720C00862236 /* ListView.swift in Sources */,
 				E9D3B7252C6A3D0A00862236 /* ContentView.swift in Sources */,
+				E9C8E1312C6BE070003D0ECF /* Network.swift in Sources */,
 				E9D3B7232C6A3D0A00862236 /* VinylventoryApp.swift in Sources */,
+				E9D3B74F2C6A717A00862236 /* AddView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +455,8 @@
 				DEVELOPMENT_TEAM = RJMJJMRUZT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Vinylventory;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -437,9 +469,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = CanardPoration.Vinylventory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -454,6 +490,8 @@
 				DEVELOPMENT_TEAM = RJMJJMRUZT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Vinylventory;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -466,9 +504,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = CanardPoration.Vinylventory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -588,6 +630,36 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		E9C8E12D2C6BDFF0003D0ECF /* XCLocalSwiftPackageReference "VinylventoryAPI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = VinylventoryAPI;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E9D3B7542C6BD6D100862236 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.14.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E9C8E12E2C6BDFF0003D0ECF /* VinylventoryAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VinylventoryAPI;
+		};
+		E9D3B7552C6BD72200862236 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9D3B7542C6BD6D100862236 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E9D3B7172C6A3D0A00862236 /* Project object */;
 }
