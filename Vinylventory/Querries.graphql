@@ -4,3 +4,216 @@ query GetVinyls {
         catNumber
     }
 }
+
+query GetVinyl($idVinyl: String!) {
+	vinyl(where: { idVinyl: $idVinyl }) {
+		idVinyl
+		catNumber
+		dateCreated
+		dateReleased
+		dateEdited
+		notePocket
+		pressingLoc
+		edition
+		weight
+		rank
+		notes
+		playedBy {
+			artist {
+				idArtist
+				surname
+				name
+				origin
+			}
+		}
+		authored {
+			artist {
+				idArtist
+				surname
+				name
+				origin
+			}
+		}
+		credits {
+			idCredit
+			role
+			note
+			artist {
+				idArtist
+				surname
+				name
+				origin
+			}
+		}
+		album {
+			idAlbum
+			name
+		}
+		label {
+			idLabel
+			name
+		}
+		tracks {
+			idTrack
+			name
+			duration
+		}
+		bought {
+			idBought
+			loc
+			date
+			price
+			note
+		}
+		pocketState {
+			idPocketState
+			name
+		}
+		state {
+			idState
+			name
+		}
+		readSpeed {
+			idReadSpeed
+			speed
+		}
+		images {
+			idImage
+			path
+		}
+	}
+}
+
+mutation CreateVinyl(
+	$catNumber: String!
+	$dateReleased: DateTimeISO
+	$dateEdited: DateTimeISO
+	$notePocket: String
+	$pressingLoc: String
+	$edition: String
+	$weight: Int
+	$rank: Int
+	$notes: String
+	$playedBys: [PlayedByCreateWithoutVinylInput!]
+	$authoreds: [AuthoredCreateWithoutVinylInput!]
+	$credits: [CreditCreateWithoutVinylInput!]
+	$album: String!
+	$label: String!
+	$tracks: [TrackCreateManyVinylInput!]!
+	$boughtLoc: String!
+	$boughtDate: DateTimeISO!
+	$boughtPrice: Int
+	$boughtNote: String
+	$pocketState: String
+	$state: String
+	$readSpeed: String
+	$images: [ImageWhereUniqueInput!]
+) {
+	createOneVinyl(data: {
+		catNumber: $catNumber
+		dateReleased: $dateReleased
+		dateEdited: $dateEdited
+		notePocket: $notePocket
+		pressingLoc: $pressingLoc
+		edition: $edition
+		weight: $weight
+		rank: $rank
+		notes: $notes
+		playedBy: {
+			create: $playedBys
+		}
+		authored: {
+			create: $authoreds
+		}
+		credits: {
+			create: $credits
+		}
+		album: {
+			connectOrCreate: {
+				where: {
+					name: $album
+				}
+				create: {
+					name: $album
+				}
+			}
+		}
+		label: {
+			connectOrCreate: {
+				where: {
+					name: $label
+				}
+				create: {
+					name: $label
+				}
+			}
+		}
+		tracks: {
+			createMany: {
+				data: $tracks
+			}
+		}
+		bought: {
+			connectOrCreate: {
+				where: {
+					loc_date: {
+						loc: $boughtLoc
+						date: $boughtDate
+					}
+				}
+				create: {
+					loc: $boughtLoc
+					date: $boughtDate
+					price: $boughtPrice
+					note: $boughtNote
+				}
+			}
+		}
+		pocketState: {
+			connect: {
+				name: $pocketState
+			}
+		}
+		state: {
+			connect: {
+				name: $state
+			}
+		}
+		readSpeed: {
+			connect: {
+				speed: $readSpeed
+			}
+		}
+		images: {
+			connect: $images
+		}
+	}) {
+		idVinyl
+	}
+}
+
+query GetArtists {
+	artists {
+		surname
+		name
+		origin
+	}
+}
+
+query GetPocketStates {
+	pocketStates {
+		name
+	}
+}
+
+query GetStates {
+	states {
+		name
+	}
+}
+
+query GetReadSpeed {
+	readSpeeds {
+		speed
+	}
+}

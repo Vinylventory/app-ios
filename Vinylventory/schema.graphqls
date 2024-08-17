@@ -39,10 +39,10 @@ type AggregateCredit {
   _min: CreditMinAggregate
 }
 
-type AggregateCredited {
-  _count: CreditedCountAggregate
-  _max: CreditedMaxAggregate
-  _min: CreditedMinAggregate
+type AggregateImage {
+  _count: ImageCountAggregate
+  _max: ImageMaxAggregate
+  _min: ImageMinAggregate
 }
 
 type AggregateLabel {
@@ -251,7 +251,7 @@ input AlbumWhereUniqueInput {
   NOT: [AlbumWhereInput!]
   OR: [AlbumWhereInput!]
   idAlbum: String
-  name: StringFilter
+  name: String
   vinyls: VinylListRelationFilter
 }
 
@@ -261,7 +261,7 @@ type Artist {
   credits(cursor: CreditWhereUniqueInput, distinct: [CreditScalarFieldEnum!], orderBy: [CreditOrderByWithRelationInput!], skip: Int, take: Int, where: CreditWhereInput): [Credit!]!
   idArtist: String!
   name: String!
-  origin: String
+  origin: String!
   playedBy(cursor: PlayedByWhereUniqueInput, distinct: [PlayedByScalarFieldEnum!], orderBy: [PlayedByOrderByWithRelationInput!], skip: Int, take: Int, where: PlayedByWhereInput): [PlayedBy!]!
   surname: String
 }
@@ -292,7 +292,7 @@ input ArtistCreateInput {
   credits: CreditCreateNestedManyWithoutArtistInput
   idArtist: String
   name: String!
-  origin: String
+  origin: String!
   playedBy: PlayedByCreateNestedManyWithoutArtistInput
   surname: String
 }
@@ -300,7 +300,7 @@ input ArtistCreateInput {
 input ArtistCreateManyInput {
   idArtist: String
   name: String!
-  origin: String
+  origin: String!
   surname: String
 }
 
@@ -341,7 +341,7 @@ input ArtistCreateWithoutAuthoredInput {
   credits: CreditCreateNestedManyWithoutArtistInput
   idArtist: String
   name: String!
-  origin: String
+  origin: String!
   playedBy: PlayedByCreateNestedManyWithoutArtistInput
   surname: String
 }
@@ -350,7 +350,7 @@ input ArtistCreateWithoutCreditsInput {
   authored: AuthoredCreateNestedManyWithoutArtistInput
   idArtist: String
   name: String!
-  origin: String
+  origin: String!
   playedBy: PlayedByCreateNestedManyWithoutArtistInput
   surname: String
 }
@@ -360,7 +360,7 @@ input ArtistCreateWithoutPlayedByInput {
   credits: CreditCreateNestedManyWithoutArtistInput
   idArtist: String
   name: String!
-  origin: String
+  origin: String!
   surname: String
 }
 
@@ -370,7 +370,7 @@ type ArtistGroupBy {
   _min: ArtistMinAggregate
   idArtist: String!
   name: String!
-  origin: String
+  origin: String!
   surname: String
 }
 
@@ -408,7 +408,7 @@ input ArtistOrderByWithAggregationInput {
   _min: ArtistMinOrderByAggregateInput
   idArtist: SortOrder
   name: SortOrder
-  origin: SortOrderInput
+  origin: SortOrder
   surname: SortOrderInput
 }
 
@@ -417,7 +417,7 @@ input ArtistOrderByWithRelationInput {
   credits: CreditOrderByRelationAggregateInput
   idArtist: SortOrder
   name: SortOrder
-  origin: SortOrderInput
+  origin: SortOrder
   playedBy: PlayedByOrderByRelationAggregateInput
   surname: SortOrderInput
 }
@@ -440,8 +440,14 @@ input ArtistScalarWhereWithAggregatesInput {
   OR: [ArtistScalarWhereWithAggregatesInput!]
   idArtist: StringWithAggregatesFilter
   name: StringWithAggregatesFilter
-  origin: StringNullableWithAggregatesFilter
+  origin: StringWithAggregatesFilter
   surname: StringNullableWithAggregatesFilter
+}
+
+input ArtistSurnameNameOriginCompoundUniqueInput {
+  name: String!
+  origin: String!
+  surname: String!
 }
 
 input ArtistUpdateInput {
@@ -449,7 +455,7 @@ input ArtistUpdateInput {
   credits: CreditUpdateManyWithoutArtistNestedInput
   idArtist: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
-  origin: NullableStringFieldUpdateOperationsInput
+  origin: StringFieldUpdateOperationsInput
   playedBy: PlayedByUpdateManyWithoutArtistNestedInput
   surname: NullableStringFieldUpdateOperationsInput
 }
@@ -457,7 +463,7 @@ input ArtistUpdateInput {
 input ArtistUpdateManyMutationInput {
   idArtist: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
-  origin: NullableStringFieldUpdateOperationsInput
+  origin: StringFieldUpdateOperationsInput
   surname: NullableStringFieldUpdateOperationsInput
 }
 
@@ -504,7 +510,7 @@ input ArtistUpdateWithoutAuthoredInput {
   credits: CreditUpdateManyWithoutArtistNestedInput
   idArtist: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
-  origin: NullableStringFieldUpdateOperationsInput
+  origin: StringFieldUpdateOperationsInput
   playedBy: PlayedByUpdateManyWithoutArtistNestedInput
   surname: NullableStringFieldUpdateOperationsInput
 }
@@ -513,7 +519,7 @@ input ArtistUpdateWithoutCreditsInput {
   authored: AuthoredUpdateManyWithoutArtistNestedInput
   idArtist: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
-  origin: NullableStringFieldUpdateOperationsInput
+  origin: StringFieldUpdateOperationsInput
   playedBy: PlayedByUpdateManyWithoutArtistNestedInput
   surname: NullableStringFieldUpdateOperationsInput
 }
@@ -523,7 +529,7 @@ input ArtistUpdateWithoutPlayedByInput {
   credits: CreditUpdateManyWithoutArtistNestedInput
   idArtist: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
-  origin: NullableStringFieldUpdateOperationsInput
+  origin: StringFieldUpdateOperationsInput
   surname: NullableStringFieldUpdateOperationsInput
 }
 
@@ -553,7 +559,7 @@ input ArtistWhereInput {
   credits: CreditListRelationFilter
   idArtist: StringFilter
   name: StringFilter
-  origin: StringNullableFilter
+  origin: StringFilter
   playedBy: PlayedByListRelationFilter
   surname: StringNullableFilter
 }
@@ -566,9 +572,10 @@ input ArtistWhereUniqueInput {
   credits: CreditListRelationFilter
   idArtist: String
   name: StringFilter
-  origin: StringNullableFilter
+  origin: StringFilter
   playedBy: PlayedByListRelationFilter
   surname: StringNullableFilter
+  surname_name_origin: ArtistSurnameNameOriginCompoundUniqueInput
 }
 
 type Authored {
@@ -664,6 +671,11 @@ type AuthoredGroupBy {
   _min: AuthoredMinAggregate
   idArtist: String!
   idAuthored: String!
+  idVinyl: String!
+}
+
+input AuthoredIdArtistIdVinylCompoundUniqueInput {
+  idArtist: String!
   idVinyl: String!
 }
 
@@ -839,6 +851,7 @@ input AuthoredWhereUniqueInput {
   OR: [AuthoredWhereInput!]
   artist: ArtistRelationFilter
   idArtist: StringFilter
+  idArtist_idVinyl: AuthoredIdArtistIdVinylCompoundUniqueInput
   idAuthored: String
   idVinyl: StringFilter
   vinyl: VinylRelationFilter
@@ -930,6 +943,11 @@ type BoughtGroupBy {
   loc: String!
   note: String
   price: Int
+}
+
+input BoughtLocDateCompoundUniqueInput {
+  date: DateTimeISO!
+  loc: String!
 }
 
 type BoughtMaxAggregate {
@@ -1083,29 +1101,27 @@ input BoughtWhereUniqueInput {
   date: DateTimeFilter
   idBought: String
   loc: StringFilter
+  loc_date: BoughtLocDateCompoundUniqueInput
   note: StringNullableFilter
   price: IntNullableFilter
   vinyls: VinylListRelationFilter
 }
 
 type Credit {
-  _count: CreditCount
   artist: Artist!
-  crediteds(cursor: CreditedWhereUniqueInput, distinct: [CreditedScalarFieldEnum!], orderBy: [CreditedOrderByWithRelationInput!], skip: Int, take: Int, where: CreditedWhereInput): [Credited!]!
   idArtist: String!
   idCredit: String!
+  idVinyl: String!
   note: String
   role: String
-}
-
-type CreditCount {
-  crediteds(where: CreditedWhereInput): Int!
+  vinyl: Vinyl!
 }
 
 type CreditCountAggregate {
   _all: Int!
   idArtist: Int!
   idCredit: Int!
+  idVinyl: Int!
   note: Int!
   role: Int!
 }
@@ -1113,20 +1129,22 @@ type CreditCountAggregate {
 input CreditCountOrderByAggregateInput {
   idArtist: SortOrder
   idCredit: SortOrder
+  idVinyl: SortOrder
   note: SortOrder
   role: SortOrder
 }
 
 input CreditCreateInput {
   artist: ArtistCreateNestedOneWithoutCreditsInput!
-  crediteds: CreditedCreateNestedManyWithoutCreditInput
   idCredit: String
   note: String
   role: String
+  vinyl: VinylCreateNestedOneWithoutCreditsInput!
 }
 
 input CreditCreateManyArtistInput {
   idCredit: String
+  idVinyl: String!
   note: String
   role: String
 }
@@ -1139,8 +1157,21 @@ input CreditCreateManyArtistInputEnvelope {
 input CreditCreateManyInput {
   idArtist: String!
   idCredit: String
+  idVinyl: String!
   note: String
   role: String
+}
+
+input CreditCreateManyVinylInput {
+  idArtist: String!
+  idCredit: String
+  note: String
+  role: String
+}
+
+input CreditCreateManyVinylInputEnvelope {
+  data: [CreditCreateManyVinylInput!]!
+  skipDuplicates: Boolean
 }
 
 input CreditCreateNestedManyWithoutArtistInput {
@@ -1150,10 +1181,11 @@ input CreditCreateNestedManyWithoutArtistInput {
   createMany: CreditCreateManyArtistInputEnvelope
 }
 
-input CreditCreateNestedOneWithoutCreditedsInput {
-  connect: CreditWhereUniqueInput
-  connectOrCreate: CreditCreateOrConnectWithoutCreditedsInput
-  create: CreditCreateWithoutCreditedsInput
+input CreditCreateNestedManyWithoutVinylInput {
+  connect: [CreditWhereUniqueInput!]
+  connectOrCreate: [CreditCreateOrConnectWithoutVinylInput!]
+  create: [CreditCreateWithoutVinylInput!]
+  createMany: CreditCreateManyVinylInputEnvelope
 }
 
 input CreditCreateOrConnectWithoutArtistInput {
@@ -1161,19 +1193,19 @@ input CreditCreateOrConnectWithoutArtistInput {
   where: CreditWhereUniqueInput!
 }
 
-input CreditCreateOrConnectWithoutCreditedsInput {
-  create: CreditCreateWithoutCreditedsInput!
+input CreditCreateOrConnectWithoutVinylInput {
+  create: CreditCreateWithoutVinylInput!
   where: CreditWhereUniqueInput!
 }
 
 input CreditCreateWithoutArtistInput {
-  crediteds: CreditedCreateNestedManyWithoutCreditInput
   idCredit: String
   note: String
   role: String
+  vinyl: VinylCreateNestedOneWithoutCreditsInput!
 }
 
-input CreditCreateWithoutCreditedsInput {
+input CreditCreateWithoutVinylInput {
   artist: ArtistCreateNestedOneWithoutCreditsInput!
   idCredit: String
   note: String
@@ -1186,6 +1218,7 @@ type CreditGroupBy {
   _min: CreditMinAggregate
   idArtist: String!
   idCredit: String!
+  idVinyl: String!
   note: String
   role: String
 }
@@ -1199,6 +1232,7 @@ input CreditListRelationFilter {
 type CreditMaxAggregate {
   idArtist: String
   idCredit: String
+  idVinyl: String
   note: String
   role: String
 }
@@ -1206,6 +1240,7 @@ type CreditMaxAggregate {
 input CreditMaxOrderByAggregateInput {
   idArtist: SortOrder
   idCredit: SortOrder
+  idVinyl: SortOrder
   note: SortOrder
   role: SortOrder
 }
@@ -1213,6 +1248,7 @@ input CreditMaxOrderByAggregateInput {
 type CreditMinAggregate {
   idArtist: String
   idCredit: String
+  idVinyl: String
   note: String
   role: String
 }
@@ -1220,6 +1256,7 @@ type CreditMinAggregate {
 input CreditMinOrderByAggregateInput {
   idArtist: SortOrder
   idCredit: SortOrder
+  idVinyl: SortOrder
   note: SortOrder
   role: SortOrder
 }
@@ -1234,27 +1271,25 @@ input CreditOrderByWithAggregationInput {
   _min: CreditMinOrderByAggregateInput
   idArtist: SortOrder
   idCredit: SortOrder
+  idVinyl: SortOrder
   note: SortOrderInput
   role: SortOrderInput
 }
 
 input CreditOrderByWithRelationInput {
   artist: ArtistOrderByWithRelationInput
-  crediteds: CreditedOrderByRelationAggregateInput
   idArtist: SortOrder
   idCredit: SortOrder
+  idVinyl: SortOrder
   note: SortOrderInput
   role: SortOrderInput
-}
-
-input CreditRelationFilter {
-  is: CreditWhereInput
-  isNot: CreditWhereInput
+  vinyl: VinylOrderByWithRelationInput
 }
 
 enum CreditScalarFieldEnum {
   idArtist
   idCredit
+  idVinyl
   note
   role
 }
@@ -1265,6 +1300,7 @@ input CreditScalarWhereInput {
   OR: [CreditScalarWhereInput!]
   idArtist: StringFilter
   idCredit: StringFilter
+  idVinyl: StringFilter
   note: StringNullableFilter
   role: StringNullableFilter
 }
@@ -1275,16 +1311,17 @@ input CreditScalarWhereWithAggregatesInput {
   OR: [CreditScalarWhereWithAggregatesInput!]
   idArtist: StringWithAggregatesFilter
   idCredit: StringWithAggregatesFilter
+  idVinyl: StringWithAggregatesFilter
   note: StringNullableWithAggregatesFilter
   role: StringNullableWithAggregatesFilter
 }
 
 input CreditUpdateInput {
   artist: ArtistUpdateOneRequiredWithoutCreditsNestedInput
-  crediteds: CreditedUpdateManyWithoutCreditNestedInput
   idCredit: StringFieldUpdateOperationsInput
   note: NullableStringFieldUpdateOperationsInput
   role: NullableStringFieldUpdateOperationsInput
+  vinyl: VinylUpdateOneRequiredWithoutCreditsNestedInput
 }
 
 input CreditUpdateManyMutationInput {
@@ -1294,6 +1331,11 @@ input CreditUpdateManyMutationInput {
 }
 
 input CreditUpdateManyWithWhereWithoutArtistInput {
+  data: CreditUpdateManyMutationInput!
+  where: CreditScalarWhereInput!
+}
+
+input CreditUpdateManyWithWhereWithoutVinylInput {
   data: CreditUpdateManyMutationInput!
   where: CreditScalarWhereInput!
 }
@@ -1312,17 +1354,18 @@ input CreditUpdateManyWithoutArtistNestedInput {
   upsert: [CreditUpsertWithWhereUniqueWithoutArtistInput!]
 }
 
-input CreditUpdateOneRequiredWithoutCreditedsNestedInput {
-  connect: CreditWhereUniqueInput
-  connectOrCreate: CreditCreateOrConnectWithoutCreditedsInput
-  create: CreditCreateWithoutCreditedsInput
-  update: CreditUpdateToOneWithWhereWithoutCreditedsInput
-  upsert: CreditUpsertWithoutCreditedsInput
-}
-
-input CreditUpdateToOneWithWhereWithoutCreditedsInput {
-  data: CreditUpdateWithoutCreditedsInput!
-  where: CreditWhereInput
+input CreditUpdateManyWithoutVinylNestedInput {
+  connect: [CreditWhereUniqueInput!]
+  connectOrCreate: [CreditCreateOrConnectWithoutVinylInput!]
+  create: [CreditCreateWithoutVinylInput!]
+  createMany: CreditCreateManyVinylInputEnvelope
+  delete: [CreditWhereUniqueInput!]
+  deleteMany: [CreditScalarWhereInput!]
+  disconnect: [CreditWhereUniqueInput!]
+  set: [CreditWhereUniqueInput!]
+  update: [CreditUpdateWithWhereUniqueWithoutVinylInput!]
+  updateMany: [CreditUpdateManyWithWhereWithoutVinylInput!]
+  upsert: [CreditUpsertWithWhereUniqueWithoutVinylInput!]
 }
 
 input CreditUpdateWithWhereUniqueWithoutArtistInput {
@@ -1330,14 +1373,19 @@ input CreditUpdateWithWhereUniqueWithoutArtistInput {
   where: CreditWhereUniqueInput!
 }
 
+input CreditUpdateWithWhereUniqueWithoutVinylInput {
+  data: CreditUpdateWithoutVinylInput!
+  where: CreditWhereUniqueInput!
+}
+
 input CreditUpdateWithoutArtistInput {
-  crediteds: CreditedUpdateManyWithoutCreditNestedInput
   idCredit: StringFieldUpdateOperationsInput
   note: NullableStringFieldUpdateOperationsInput
   role: NullableStringFieldUpdateOperationsInput
+  vinyl: VinylUpdateOneRequiredWithoutCreditsNestedInput
 }
 
-input CreditUpdateWithoutCreditedsInput {
+input CreditUpdateWithoutVinylInput {
   artist: ArtistUpdateOneRequiredWithoutCreditsNestedInput
   idCredit: StringFieldUpdateOperationsInput
   note: NullableStringFieldUpdateOperationsInput
@@ -1350,10 +1398,10 @@ input CreditUpsertWithWhereUniqueWithoutArtistInput {
   where: CreditWhereUniqueInput!
 }
 
-input CreditUpsertWithoutCreditedsInput {
-  create: CreditCreateWithoutCreditedsInput!
-  update: CreditUpdateWithoutCreditedsInput!
-  where: CreditWhereInput
+input CreditUpsertWithWhereUniqueWithoutVinylInput {
+  create: CreditCreateWithoutVinylInput!
+  update: CreditUpdateWithoutVinylInput!
+  where: CreditWhereUniqueInput!
 }
 
 input CreditWhereInput {
@@ -1361,11 +1409,12 @@ input CreditWhereInput {
   NOT: [CreditWhereInput!]
   OR: [CreditWhereInput!]
   artist: ArtistRelationFilter
-  crediteds: CreditedListRelationFilter
   idArtist: StringFilter
   idCredit: StringFilter
+  idVinyl: StringFilter
   note: StringNullableFilter
   role: StringNullableFilter
+  vinyl: VinylRelationFilter
 }
 
 input CreditWhereUniqueInput {
@@ -1373,283 +1422,11 @@ input CreditWhereUniqueInput {
   NOT: [CreditWhereInput!]
   OR: [CreditWhereInput!]
   artist: ArtistRelationFilter
-  crediteds: CreditedListRelationFilter
   idArtist: StringFilter
   idCredit: String
+  idVinyl: StringFilter
   note: StringNullableFilter
   role: StringNullableFilter
-}
-
-type Credited {
-  credit: Credit!
-  idCredit: String!
-  idCredited: String!
-  idVinyl: String!
-  vinyl: Vinyl!
-}
-
-type CreditedCountAggregate {
-  _all: Int!
-  idCredit: Int!
-  idCredited: Int!
-  idVinyl: Int!
-}
-
-input CreditedCountOrderByAggregateInput {
-  idCredit: SortOrder
-  idCredited: SortOrder
-  idVinyl: SortOrder
-}
-
-input CreditedCreateInput {
-  credit: CreditCreateNestedOneWithoutCreditedsInput!
-  idCredited: String
-  vinyl: VinylCreateNestedOneWithoutCreditsInput!
-}
-
-input CreditedCreateManyCreditInput {
-  idCredited: String
-  idVinyl: String!
-}
-
-input CreditedCreateManyCreditInputEnvelope {
-  data: [CreditedCreateManyCreditInput!]!
-  skipDuplicates: Boolean
-}
-
-input CreditedCreateManyInput {
-  idCredit: String!
-  idCredited: String
-  idVinyl: String!
-}
-
-input CreditedCreateManyVinylInput {
-  idCredit: String!
-  idCredited: String
-}
-
-input CreditedCreateManyVinylInputEnvelope {
-  data: [CreditedCreateManyVinylInput!]!
-  skipDuplicates: Boolean
-}
-
-input CreditedCreateNestedManyWithoutCreditInput {
-  connect: [CreditedWhereUniqueInput!]
-  connectOrCreate: [CreditedCreateOrConnectWithoutCreditInput!]
-  create: [CreditedCreateWithoutCreditInput!]
-  createMany: CreditedCreateManyCreditInputEnvelope
-}
-
-input CreditedCreateNestedManyWithoutVinylInput {
-  connect: [CreditedWhereUniqueInput!]
-  connectOrCreate: [CreditedCreateOrConnectWithoutVinylInput!]
-  create: [CreditedCreateWithoutVinylInput!]
-  createMany: CreditedCreateManyVinylInputEnvelope
-}
-
-input CreditedCreateOrConnectWithoutCreditInput {
-  create: CreditedCreateWithoutCreditInput!
-  where: CreditedWhereUniqueInput!
-}
-
-input CreditedCreateOrConnectWithoutVinylInput {
-  create: CreditedCreateWithoutVinylInput!
-  where: CreditedWhereUniqueInput!
-}
-
-input CreditedCreateWithoutCreditInput {
-  idCredited: String
-  vinyl: VinylCreateNestedOneWithoutCreditsInput!
-}
-
-input CreditedCreateWithoutVinylInput {
-  credit: CreditCreateNestedOneWithoutCreditedsInput!
-  idCredited: String
-}
-
-type CreditedGroupBy {
-  _count: CreditedCountAggregate
-  _max: CreditedMaxAggregate
-  _min: CreditedMinAggregate
-  idCredit: String!
-  idCredited: String!
-  idVinyl: String!
-}
-
-input CreditedListRelationFilter {
-  every: CreditedWhereInput
-  none: CreditedWhereInput
-  some: CreditedWhereInput
-}
-
-type CreditedMaxAggregate {
-  idCredit: String
-  idCredited: String
-  idVinyl: String
-}
-
-input CreditedMaxOrderByAggregateInput {
-  idCredit: SortOrder
-  idCredited: SortOrder
-  idVinyl: SortOrder
-}
-
-type CreditedMinAggregate {
-  idCredit: String
-  idCredited: String
-  idVinyl: String
-}
-
-input CreditedMinOrderByAggregateInput {
-  idCredit: SortOrder
-  idCredited: SortOrder
-  idVinyl: SortOrder
-}
-
-input CreditedOrderByRelationAggregateInput {
-  _count: SortOrder
-}
-
-input CreditedOrderByWithAggregationInput {
-  _count: CreditedCountOrderByAggregateInput
-  _max: CreditedMaxOrderByAggregateInput
-  _min: CreditedMinOrderByAggregateInput
-  idCredit: SortOrder
-  idCredited: SortOrder
-  idVinyl: SortOrder
-}
-
-input CreditedOrderByWithRelationInput {
-  credit: CreditOrderByWithRelationInput
-  idCredit: SortOrder
-  idCredited: SortOrder
-  idVinyl: SortOrder
-  vinyl: VinylOrderByWithRelationInput
-}
-
-enum CreditedScalarFieldEnum {
-  idCredit
-  idCredited
-  idVinyl
-}
-
-input CreditedScalarWhereInput {
-  AND: [CreditedScalarWhereInput!]
-  NOT: [CreditedScalarWhereInput!]
-  OR: [CreditedScalarWhereInput!]
-  idCredit: StringFilter
-  idCredited: StringFilter
-  idVinyl: StringFilter
-}
-
-input CreditedScalarWhereWithAggregatesInput {
-  AND: [CreditedScalarWhereWithAggregatesInput!]
-  NOT: [CreditedScalarWhereWithAggregatesInput!]
-  OR: [CreditedScalarWhereWithAggregatesInput!]
-  idCredit: StringWithAggregatesFilter
-  idCredited: StringWithAggregatesFilter
-  idVinyl: StringWithAggregatesFilter
-}
-
-input CreditedUpdateInput {
-  credit: CreditUpdateOneRequiredWithoutCreditedsNestedInput
-  idCredited: StringFieldUpdateOperationsInput
-  vinyl: VinylUpdateOneRequiredWithoutCreditsNestedInput
-}
-
-input CreditedUpdateManyMutationInput {
-  idCredited: StringFieldUpdateOperationsInput
-}
-
-input CreditedUpdateManyWithWhereWithoutCreditInput {
-  data: CreditedUpdateManyMutationInput!
-  where: CreditedScalarWhereInput!
-}
-
-input CreditedUpdateManyWithWhereWithoutVinylInput {
-  data: CreditedUpdateManyMutationInput!
-  where: CreditedScalarWhereInput!
-}
-
-input CreditedUpdateManyWithoutCreditNestedInput {
-  connect: [CreditedWhereUniqueInput!]
-  connectOrCreate: [CreditedCreateOrConnectWithoutCreditInput!]
-  create: [CreditedCreateWithoutCreditInput!]
-  createMany: CreditedCreateManyCreditInputEnvelope
-  delete: [CreditedWhereUniqueInput!]
-  deleteMany: [CreditedScalarWhereInput!]
-  disconnect: [CreditedWhereUniqueInput!]
-  set: [CreditedWhereUniqueInput!]
-  update: [CreditedUpdateWithWhereUniqueWithoutCreditInput!]
-  updateMany: [CreditedUpdateManyWithWhereWithoutCreditInput!]
-  upsert: [CreditedUpsertWithWhereUniqueWithoutCreditInput!]
-}
-
-input CreditedUpdateManyWithoutVinylNestedInput {
-  connect: [CreditedWhereUniqueInput!]
-  connectOrCreate: [CreditedCreateOrConnectWithoutVinylInput!]
-  create: [CreditedCreateWithoutVinylInput!]
-  createMany: CreditedCreateManyVinylInputEnvelope
-  delete: [CreditedWhereUniqueInput!]
-  deleteMany: [CreditedScalarWhereInput!]
-  disconnect: [CreditedWhereUniqueInput!]
-  set: [CreditedWhereUniqueInput!]
-  update: [CreditedUpdateWithWhereUniqueWithoutVinylInput!]
-  updateMany: [CreditedUpdateManyWithWhereWithoutVinylInput!]
-  upsert: [CreditedUpsertWithWhereUniqueWithoutVinylInput!]
-}
-
-input CreditedUpdateWithWhereUniqueWithoutCreditInput {
-  data: CreditedUpdateWithoutCreditInput!
-  where: CreditedWhereUniqueInput!
-}
-
-input CreditedUpdateWithWhereUniqueWithoutVinylInput {
-  data: CreditedUpdateWithoutVinylInput!
-  where: CreditedWhereUniqueInput!
-}
-
-input CreditedUpdateWithoutCreditInput {
-  idCredited: StringFieldUpdateOperationsInput
-  vinyl: VinylUpdateOneRequiredWithoutCreditsNestedInput
-}
-
-input CreditedUpdateWithoutVinylInput {
-  credit: CreditUpdateOneRequiredWithoutCreditedsNestedInput
-  idCredited: StringFieldUpdateOperationsInput
-}
-
-input CreditedUpsertWithWhereUniqueWithoutCreditInput {
-  create: CreditedCreateWithoutCreditInput!
-  update: CreditedUpdateWithoutCreditInput!
-  where: CreditedWhereUniqueInput!
-}
-
-input CreditedUpsertWithWhereUniqueWithoutVinylInput {
-  create: CreditedCreateWithoutVinylInput!
-  update: CreditedUpdateWithoutVinylInput!
-  where: CreditedWhereUniqueInput!
-}
-
-input CreditedWhereInput {
-  AND: [CreditedWhereInput!]
-  NOT: [CreditedWhereInput!]
-  OR: [CreditedWhereInput!]
-  credit: CreditRelationFilter
-  idCredit: StringFilter
-  idCredited: StringFilter
-  idVinyl: StringFilter
-  vinyl: VinylRelationFilter
-}
-
-input CreditedWhereUniqueInput {
-  AND: [CreditedWhereInput!]
-  NOT: [CreditedWhereInput!]
-  OR: [CreditedWhereInput!]
-  credit: CreditRelationFilter
-  idCredit: StringFilter
-  idCredited: String
-  idVinyl: StringFilter
   vinyl: VinylRelationFilter
 }
 
@@ -1710,6 +1487,214 @@ input DateTimeWithAggregatesFilter {
   lte: DateTimeISO
   not: NestedDateTimeWithAggregatesFilter
   notIn: [DateTimeISO!]
+}
+
+type Image {
+  idImage: String!
+  idVinyl: String!
+  path: String!
+  vinyl: Vinyl!
+}
+
+type ImageCountAggregate {
+  _all: Int!
+  idImage: Int!
+  idVinyl: Int!
+  path: Int!
+}
+
+input ImageCountOrderByAggregateInput {
+  idImage: SortOrder
+  idVinyl: SortOrder
+  path: SortOrder
+}
+
+input ImageCreateInput {
+  idImage: String
+  path: String!
+  vinyl: VinylCreateNestedOneWithoutImagesInput!
+}
+
+input ImageCreateManyInput {
+  idImage: String
+  idVinyl: String!
+  path: String!
+}
+
+input ImageCreateManyVinylInput {
+  idImage: String
+  path: String!
+}
+
+input ImageCreateManyVinylInputEnvelope {
+  data: [ImageCreateManyVinylInput!]!
+  skipDuplicates: Boolean
+}
+
+input ImageCreateNestedManyWithoutVinylInput {
+  connect: [ImageWhereUniqueInput!]
+  connectOrCreate: [ImageCreateOrConnectWithoutVinylInput!]
+  create: [ImageCreateWithoutVinylInput!]
+  createMany: ImageCreateManyVinylInputEnvelope
+}
+
+input ImageCreateOrConnectWithoutVinylInput {
+  create: ImageCreateWithoutVinylInput!
+  where: ImageWhereUniqueInput!
+}
+
+input ImageCreateWithoutVinylInput {
+  idImage: String
+  path: String!
+}
+
+type ImageGroupBy {
+  _count: ImageCountAggregate
+  _max: ImageMaxAggregate
+  _min: ImageMinAggregate
+  idImage: String!
+  idVinyl: String!
+  path: String!
+}
+
+input ImageListRelationFilter {
+  every: ImageWhereInput
+  none: ImageWhereInput
+  some: ImageWhereInput
+}
+
+type ImageMaxAggregate {
+  idImage: String
+  idVinyl: String
+  path: String
+}
+
+input ImageMaxOrderByAggregateInput {
+  idImage: SortOrder
+  idVinyl: SortOrder
+  path: SortOrder
+}
+
+type ImageMinAggregate {
+  idImage: String
+  idVinyl: String
+  path: String
+}
+
+input ImageMinOrderByAggregateInput {
+  idImage: SortOrder
+  idVinyl: SortOrder
+  path: SortOrder
+}
+
+input ImageOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ImageOrderByWithAggregationInput {
+  _count: ImageCountOrderByAggregateInput
+  _max: ImageMaxOrderByAggregateInput
+  _min: ImageMinOrderByAggregateInput
+  idImage: SortOrder
+  idVinyl: SortOrder
+  path: SortOrder
+}
+
+input ImageOrderByWithRelationInput {
+  idImage: SortOrder
+  idVinyl: SortOrder
+  path: SortOrder
+  vinyl: VinylOrderByWithRelationInput
+}
+
+enum ImageScalarFieldEnum {
+  idImage
+  idVinyl
+  path
+}
+
+input ImageScalarWhereInput {
+  AND: [ImageScalarWhereInput!]
+  NOT: [ImageScalarWhereInput!]
+  OR: [ImageScalarWhereInput!]
+  idImage: StringFilter
+  idVinyl: StringFilter
+  path: StringFilter
+}
+
+input ImageScalarWhereWithAggregatesInput {
+  AND: [ImageScalarWhereWithAggregatesInput!]
+  NOT: [ImageScalarWhereWithAggregatesInput!]
+  OR: [ImageScalarWhereWithAggregatesInput!]
+  idImage: StringWithAggregatesFilter
+  idVinyl: StringWithAggregatesFilter
+  path: StringWithAggregatesFilter
+}
+
+input ImageUpdateInput {
+  idImage: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
+  vinyl: VinylUpdateOneRequiredWithoutImagesNestedInput
+}
+
+input ImageUpdateManyMutationInput {
+  idImage: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
+}
+
+input ImageUpdateManyWithWhereWithoutVinylInput {
+  data: ImageUpdateManyMutationInput!
+  where: ImageScalarWhereInput!
+}
+
+input ImageUpdateManyWithoutVinylNestedInput {
+  connect: [ImageWhereUniqueInput!]
+  connectOrCreate: [ImageCreateOrConnectWithoutVinylInput!]
+  create: [ImageCreateWithoutVinylInput!]
+  createMany: ImageCreateManyVinylInputEnvelope
+  delete: [ImageWhereUniqueInput!]
+  deleteMany: [ImageScalarWhereInput!]
+  disconnect: [ImageWhereUniqueInput!]
+  set: [ImageWhereUniqueInput!]
+  update: [ImageUpdateWithWhereUniqueWithoutVinylInput!]
+  updateMany: [ImageUpdateManyWithWhereWithoutVinylInput!]
+  upsert: [ImageUpsertWithWhereUniqueWithoutVinylInput!]
+}
+
+input ImageUpdateWithWhereUniqueWithoutVinylInput {
+  data: ImageUpdateWithoutVinylInput!
+  where: ImageWhereUniqueInput!
+}
+
+input ImageUpdateWithoutVinylInput {
+  idImage: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
+}
+
+input ImageUpsertWithWhereUniqueWithoutVinylInput {
+  create: ImageCreateWithoutVinylInput!
+  update: ImageUpdateWithoutVinylInput!
+  where: ImageWhereUniqueInput!
+}
+
+input ImageWhereInput {
+  AND: [ImageWhereInput!]
+  NOT: [ImageWhereInput!]
+  OR: [ImageWhereInput!]
+  idImage: StringFilter
+  idVinyl: StringFilter
+  path: StringFilter
+  vinyl: VinylRelationFilter
+}
+
+input ImageWhereUniqueInput {
+  AND: [ImageWhereInput!]
+  NOT: [ImageWhereInput!]
+  OR: [ImageWhereInput!]
+  idImage: String
+  idVinyl: StringFilter
+  path: String
+  vinyl: VinylRelationFilter
 }
 
 input IntNullableFilter {
@@ -1899,7 +1884,7 @@ input LabelWhereUniqueInput {
   NOT: [LabelWhereInput!]
   OR: [LabelWhereInput!]
   idLabel: String
-  name: StringFilter
+  name: String
   vinyls: VinylListRelationFilter
 }
 
@@ -1909,7 +1894,7 @@ type Mutation {
   createManyAuthored(data: [AuthoredCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
   createManyBought(data: [BoughtCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
   createManyCredit(data: [CreditCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createManyCredited(data: [CreditedCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
+  createManyImage(data: [ImageCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
   createManyLabel(data: [LabelCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
   createManyPlayedBy(data: [PlayedByCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
   createManyPocketState(data: [PocketStateCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
@@ -1922,7 +1907,7 @@ type Mutation {
   createOneAuthored(data: AuthoredCreateInput!): Authored!
   createOneBought(data: BoughtCreateInput!): Bought!
   createOneCredit(data: CreditCreateInput!): Credit!
-  createOneCredited(data: CreditedCreateInput!): Credited!
+  createOneImage(data: ImageCreateInput!): Image!
   createOneLabel(data: LabelCreateInput!): Label!
   createOnePlayedBy(data: PlayedByCreateInput!): PlayedBy!
   createOnePocketState(data: PocketStateCreateInput!): PocketState!
@@ -1935,7 +1920,7 @@ type Mutation {
   deleteManyAuthored(where: AuthoredWhereInput): AffectedRowsOutput!
   deleteManyBought(where: BoughtWhereInput): AffectedRowsOutput!
   deleteManyCredit(where: CreditWhereInput): AffectedRowsOutput!
-  deleteManyCredited(where: CreditedWhereInput): AffectedRowsOutput!
+  deleteManyImage(where: ImageWhereInput): AffectedRowsOutput!
   deleteManyLabel(where: LabelWhereInput): AffectedRowsOutput!
   deleteManyPlayedBy(where: PlayedByWhereInput): AffectedRowsOutput!
   deleteManyPocketState(where: PocketStateWhereInput): AffectedRowsOutput!
@@ -1948,7 +1933,7 @@ type Mutation {
   deleteOneAuthored(where: AuthoredWhereUniqueInput!): Authored
   deleteOneBought(where: BoughtWhereUniqueInput!): Bought
   deleteOneCredit(where: CreditWhereUniqueInput!): Credit
-  deleteOneCredited(where: CreditedWhereUniqueInput!): Credited
+  deleteOneImage(where: ImageWhereUniqueInput!): Image
   deleteOneLabel(where: LabelWhereUniqueInput!): Label
   deleteOnePlayedBy(where: PlayedByWhereUniqueInput!): PlayedBy
   deleteOnePocketState(where: PocketStateWhereUniqueInput!): PocketState
@@ -1961,7 +1946,7 @@ type Mutation {
   updateManyAuthored(data: AuthoredUpdateManyMutationInput!, where: AuthoredWhereInput): AffectedRowsOutput!
   updateManyBought(data: BoughtUpdateManyMutationInput!, where: BoughtWhereInput): AffectedRowsOutput!
   updateManyCredit(data: CreditUpdateManyMutationInput!, where: CreditWhereInput): AffectedRowsOutput!
-  updateManyCredited(data: CreditedUpdateManyMutationInput!, where: CreditedWhereInput): AffectedRowsOutput!
+  updateManyImage(data: ImageUpdateManyMutationInput!, where: ImageWhereInput): AffectedRowsOutput!
   updateManyLabel(data: LabelUpdateManyMutationInput!, where: LabelWhereInput): AffectedRowsOutput!
   updateManyPlayedBy(data: PlayedByUpdateManyMutationInput!, where: PlayedByWhereInput): AffectedRowsOutput!
   updateManyPocketState(data: PocketStateUpdateManyMutationInput!, where: PocketStateWhereInput): AffectedRowsOutput!
@@ -1974,7 +1959,7 @@ type Mutation {
   updateOneAuthored(data: AuthoredUpdateInput!, where: AuthoredWhereUniqueInput!): Authored
   updateOneBought(data: BoughtUpdateInput!, where: BoughtWhereUniqueInput!): Bought
   updateOneCredit(data: CreditUpdateInput!, where: CreditWhereUniqueInput!): Credit
-  updateOneCredited(data: CreditedUpdateInput!, where: CreditedWhereUniqueInput!): Credited
+  updateOneImage(data: ImageUpdateInput!, where: ImageWhereUniqueInput!): Image
   updateOneLabel(data: LabelUpdateInput!, where: LabelWhereUniqueInput!): Label
   updateOnePlayedBy(data: PlayedByUpdateInput!, where: PlayedByWhereUniqueInput!): PlayedBy
   updateOnePocketState(data: PocketStateUpdateInput!, where: PocketStateWhereUniqueInput!): PocketState
@@ -1987,7 +1972,7 @@ type Mutation {
   upsertOneAuthored(create: AuthoredCreateInput!, update: AuthoredUpdateInput!, where: AuthoredWhereUniqueInput!): Authored!
   upsertOneBought(create: BoughtCreateInput!, update: BoughtUpdateInput!, where: BoughtWhereUniqueInput!): Bought!
   upsertOneCredit(create: CreditCreateInput!, update: CreditUpdateInput!, where: CreditWhereUniqueInput!): Credit!
-  upsertOneCredited(create: CreditedCreateInput!, update: CreditedUpdateInput!, where: CreditedWhereUniqueInput!): Credited!
+  upsertOneImage(create: ImageCreateInput!, update: ImageUpdateInput!, where: ImageWhereUniqueInput!): Image!
   upsertOneLabel(create: LabelCreateInput!, update: LabelUpdateInput!, where: LabelWhereUniqueInput!): Label!
   upsertOnePlayedBy(create: PlayedByCreateInput!, update: PlayedByUpdateInput!, where: PlayedByWhereUniqueInput!): PlayedBy!
   upsertOnePocketState(create: PocketStateCreateInput!, update: PocketStateUpdateInput!, where: PocketStateWhereUniqueInput!): PocketState!
@@ -2275,6 +2260,11 @@ type PlayedByGroupBy {
   idVinyl: String!
 }
 
+input PlayedByIdArtistIdVinylCompoundUniqueInput {
+  idArtist: String!
+  idVinyl: String!
+}
+
 input PlayedByListRelationFilter {
   every: PlayedByWhereInput
   none: PlayedByWhereInput
@@ -2447,6 +2437,7 @@ input PlayedByWhereUniqueInput {
   OR: [PlayedByWhereInput!]
   artist: ArtistRelationFilter
   idArtist: StringFilter
+  idArtist_idVinyl: PlayedByIdArtistIdVinylCompoundUniqueInput
   idPlayedBy: String
   idVinyl: StringFilter
   vinyl: VinylRelationFilter
@@ -2612,7 +2603,7 @@ input PocketStateWhereUniqueInput {
   NOT: [PocketStateWhereInput!]
   OR: [PocketStateWhereInput!]
   idPocketState: String
-  name: StringFilter
+  name: String
   vinyls: VinylListRelationFilter
 }
 
@@ -2622,7 +2613,7 @@ type Query {
   aggregateAuthored(cursor: AuthoredWhereUniqueInput, orderBy: [AuthoredOrderByWithRelationInput!], skip: Int, take: Int, where: AuthoredWhereInput): AggregateAuthored!
   aggregateBought(cursor: BoughtWhereUniqueInput, orderBy: [BoughtOrderByWithRelationInput!], skip: Int, take: Int, where: BoughtWhereInput): AggregateBought!
   aggregateCredit(cursor: CreditWhereUniqueInput, orderBy: [CreditOrderByWithRelationInput!], skip: Int, take: Int, where: CreditWhereInput): AggregateCredit!
-  aggregateCredited(cursor: CreditedWhereUniqueInput, orderBy: [CreditedOrderByWithRelationInput!], skip: Int, take: Int, where: CreditedWhereInput): AggregateCredited!
+  aggregateImage(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByWithRelationInput!], skip: Int, take: Int, where: ImageWhereInput): AggregateImage!
   aggregateLabel(cursor: LabelWhereUniqueInput, orderBy: [LabelOrderByWithRelationInput!], skip: Int, take: Int, where: LabelWhereInput): AggregateLabel!
   aggregatePlayedBy(cursor: PlayedByWhereUniqueInput, orderBy: [PlayedByOrderByWithRelationInput!], skip: Int, take: Int, where: PlayedByWhereInput): AggregatePlayedBy!
   aggregatePocketState(cursor: PocketStateWhereUniqueInput, orderBy: [PocketStateOrderByWithRelationInput!], skip: Int, take: Int, where: PocketStateWhereInput): AggregatePocketState!
@@ -2639,8 +2630,6 @@ type Query {
   bought(where: BoughtWhereUniqueInput!): Bought
   boughts(cursor: BoughtWhereUniqueInput, distinct: [BoughtScalarFieldEnum!], orderBy: [BoughtOrderByWithRelationInput!], skip: Int, take: Int, where: BoughtWhereInput): [Bought!]!
   credit(where: CreditWhereUniqueInput!): Credit
-  credited(where: CreditedWhereUniqueInput!): Credited
-  crediteds(cursor: CreditedWhereUniqueInput, distinct: [CreditedScalarFieldEnum!], orderBy: [CreditedOrderByWithRelationInput!], skip: Int, take: Int, where: CreditedWhereInput): [Credited!]!
   credits(cursor: CreditWhereUniqueInput, distinct: [CreditScalarFieldEnum!], orderBy: [CreditOrderByWithRelationInput!], skip: Int, take: Int, where: CreditWhereInput): [Credit!]!
   findFirstAlbum(cursor: AlbumWhereUniqueInput, distinct: [AlbumScalarFieldEnum!], orderBy: [AlbumOrderByWithRelationInput!], skip: Int, take: Int, where: AlbumWhereInput): Album
   findFirstAlbumOrThrow(cursor: AlbumWhereUniqueInput, distinct: [AlbumScalarFieldEnum!], orderBy: [AlbumOrderByWithRelationInput!], skip: Int, take: Int, where: AlbumWhereInput): Album
@@ -2652,8 +2641,8 @@ type Query {
   findFirstBoughtOrThrow(cursor: BoughtWhereUniqueInput, distinct: [BoughtScalarFieldEnum!], orderBy: [BoughtOrderByWithRelationInput!], skip: Int, take: Int, where: BoughtWhereInput): Bought
   findFirstCredit(cursor: CreditWhereUniqueInput, distinct: [CreditScalarFieldEnum!], orderBy: [CreditOrderByWithRelationInput!], skip: Int, take: Int, where: CreditWhereInput): Credit
   findFirstCreditOrThrow(cursor: CreditWhereUniqueInput, distinct: [CreditScalarFieldEnum!], orderBy: [CreditOrderByWithRelationInput!], skip: Int, take: Int, where: CreditWhereInput): Credit
-  findFirstCredited(cursor: CreditedWhereUniqueInput, distinct: [CreditedScalarFieldEnum!], orderBy: [CreditedOrderByWithRelationInput!], skip: Int, take: Int, where: CreditedWhereInput): Credited
-  findFirstCreditedOrThrow(cursor: CreditedWhereUniqueInput, distinct: [CreditedScalarFieldEnum!], orderBy: [CreditedOrderByWithRelationInput!], skip: Int, take: Int, where: CreditedWhereInput): Credited
+  findFirstImage(cursor: ImageWhereUniqueInput, distinct: [ImageScalarFieldEnum!], orderBy: [ImageOrderByWithRelationInput!], skip: Int, take: Int, where: ImageWhereInput): Image
+  findFirstImageOrThrow(cursor: ImageWhereUniqueInput, distinct: [ImageScalarFieldEnum!], orderBy: [ImageOrderByWithRelationInput!], skip: Int, take: Int, where: ImageWhereInput): Image
   findFirstLabel(cursor: LabelWhereUniqueInput, distinct: [LabelScalarFieldEnum!], orderBy: [LabelOrderByWithRelationInput!], skip: Int, take: Int, where: LabelWhereInput): Label
   findFirstLabelOrThrow(cursor: LabelWhereUniqueInput, distinct: [LabelScalarFieldEnum!], orderBy: [LabelOrderByWithRelationInput!], skip: Int, take: Int, where: LabelWhereInput): Label
   findFirstPlayedBy(cursor: PlayedByWhereUniqueInput, distinct: [PlayedByScalarFieldEnum!], orderBy: [PlayedByOrderByWithRelationInput!], skip: Int, take: Int, where: PlayedByWhereInput): PlayedBy
@@ -2673,7 +2662,7 @@ type Query {
   getAuthored(where: AuthoredWhereUniqueInput!): Authored
   getBought(where: BoughtWhereUniqueInput!): Bought
   getCredit(where: CreditWhereUniqueInput!): Credit
-  getCredited(where: CreditedWhereUniqueInput!): Credited
+  getImage(where: ImageWhereUniqueInput!): Image
   getLabel(where: LabelWhereUniqueInput!): Label
   getPlayedBy(where: PlayedByWhereUniqueInput!): PlayedBy
   getPocketState(where: PocketStateWhereUniqueInput!): PocketState
@@ -2686,7 +2675,7 @@ type Query {
   groupByAuthored(by: [AuthoredScalarFieldEnum!]!, having: AuthoredScalarWhereWithAggregatesInput, orderBy: [AuthoredOrderByWithAggregationInput!], skip: Int, take: Int, where: AuthoredWhereInput): [AuthoredGroupBy!]!
   groupByBought(by: [BoughtScalarFieldEnum!]!, having: BoughtScalarWhereWithAggregatesInput, orderBy: [BoughtOrderByWithAggregationInput!], skip: Int, take: Int, where: BoughtWhereInput): [BoughtGroupBy!]!
   groupByCredit(by: [CreditScalarFieldEnum!]!, having: CreditScalarWhereWithAggregatesInput, orderBy: [CreditOrderByWithAggregationInput!], skip: Int, take: Int, where: CreditWhereInput): [CreditGroupBy!]!
-  groupByCredited(by: [CreditedScalarFieldEnum!]!, having: CreditedScalarWhereWithAggregatesInput, orderBy: [CreditedOrderByWithAggregationInput!], skip: Int, take: Int, where: CreditedWhereInput): [CreditedGroupBy!]!
+  groupByImage(by: [ImageScalarFieldEnum!]!, having: ImageScalarWhereWithAggregatesInput, orderBy: [ImageOrderByWithAggregationInput!], skip: Int, take: Int, where: ImageWhereInput): [ImageGroupBy!]!
   groupByLabel(by: [LabelScalarFieldEnum!]!, having: LabelScalarWhereWithAggregatesInput, orderBy: [LabelOrderByWithAggregationInput!], skip: Int, take: Int, where: LabelWhereInput): [LabelGroupBy!]!
   groupByPlayedBy(by: [PlayedByScalarFieldEnum!]!, having: PlayedByScalarWhereWithAggregatesInput, orderBy: [PlayedByOrderByWithAggregationInput!], skip: Int, take: Int, where: PlayedByWhereInput): [PlayedByGroupBy!]!
   groupByPocketState(by: [PocketStateScalarFieldEnum!]!, having: PocketStateScalarWhereWithAggregatesInput, orderBy: [PocketStateOrderByWithAggregationInput!], skip: Int, take: Int, where: PocketStateWhereInput): [PocketStateGroupBy!]!
@@ -2694,6 +2683,8 @@ type Query {
   groupByState(by: [StateScalarFieldEnum!]!, having: StateScalarWhereWithAggregatesInput, orderBy: [StateOrderByWithAggregationInput!], skip: Int, take: Int, where: StateWhereInput): [StateGroupBy!]!
   groupByTrack(by: [TrackScalarFieldEnum!]!, having: TrackScalarWhereWithAggregatesInput, orderBy: [TrackOrderByWithAggregationInput!], skip: Int, take: Int, where: TrackWhereInput): [TrackGroupBy!]!
   groupByVinyl(by: [VinylScalarFieldEnum!]!, having: VinylScalarWhereWithAggregatesInput, orderBy: [VinylOrderByWithAggregationInput!], skip: Int, take: Int, where: VinylWhereInput): [VinylGroupBy!]!
+  image(where: ImageWhereUniqueInput!): Image
+  images(cursor: ImageWhereUniqueInput, distinct: [ImageScalarFieldEnum!], orderBy: [ImageOrderByWithRelationInput!], skip: Int, take: Int, where: ImageWhereInput): [Image!]!
   label(where: LabelWhereUniqueInput!): Label
   labels(cursor: LabelWhereUniqueInput, distinct: [LabelScalarFieldEnum!], orderBy: [LabelOrderByWithRelationInput!], skip: Int, take: Int, where: LabelWhereInput): [Label!]!
   playedBies(cursor: PlayedByWhereUniqueInput, distinct: [PlayedByScalarFieldEnum!], orderBy: [PlayedByOrderByWithRelationInput!], skip: Int, take: Int, where: PlayedByWhereInput): [PlayedBy!]!
@@ -2868,7 +2859,7 @@ input ReadSpeedWhereUniqueInput {
   NOT: [ReadSpeedWhereInput!]
   OR: [ReadSpeedWhereInput!]
   idReadSpeed: String
-  speed: StringFilter
+  speed: String
   vinyls: VinylListRelationFilter
 }
 
@@ -3042,7 +3033,7 @@ input StateWhereUniqueInput {
   NOT: [StateWhereInput!]
   OR: [StateWhereInput!]
   idState: String
-  name: StringFilter
+  name: String
   vinyls: VinylListRelationFilter
 }
 
@@ -3368,7 +3359,7 @@ type Vinyl {
   authored(cursor: AuthoredWhereUniqueInput, distinct: [AuthoredScalarFieldEnum!], orderBy: [AuthoredOrderByWithRelationInput!], skip: Int, take: Int, where: AuthoredWhereInput): [Authored!]!
   bought(where: BoughtWhereInput): Bought
   catNumber: String!
-  credits(cursor: CreditedWhereUniqueInput, distinct: [CreditedScalarFieldEnum!], orderBy: [CreditedOrderByWithRelationInput!], skip: Int, take: Int, where: CreditedWhereInput): [Credited!]!
+  credits(cursor: CreditWhereUniqueInput, distinct: [CreditScalarFieldEnum!], orderBy: [CreditOrderByWithRelationInput!], skip: Int, take: Int, where: CreditWhereInput): [Credit!]!
   dateCreated: DateTimeISO!
   dateEdited: DateTimeISO
   dateReleased: DateTimeISO
@@ -3380,6 +3371,7 @@ type Vinyl {
   idReadSpeed: String!
   idState: String
   idVinyl: String!
+  images(cursor: ImageWhereUniqueInput, distinct: [ImageScalarFieldEnum!], orderBy: [ImageOrderByWithRelationInput!], skip: Int, take: Int, where: ImageWhereInput): [Image!]!
   label(where: LabelWhereInput): Label
   notePocket: String
   notes: String
@@ -3405,7 +3397,8 @@ input VinylAvgOrderByAggregateInput {
 
 type VinylCount {
   authored(where: AuthoredWhereInput): Int!
-  credits(where: CreditedWhereInput): Int!
+  credits(where: CreditWhereInput): Int!
+  images(where: ImageWhereInput): Int!
   playedBy(where: PlayedByWhereInput): Int!
   tracks(where: TrackWhereInput): Int!
 }
@@ -3456,12 +3449,13 @@ input VinylCreateInput {
   authored: AuthoredCreateNestedManyWithoutVinylInput
   bought: BoughtCreateNestedOneWithoutVinylsInput
   catNumber: String!
-  credits: CreditedCreateNestedManyWithoutVinylInput
+  credits: CreditCreateNestedManyWithoutVinylInput
   dateCreated: DateTimeISO
   dateEdited: DateTimeISO
   dateReleased: DateTimeISO
   edition: String
   idVinyl: String
+  images: ImageCreateNestedManyWithoutVinylInput
   label: LabelCreateNestedOneWithoutVinylsInput
   notePocket: String
   notes: String
@@ -3693,6 +3687,12 @@ input VinylCreateNestedOneWithoutCreditsInput {
   create: VinylCreateWithoutCreditsInput
 }
 
+input VinylCreateNestedOneWithoutImagesInput {
+  connect: VinylWhereUniqueInput
+  connectOrCreate: VinylCreateOrConnectWithoutImagesInput
+  create: VinylCreateWithoutImagesInput
+}
+
 input VinylCreateNestedOneWithoutPlayedByInput {
   connect: VinylWhereUniqueInput
   connectOrCreate: VinylCreateOrConnectWithoutPlayedByInput
@@ -3722,6 +3722,11 @@ input VinylCreateOrConnectWithoutBoughtInput {
 
 input VinylCreateOrConnectWithoutCreditsInput {
   create: VinylCreateWithoutCreditsInput!
+  where: VinylWhereUniqueInput!
+}
+
+input VinylCreateOrConnectWithoutImagesInput {
+  create: VinylCreateWithoutImagesInput!
   where: VinylWhereUniqueInput!
 }
 
@@ -3759,12 +3764,13 @@ input VinylCreateWithoutAlbumInput {
   authored: AuthoredCreateNestedManyWithoutVinylInput
   bought: BoughtCreateNestedOneWithoutVinylsInput
   catNumber: String!
-  credits: CreditedCreateNestedManyWithoutVinylInput
+  credits: CreditCreateNestedManyWithoutVinylInput
   dateCreated: DateTimeISO
   dateEdited: DateTimeISO
   dateReleased: DateTimeISO
   edition: String
   idVinyl: String
+  images: ImageCreateNestedManyWithoutVinylInput
   label: LabelCreateNestedOneWithoutVinylsInput
   notePocket: String
   notes: String
@@ -3782,12 +3788,13 @@ input VinylCreateWithoutAuthoredInput {
   album: AlbumCreateNestedOneWithoutVinylsInput
   bought: BoughtCreateNestedOneWithoutVinylsInput
   catNumber: String!
-  credits: CreditedCreateNestedManyWithoutVinylInput
+  credits: CreditCreateNestedManyWithoutVinylInput
   dateCreated: DateTimeISO
   dateEdited: DateTimeISO
   dateReleased: DateTimeISO
   edition: String
   idVinyl: String
+  images: ImageCreateNestedManyWithoutVinylInput
   label: LabelCreateNestedOneWithoutVinylsInput
   notePocket: String
   notes: String
@@ -3805,12 +3812,13 @@ input VinylCreateWithoutBoughtInput {
   album: AlbumCreateNestedOneWithoutVinylsInput
   authored: AuthoredCreateNestedManyWithoutVinylInput
   catNumber: String!
-  credits: CreditedCreateNestedManyWithoutVinylInput
+  credits: CreditCreateNestedManyWithoutVinylInput
   dateCreated: DateTimeISO
   dateEdited: DateTimeISO
   dateReleased: DateTimeISO
   edition: String
   idVinyl: String
+  images: ImageCreateNestedManyWithoutVinylInput
   label: LabelCreateNestedOneWithoutVinylsInput
   notePocket: String
   notes: String
@@ -3834,6 +3842,31 @@ input VinylCreateWithoutCreditsInput {
   dateReleased: DateTimeISO
   edition: String
   idVinyl: String
+  images: ImageCreateNestedManyWithoutVinylInput
+  label: LabelCreateNestedOneWithoutVinylsInput
+  notePocket: String
+  notes: String
+  playedBy: PlayedByCreateNestedManyWithoutVinylInput
+  pocketState: PocketStateCreateNestedOneWithoutVinylsInput
+  pressingLoc: String
+  rank: Int
+  readSpeed: ReadSpeedCreateNestedOneWithoutVinylsInput!
+  state: StateCreateNestedOneWithoutVinylsInput
+  tracks: TrackCreateNestedManyWithoutVinylInput
+  weight: Int
+}
+
+input VinylCreateWithoutImagesInput {
+  album: AlbumCreateNestedOneWithoutVinylsInput
+  authored: AuthoredCreateNestedManyWithoutVinylInput
+  bought: BoughtCreateNestedOneWithoutVinylsInput
+  catNumber: String!
+  credits: CreditCreateNestedManyWithoutVinylInput
+  dateCreated: DateTimeISO
+  dateEdited: DateTimeISO
+  dateReleased: DateTimeISO
+  edition: String
+  idVinyl: String
   label: LabelCreateNestedOneWithoutVinylsInput
   notePocket: String
   notes: String
@@ -3852,12 +3885,13 @@ input VinylCreateWithoutLabelInput {
   authored: AuthoredCreateNestedManyWithoutVinylInput
   bought: BoughtCreateNestedOneWithoutVinylsInput
   catNumber: String!
-  credits: CreditedCreateNestedManyWithoutVinylInput
+  credits: CreditCreateNestedManyWithoutVinylInput
   dateCreated: DateTimeISO
   dateEdited: DateTimeISO
   dateReleased: DateTimeISO
   edition: String
   idVinyl: String
+  images: ImageCreateNestedManyWithoutVinylInput
   notePocket: String
   notes: String
   playedBy: PlayedByCreateNestedManyWithoutVinylInput
@@ -3875,12 +3909,13 @@ input VinylCreateWithoutPlayedByInput {
   authored: AuthoredCreateNestedManyWithoutVinylInput
   bought: BoughtCreateNestedOneWithoutVinylsInput
   catNumber: String!
-  credits: CreditedCreateNestedManyWithoutVinylInput
+  credits: CreditCreateNestedManyWithoutVinylInput
   dateCreated: DateTimeISO
   dateEdited: DateTimeISO
   dateReleased: DateTimeISO
   edition: String
   idVinyl: String
+  images: ImageCreateNestedManyWithoutVinylInput
   label: LabelCreateNestedOneWithoutVinylsInput
   notePocket: String
   notes: String
@@ -3898,12 +3933,13 @@ input VinylCreateWithoutPocketStateInput {
   authored: AuthoredCreateNestedManyWithoutVinylInput
   bought: BoughtCreateNestedOneWithoutVinylsInput
   catNumber: String!
-  credits: CreditedCreateNestedManyWithoutVinylInput
+  credits: CreditCreateNestedManyWithoutVinylInput
   dateCreated: DateTimeISO
   dateEdited: DateTimeISO
   dateReleased: DateTimeISO
   edition: String
   idVinyl: String
+  images: ImageCreateNestedManyWithoutVinylInput
   label: LabelCreateNestedOneWithoutVinylsInput
   notePocket: String
   notes: String
@@ -3921,12 +3957,13 @@ input VinylCreateWithoutReadSpeedInput {
   authored: AuthoredCreateNestedManyWithoutVinylInput
   bought: BoughtCreateNestedOneWithoutVinylsInput
   catNumber: String!
-  credits: CreditedCreateNestedManyWithoutVinylInput
+  credits: CreditCreateNestedManyWithoutVinylInput
   dateCreated: DateTimeISO
   dateEdited: DateTimeISO
   dateReleased: DateTimeISO
   edition: String
   idVinyl: String
+  images: ImageCreateNestedManyWithoutVinylInput
   label: LabelCreateNestedOneWithoutVinylsInput
   notePocket: String
   notes: String
@@ -3944,12 +3981,13 @@ input VinylCreateWithoutStateInput {
   authored: AuthoredCreateNestedManyWithoutVinylInput
   bought: BoughtCreateNestedOneWithoutVinylsInput
   catNumber: String!
-  credits: CreditedCreateNestedManyWithoutVinylInput
+  credits: CreditCreateNestedManyWithoutVinylInput
   dateCreated: DateTimeISO
   dateEdited: DateTimeISO
   dateReleased: DateTimeISO
   edition: String
   idVinyl: String
+  images: ImageCreateNestedManyWithoutVinylInput
   label: LabelCreateNestedOneWithoutVinylsInput
   notePocket: String
   notes: String
@@ -3967,12 +4005,13 @@ input VinylCreateWithoutTracksInput {
   authored: AuthoredCreateNestedManyWithoutVinylInput
   bought: BoughtCreateNestedOneWithoutVinylsInput
   catNumber: String!
-  credits: CreditedCreateNestedManyWithoutVinylInput
+  credits: CreditCreateNestedManyWithoutVinylInput
   dateCreated: DateTimeISO
   dateEdited: DateTimeISO
   dateReleased: DateTimeISO
   edition: String
   idVinyl: String
+  images: ImageCreateNestedManyWithoutVinylInput
   label: LabelCreateNestedOneWithoutVinylsInput
   notePocket: String
   notes: String
@@ -4130,7 +4169,7 @@ input VinylOrderByWithRelationInput {
   authored: AuthoredOrderByRelationAggregateInput
   bought: BoughtOrderByWithRelationInput
   catNumber: SortOrder
-  credits: CreditedOrderByRelationAggregateInput
+  credits: CreditOrderByRelationAggregateInput
   dateCreated: SortOrder
   dateEdited: SortOrderInput
   dateReleased: SortOrderInput
@@ -4142,6 +4181,7 @@ input VinylOrderByWithRelationInput {
   idReadSpeed: SortOrder
   idState: SortOrderInput
   idVinyl: SortOrder
+  images: ImageOrderByRelationAggregateInput
   label: LabelOrderByWithRelationInput
   notePocket: SortOrderInput
   notes: SortOrderInput
@@ -4241,12 +4281,13 @@ input VinylUpdateInput {
   authored: AuthoredUpdateManyWithoutVinylNestedInput
   bought: BoughtUpdateOneWithoutVinylsNestedInput
   catNumber: StringFieldUpdateOperationsInput
-  credits: CreditedUpdateManyWithoutVinylNestedInput
+  credits: CreditUpdateManyWithoutVinylNestedInput
   dateCreated: DateTimeFieldUpdateOperationsInput
   dateEdited: NullableDateTimeFieldUpdateOperationsInput
   dateReleased: NullableDateTimeFieldUpdateOperationsInput
   edition: NullableStringFieldUpdateOperationsInput
   idVinyl: StringFieldUpdateOperationsInput
+  images: ImageUpdateManyWithoutVinylNestedInput
   label: LabelUpdateOneWithoutVinylsNestedInput
   notePocket: NullableStringFieldUpdateOperationsInput
   notes: NullableStringFieldUpdateOperationsInput
@@ -4404,6 +4445,14 @@ input VinylUpdateOneRequiredWithoutCreditsNestedInput {
   upsert: VinylUpsertWithoutCreditsInput
 }
 
+input VinylUpdateOneRequiredWithoutImagesNestedInput {
+  connect: VinylWhereUniqueInput
+  connectOrCreate: VinylCreateOrConnectWithoutImagesInput
+  create: VinylCreateWithoutImagesInput
+  update: VinylUpdateToOneWithWhereWithoutImagesInput
+  upsert: VinylUpsertWithoutImagesInput
+}
+
 input VinylUpdateOneRequiredWithoutPlayedByNestedInput {
   connect: VinylWhereUniqueInput
   connectOrCreate: VinylCreateOrConnectWithoutPlayedByInput
@@ -4427,6 +4476,11 @@ input VinylUpdateToOneWithWhereWithoutAuthoredInput {
 
 input VinylUpdateToOneWithWhereWithoutCreditsInput {
   data: VinylUpdateWithoutCreditsInput!
+  where: VinylWhereInput
+}
+
+input VinylUpdateToOneWithWhereWithoutImagesInput {
+  data: VinylUpdateWithoutImagesInput!
   where: VinylWhereInput
 }
 
@@ -4474,12 +4528,13 @@ input VinylUpdateWithoutAlbumInput {
   authored: AuthoredUpdateManyWithoutVinylNestedInput
   bought: BoughtUpdateOneWithoutVinylsNestedInput
   catNumber: StringFieldUpdateOperationsInput
-  credits: CreditedUpdateManyWithoutVinylNestedInput
+  credits: CreditUpdateManyWithoutVinylNestedInput
   dateCreated: DateTimeFieldUpdateOperationsInput
   dateEdited: NullableDateTimeFieldUpdateOperationsInput
   dateReleased: NullableDateTimeFieldUpdateOperationsInput
   edition: NullableStringFieldUpdateOperationsInput
   idVinyl: StringFieldUpdateOperationsInput
+  images: ImageUpdateManyWithoutVinylNestedInput
   label: LabelUpdateOneWithoutVinylsNestedInput
   notePocket: NullableStringFieldUpdateOperationsInput
   notes: NullableStringFieldUpdateOperationsInput
@@ -4497,12 +4552,13 @@ input VinylUpdateWithoutAuthoredInput {
   album: AlbumUpdateOneWithoutVinylsNestedInput
   bought: BoughtUpdateOneWithoutVinylsNestedInput
   catNumber: StringFieldUpdateOperationsInput
-  credits: CreditedUpdateManyWithoutVinylNestedInput
+  credits: CreditUpdateManyWithoutVinylNestedInput
   dateCreated: DateTimeFieldUpdateOperationsInput
   dateEdited: NullableDateTimeFieldUpdateOperationsInput
   dateReleased: NullableDateTimeFieldUpdateOperationsInput
   edition: NullableStringFieldUpdateOperationsInput
   idVinyl: StringFieldUpdateOperationsInput
+  images: ImageUpdateManyWithoutVinylNestedInput
   label: LabelUpdateOneWithoutVinylsNestedInput
   notePocket: NullableStringFieldUpdateOperationsInput
   notes: NullableStringFieldUpdateOperationsInput
@@ -4520,12 +4576,13 @@ input VinylUpdateWithoutBoughtInput {
   album: AlbumUpdateOneWithoutVinylsNestedInput
   authored: AuthoredUpdateManyWithoutVinylNestedInput
   catNumber: StringFieldUpdateOperationsInput
-  credits: CreditedUpdateManyWithoutVinylNestedInput
+  credits: CreditUpdateManyWithoutVinylNestedInput
   dateCreated: DateTimeFieldUpdateOperationsInput
   dateEdited: NullableDateTimeFieldUpdateOperationsInput
   dateReleased: NullableDateTimeFieldUpdateOperationsInput
   edition: NullableStringFieldUpdateOperationsInput
   idVinyl: StringFieldUpdateOperationsInput
+  images: ImageUpdateManyWithoutVinylNestedInput
   label: LabelUpdateOneWithoutVinylsNestedInput
   notePocket: NullableStringFieldUpdateOperationsInput
   notes: NullableStringFieldUpdateOperationsInput
@@ -4549,6 +4606,31 @@ input VinylUpdateWithoutCreditsInput {
   dateReleased: NullableDateTimeFieldUpdateOperationsInput
   edition: NullableStringFieldUpdateOperationsInput
   idVinyl: StringFieldUpdateOperationsInput
+  images: ImageUpdateManyWithoutVinylNestedInput
+  label: LabelUpdateOneWithoutVinylsNestedInput
+  notePocket: NullableStringFieldUpdateOperationsInput
+  notes: NullableStringFieldUpdateOperationsInput
+  playedBy: PlayedByUpdateManyWithoutVinylNestedInput
+  pocketState: PocketStateUpdateOneWithoutVinylsNestedInput
+  pressingLoc: NullableStringFieldUpdateOperationsInput
+  rank: NullableIntFieldUpdateOperationsInput
+  readSpeed: ReadSpeedUpdateOneRequiredWithoutVinylsNestedInput
+  state: StateUpdateOneWithoutVinylsNestedInput
+  tracks: TrackUpdateManyWithoutVinylNestedInput
+  weight: NullableIntFieldUpdateOperationsInput
+}
+
+input VinylUpdateWithoutImagesInput {
+  album: AlbumUpdateOneWithoutVinylsNestedInput
+  authored: AuthoredUpdateManyWithoutVinylNestedInput
+  bought: BoughtUpdateOneWithoutVinylsNestedInput
+  catNumber: StringFieldUpdateOperationsInput
+  credits: CreditUpdateManyWithoutVinylNestedInput
+  dateCreated: DateTimeFieldUpdateOperationsInput
+  dateEdited: NullableDateTimeFieldUpdateOperationsInput
+  dateReleased: NullableDateTimeFieldUpdateOperationsInput
+  edition: NullableStringFieldUpdateOperationsInput
+  idVinyl: StringFieldUpdateOperationsInput
   label: LabelUpdateOneWithoutVinylsNestedInput
   notePocket: NullableStringFieldUpdateOperationsInput
   notes: NullableStringFieldUpdateOperationsInput
@@ -4567,12 +4649,13 @@ input VinylUpdateWithoutLabelInput {
   authored: AuthoredUpdateManyWithoutVinylNestedInput
   bought: BoughtUpdateOneWithoutVinylsNestedInput
   catNumber: StringFieldUpdateOperationsInput
-  credits: CreditedUpdateManyWithoutVinylNestedInput
+  credits: CreditUpdateManyWithoutVinylNestedInput
   dateCreated: DateTimeFieldUpdateOperationsInput
   dateEdited: NullableDateTimeFieldUpdateOperationsInput
   dateReleased: NullableDateTimeFieldUpdateOperationsInput
   edition: NullableStringFieldUpdateOperationsInput
   idVinyl: StringFieldUpdateOperationsInput
+  images: ImageUpdateManyWithoutVinylNestedInput
   notePocket: NullableStringFieldUpdateOperationsInput
   notes: NullableStringFieldUpdateOperationsInput
   playedBy: PlayedByUpdateManyWithoutVinylNestedInput
@@ -4590,12 +4673,13 @@ input VinylUpdateWithoutPlayedByInput {
   authored: AuthoredUpdateManyWithoutVinylNestedInput
   bought: BoughtUpdateOneWithoutVinylsNestedInput
   catNumber: StringFieldUpdateOperationsInput
-  credits: CreditedUpdateManyWithoutVinylNestedInput
+  credits: CreditUpdateManyWithoutVinylNestedInput
   dateCreated: DateTimeFieldUpdateOperationsInput
   dateEdited: NullableDateTimeFieldUpdateOperationsInput
   dateReleased: NullableDateTimeFieldUpdateOperationsInput
   edition: NullableStringFieldUpdateOperationsInput
   idVinyl: StringFieldUpdateOperationsInput
+  images: ImageUpdateManyWithoutVinylNestedInput
   label: LabelUpdateOneWithoutVinylsNestedInput
   notePocket: NullableStringFieldUpdateOperationsInput
   notes: NullableStringFieldUpdateOperationsInput
@@ -4613,12 +4697,13 @@ input VinylUpdateWithoutPocketStateInput {
   authored: AuthoredUpdateManyWithoutVinylNestedInput
   bought: BoughtUpdateOneWithoutVinylsNestedInput
   catNumber: StringFieldUpdateOperationsInput
-  credits: CreditedUpdateManyWithoutVinylNestedInput
+  credits: CreditUpdateManyWithoutVinylNestedInput
   dateCreated: DateTimeFieldUpdateOperationsInput
   dateEdited: NullableDateTimeFieldUpdateOperationsInput
   dateReleased: NullableDateTimeFieldUpdateOperationsInput
   edition: NullableStringFieldUpdateOperationsInput
   idVinyl: StringFieldUpdateOperationsInput
+  images: ImageUpdateManyWithoutVinylNestedInput
   label: LabelUpdateOneWithoutVinylsNestedInput
   notePocket: NullableStringFieldUpdateOperationsInput
   notes: NullableStringFieldUpdateOperationsInput
@@ -4636,12 +4721,13 @@ input VinylUpdateWithoutReadSpeedInput {
   authored: AuthoredUpdateManyWithoutVinylNestedInput
   bought: BoughtUpdateOneWithoutVinylsNestedInput
   catNumber: StringFieldUpdateOperationsInput
-  credits: CreditedUpdateManyWithoutVinylNestedInput
+  credits: CreditUpdateManyWithoutVinylNestedInput
   dateCreated: DateTimeFieldUpdateOperationsInput
   dateEdited: NullableDateTimeFieldUpdateOperationsInput
   dateReleased: NullableDateTimeFieldUpdateOperationsInput
   edition: NullableStringFieldUpdateOperationsInput
   idVinyl: StringFieldUpdateOperationsInput
+  images: ImageUpdateManyWithoutVinylNestedInput
   label: LabelUpdateOneWithoutVinylsNestedInput
   notePocket: NullableStringFieldUpdateOperationsInput
   notes: NullableStringFieldUpdateOperationsInput
@@ -4659,12 +4745,13 @@ input VinylUpdateWithoutStateInput {
   authored: AuthoredUpdateManyWithoutVinylNestedInput
   bought: BoughtUpdateOneWithoutVinylsNestedInput
   catNumber: StringFieldUpdateOperationsInput
-  credits: CreditedUpdateManyWithoutVinylNestedInput
+  credits: CreditUpdateManyWithoutVinylNestedInput
   dateCreated: DateTimeFieldUpdateOperationsInput
   dateEdited: NullableDateTimeFieldUpdateOperationsInput
   dateReleased: NullableDateTimeFieldUpdateOperationsInput
   edition: NullableStringFieldUpdateOperationsInput
   idVinyl: StringFieldUpdateOperationsInput
+  images: ImageUpdateManyWithoutVinylNestedInput
   label: LabelUpdateOneWithoutVinylsNestedInput
   notePocket: NullableStringFieldUpdateOperationsInput
   notes: NullableStringFieldUpdateOperationsInput
@@ -4682,12 +4769,13 @@ input VinylUpdateWithoutTracksInput {
   authored: AuthoredUpdateManyWithoutVinylNestedInput
   bought: BoughtUpdateOneWithoutVinylsNestedInput
   catNumber: StringFieldUpdateOperationsInput
-  credits: CreditedUpdateManyWithoutVinylNestedInput
+  credits: CreditUpdateManyWithoutVinylNestedInput
   dateCreated: DateTimeFieldUpdateOperationsInput
   dateEdited: NullableDateTimeFieldUpdateOperationsInput
   dateReleased: NullableDateTimeFieldUpdateOperationsInput
   edition: NullableStringFieldUpdateOperationsInput
   idVinyl: StringFieldUpdateOperationsInput
+  images: ImageUpdateManyWithoutVinylNestedInput
   label: LabelUpdateOneWithoutVinylsNestedInput
   notePocket: NullableStringFieldUpdateOperationsInput
   notes: NullableStringFieldUpdateOperationsInput
@@ -4748,6 +4836,12 @@ input VinylUpsertWithoutCreditsInput {
   where: VinylWhereInput
 }
 
+input VinylUpsertWithoutImagesInput {
+  create: VinylCreateWithoutImagesInput!
+  update: VinylUpdateWithoutImagesInput!
+  where: VinylWhereInput
+}
+
 input VinylUpsertWithoutPlayedByInput {
   create: VinylCreateWithoutPlayedByInput!
   update: VinylUpdateWithoutPlayedByInput!
@@ -4768,7 +4862,7 @@ input VinylWhereInput {
   authored: AuthoredListRelationFilter
   bought: BoughtNullableRelationFilter
   catNumber: StringFilter
-  credits: CreditedListRelationFilter
+  credits: CreditListRelationFilter
   dateCreated: DateTimeFilter
   dateEdited: DateTimeNullableFilter
   dateReleased: DateTimeNullableFilter
@@ -4780,6 +4874,7 @@ input VinylWhereInput {
   idReadSpeed: StringFilter
   idState: StringNullableFilter
   idVinyl: StringFilter
+  images: ImageListRelationFilter
   label: LabelNullableRelationFilter
   notePocket: StringNullableFilter
   notes: StringNullableFilter
@@ -4801,7 +4896,7 @@ input VinylWhereUniqueInput {
   authored: AuthoredListRelationFilter
   bought: BoughtNullableRelationFilter
   catNumber: StringFilter
-  credits: CreditedListRelationFilter
+  credits: CreditListRelationFilter
   dateCreated: DateTimeFilter
   dateEdited: DateTimeNullableFilter
   dateReleased: DateTimeNullableFilter
@@ -4813,6 +4908,7 @@ input VinylWhereUniqueInput {
   idReadSpeed: StringFilter
   idState: StringNullableFilter
   idVinyl: String
+  images: ImageListRelationFilter
   label: LabelNullableRelationFilter
   notePocket: StringNullableFilter
   notes: StringNullableFilter

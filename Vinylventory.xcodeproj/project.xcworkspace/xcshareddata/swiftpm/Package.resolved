@@ -1,5 +1,5 @@
 {
-  "originHash" : "931440278103ba39b2d835f2c346aeb873ebcb4ff41767ce2ae24e250b359dbe",
+  "originHash" : "005f112bea36021b4290b17f274f9824e712d2403f03b251a7a34950353aa80f",
   "pins" : [
     {
       "identity" : "apollo-ios",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "104cc94e97741e71f5c8fc9709bf909c464a9702",
         "version" : "1.14.1"
+      }
+    },
+    {
+      "identity" : "capture",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/quentinfasquel/Capture.git",
+      "state" : {
+        "revision" : "b80317041b1e623ca2f6d14cc4a95c03c6c6a7bf",
+        "version" : "0.2.0"
       }
     },
     {
