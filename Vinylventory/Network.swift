@@ -7,12 +7,33 @@
 
 import SwiftUI
 import Apollo
+import ApolloAPI
 import VinylventoryAPI
 import Alamofire
 
 class Network {
     static let shared = Network()
-    var apollo = ApolloClient(url: URL(string: "http://192.168.1.189:4000/graphql")!)
+    
+    private var apolloClient: ApolloClient?
+    private var currentURL: String?
+    
+    func apollo() -> ApolloClient {
+        let url = UserDefaults.standard.string(forKey: "url")!
+
+        if apolloClient == nil || url != currentURL {
+            let sclient = URLSessionClient()
+            let cache = InMemoryNormalizedCache()
+            let store = ApolloStore(cache: cache)
+            let provider = NetworkInterceptorProvider(client: sclient, store: store)
+            let transport = RequestChainNetworkTransport(interceptorProvider: provider, endpointURL: URL(string: "\(url)/graphql")!)
+            let client = ApolloClient(networkTransport: transport, store: store)
+            
+            self.apolloClient = client
+            self.currentURL = url
+        }
+        
+        return apolloClient!
+    }
     
     struct Artist: Identifiable {
         var id: UUID = UUID()
@@ -36,7 +57,7 @@ class Network {
     }
     
     func fetchVinyls(completion: @escaping (Result<[GetVinylsQuery.Data.Vinyl], Error>) -> Void) {
-        apollo.fetch(query: GetVinylsQuery()) { result in
+        apollo().fetch(query: GetVinylsQuery()) { result in
             switch result {
                 case .success(let graphQLResult):
                     if let vinyls = graphQLResult.data?.vinyls {
@@ -82,7 +103,7 @@ class Network {
         readSpeed: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
-        apollo.perform(mutation: CreateVinylMutation(
+        apollo().perform(mutation: CreateVinylMutation(
             catNumber: cartNumber,
             dateReleased: dateReleased == "null" ? .none : .some(dateReleased),
             dateEdited: dateEdited == "null" ? .none : .some(dateEdited),
@@ -220,7 +241,7 @@ class Network {
     struct DecodableType: Decodable { let id: String }
     
     func uploadImage(_ image: UIImage, idVinyl: String, completion: @escaping (Result<String, Error>) -> Void) {
-        let url = "http://192.168.1.189:4000/upload"
+        let url = "\(String(describing: UserDefaults.standard.string(forKey: "url")))/upload"
 
         AF.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(Data(idVinyl.utf8), withName: "idVinyl")
@@ -228,7 +249,7 @@ class Network {
             if let imageData = image.jpegData(compressionQuality: 1.0) {
                 multipartFormData.append(imageData, withName: "image", fileName: "image.jpg", mimeType: "image/jpeg")
             }
-        }, to: url, method: .post, headers: [.accept("application/json")])
+        }, to: url, method: .post, headers: [.accept("application/json"), .authorization(bearerToken: UserDefaults.standard.string(forKey: "token")!)])
         .validate()
         .responseDecodable(of: DecodableType.self) { response in
             DispatchQueue.main.async {
@@ -239,7 +260,7 @@ class Network {
     
     
     func fetchArtists(completion: @escaping (Result<[GetArtistsQuery.Data.Artist], Error>) -> Void) {
-        apollo.fetch(query: GetArtistsQuery()) { result in
+        apollo().fetch(query: GetArtistsQuery()) { result in
             switch result {
                 case .success(let graphQLResult):
                     if let artists = graphQLResult.data?.artists {
@@ -261,7 +282,7 @@ class Network {
     }
     
     func fetchPocketStates(completion: @escaping (Result<[GetPocketStatesQuery.Data.PocketState], Error>) -> Void) {
-        apollo.fetch(query: GetPocketStatesQuery()) { result in
+        apollo().fetch(query: GetPocketStatesQuery()) { result in
             switch result {
                 case .success(let graphQLResult):
                     if let pocketStates = graphQLResult.data?.pocketStates {
@@ -283,7 +304,7 @@ class Network {
     }
     
     func fetchStates(completion: @escaping (Result<[GetStatesQuery.Data.State], Error>) -> Void) {
-        apollo.fetch(query: GetStatesQuery()) { result in
+        apollo().fetch(query: GetStatesQuery()) { result in
             switch result {
                 case .success(let graphQLResult):
                     if let states = graphQLResult.data?.states {
@@ -305,7 +326,7 @@ class Network {
     }
     
     func fetchReadSpeed(completion: @escaping (Result<[GetReadSpeedQuery.Data.ReadSpeed], Error>) -> Void) {
-        apollo.fetch(query: GetReadSpeedQuery()) { result in
+        apollo().fetch(query: GetReadSpeedQuery()) { result in
             switch result {
                 case .success(let graphQLResult):
                     if let readSpeeds = graphQLResult.data?.readSpeeds {
@@ -325,4 +346,36 @@ class Network {
             }
         }
     }
+}
+
+class AuthorizationInterceptor: ApolloInterceptor {
+    public var id: String = UUID().uuidString
+    
+    func interceptAsync<Operation>(
+        chain: RequestChain,
+        request: HTTPRequest<Operation>,
+        response: HTTPResponse<Operation>?,
+        completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void
+    ) where Operation : GraphQLOperation {
+        if let token = UserDefaults.standard.string(forKey: "token") {
+            request.addHeader(name: "Authorization", value: "Bearer \(token)")
+        }
+
+        chain.proceedAsync(
+            request: request,
+            response: response,
+            interceptor: self,
+            completion: completion)
+    }
+    
+}
+
+class NetworkInterceptorProvider: DefaultInterceptorProvider {
+    
+    override func interceptors<Operation>(for operation: Operation) -> [ApolloInterceptor] where Operation : GraphQLOperation {
+        var interceptors = super.interceptors(for: operation)
+        interceptors.insert(AuthorizationInterceptor(), at: 0)
+        return interceptors
+    }
+    
 }

@@ -37,7 +37,9 @@ struct ContentView: View {
                 
                 HStack(spacing: 20) {
                     ButtonView(iconName: "square.slash", disabled: true)
-                    ButtonView(iconName: "square.slash", disabled: true)
+                    NavigationLink(destination: SettingsView()) {
+                        ButtonView(iconName: "gear")
+                    }
                 }
                 .padding(.horizontal)
             }

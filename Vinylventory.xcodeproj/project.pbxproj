@@ -28,6 +28,7 @@
 		E9D3B7512C6A720C00862236 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B7502C6A720C00862236 /* ListView.swift */; };
 		E9D3B7562C6BD72200862236 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = E9D3B7552C6BD72200862236 /* Apollo */; };
 		E9DAB75A2C72193B00782412 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E9DAB7592C72193B00782412 /* Alamofire */; };
+		E9DAB75C2C723B7200782412 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DAB75B2C723B7200782412 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		E9D3B7502C6A720C00862236 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		E9D3B75A2C6BD95800862236 /* schema.graphqls */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
 		E9D3B75B2C6BD9A900862236 /* Querries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Querries.graphql; sourceTree = "<group>"; };
+		E9DAB75B2C723B7200782412 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				E9C8E1302C6BE070003D0ECF /* Network.swift */,
 				E9C8E1402C7006D2003D0ECF /* CameraAccessView.swift */,
 				E9C8E1462C701A9F003D0ECF /* CameraButton.swift */,
+				E9DAB75B2C723B7200782412 /* SettingsView.swift */,
 			);
 			path = Vinylventory;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				E9C8E13A2C6FE6B6003D0ECF /* ImageListView.swift in Sources */,
 				E9C8E1342C6EB5B1003D0ECF /* ArtistListView.swift in Sources */,
 				E9D3B7232C6A3D0A00862236 /* VinylventoryApp.swift in Sources */,
+				E9DAB75C2C723B7200782412 /* SettingsView.swift in Sources */,
 				E9C8E1362C6EB6E8003D0ECF /* CreditListView.swift in Sources */,
 				E9D3B74F2C6A717A00862236 /* AddView.swift in Sources */,
 			);
