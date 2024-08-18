@@ -7,7 +7,7 @@ public class CreateVinylMutation: GraphQLMutation {
   public static let operationName: String = "CreateVinyl"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation CreateVinyl($catNumber: String!, $dateReleased: DateTimeISO, $dateEdited: DateTimeISO, $notePocket: String, $pressingLoc: String, $edition: String, $weight: Int, $rank: Int, $notes: String, $playedBys: [PlayedByCreateWithoutVinylInput!], $authoreds: [AuthoredCreateWithoutVinylInput!], $credits: [CreditCreateWithoutVinylInput!], $album: String!, $label: String!, $tracks: [TrackCreateManyVinylInput!]!, $boughtLoc: String!, $boughtDate: DateTimeISO!, $boughtPrice: Int, $boughtNote: String, $pocketState: String, $state: String, $readSpeed: String, $images: [ImageWhereUniqueInput!]) { createOneVinyl( data: { catNumber: $catNumber dateReleased: $dateReleased dateEdited: $dateEdited notePocket: $notePocket pressingLoc: $pressingLoc edition: $edition weight: $weight rank: $rank notes: $notes playedBy: { create: $playedBys } authored: { create: $authoreds } credits: { create: $credits } album: { connectOrCreate: { where: { name: $album }, create: { name: $album } } } label: { connectOrCreate: { where: { name: $label }, create: { name: $label } } } tracks: { createMany: { data: $tracks } } bought: { connectOrCreate: { where: { loc_date: { loc: $boughtLoc, date: $boughtDate } } create: { loc: $boughtLoc, date: $boughtDate, price: $boughtPrice, note: $boughtNote } } } pocketState: { connect: { name: $pocketState } } state: { connect: { name: $state } } readSpeed: { connect: { speed: $readSpeed } } images: { connect: $images } } ) { __typename idVinyl } }"#
+      #"mutation CreateVinyl($catNumber: String!, $dateReleased: DateTimeISO, $dateEdited: DateTimeISO, $notePocket: String, $pressingLoc: String, $edition: String, $weight: Int, $rank: Int, $notes: String, $playedBys: [PlayedByCreateWithoutVinylInput!], $authoreds: [AuthoredCreateWithoutVinylInput!], $credits: [CreditCreateWithoutVinylInput!], $album: String!, $label: String!, $tracks: [TrackCreateManyVinylInput!]!, $boughtLoc: String!, $boughtDate: DateTimeISO!, $boughtPrice: Int, $boughtNote: String, $pocketState: String, $state: String, $readSpeed: String) { createOneVinyl( data: { catNumber: $catNumber dateReleased: $dateReleased dateEdited: $dateEdited notePocket: $notePocket pressingLoc: $pressingLoc edition: $edition weight: $weight rank: $rank notes: $notes playedBy: { create: $playedBys } authored: { create: $authoreds } credits: { create: $credits } album: { connectOrCreate: { where: { name: $album }, create: { name: $album } } } label: { connectOrCreate: { where: { name: $label }, create: { name: $label } } } tracks: { createMany: { data: $tracks } } bought: { connectOrCreate: { where: { loc_date: { loc: $boughtLoc, date: $boughtDate } } create: { loc: $boughtLoc, date: $boughtDate, price: $boughtPrice, note: $boughtNote } } } pocketState: { connect: { name: $pocketState } } state: { connect: { name: $state } } readSpeed: { connect: { speed: $readSpeed } } } ) { __typename idVinyl } }"#
     ))
 
   public var catNumber: String
@@ -32,7 +32,6 @@ public class CreateVinylMutation: GraphQLMutation {
   public var pocketState: GraphQLNullable<String>
   public var state: GraphQLNullable<String>
   public var readSpeed: GraphQLNullable<String>
-  public var images: GraphQLNullable<[ImageWhereUniqueInput]>
 
   public init(
     catNumber: String,
@@ -56,8 +55,7 @@ public class CreateVinylMutation: GraphQLMutation {
     boughtNote: GraphQLNullable<String>,
     pocketState: GraphQLNullable<String>,
     state: GraphQLNullable<String>,
-    readSpeed: GraphQLNullable<String>,
-    images: GraphQLNullable<[ImageWhereUniqueInput]>
+    readSpeed: GraphQLNullable<String>
   ) {
     self.catNumber = catNumber
     self.dateReleased = dateReleased
@@ -81,7 +79,6 @@ public class CreateVinylMutation: GraphQLMutation {
     self.pocketState = pocketState
     self.state = state
     self.readSpeed = readSpeed
-    self.images = images
   }
 
   public var __variables: Variables? { [
@@ -106,8 +103,7 @@ public class CreateVinylMutation: GraphQLMutation {
     "boughtNote": boughtNote,
     "pocketState": pocketState,
     "state": state,
-    "readSpeed": readSpeed,
-    "images": images
+    "readSpeed": readSpeed
   ] }
 
   public struct Data: VinylventoryAPI.SelectionSet {
@@ -152,8 +148,7 @@ public class CreateVinylMutation: GraphQLMutation {
         ]],
         "pocketState": ["connect": ["name": .variable("pocketState")]],
         "state": ["connect": ["name": .variable("state")]],
-        "readSpeed": ["connect": ["speed": .variable("readSpeed")]],
-        "images": ["connect": .variable("images")]
+        "readSpeed": ["connect": ["speed": .variable("readSpeed")]]
       ]]),
     ] }
 

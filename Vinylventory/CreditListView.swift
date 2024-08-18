@@ -10,7 +10,9 @@ import SwiftUI
 struct CreditListView: View {
     @State private var showAddCreditForm: Bool = false
     @State private var searchText: String = ""
+    
     @Binding var credits: [Network.Credit]
+    @Binding var artistsAvailable: [Network.Artist]
     
     var body: some View {
         Section(header: Text("Credits")) {
@@ -34,7 +36,7 @@ struct CreditListView: View {
                 Label("Add Credit", systemImage: "plus")
             }
             .sheet(isPresented: $showAddCreditForm) {
-                AddCreditFormView(credits: $credits, isPresented: $showAddCreditForm)
+                AddCreditFormView(credits: $credits, isPresented: $showAddCreditForm, artistsAvailable: $artistsAvailable)
             }
         }
     }
@@ -43,6 +45,7 @@ struct CreditListView: View {
 struct AddCreditFormView: View {
     @Binding var credits: [Network.Credit]
     @Binding var isPresented: Bool
+    @Binding var artistsAvailable: [Network.Artist]
     
     @State private var role = ""
     @State private var note = ""
@@ -54,7 +57,7 @@ struct AddCreditFormView: View {
                 Section(header: Text("Credit Details")) {
                     TextField("Role", text: $role)
                     TextField("Note", text: $note)
-                    ArtistListView(title: "Choose Artist", single: true, artists: $artists)
+                    ArtistListView(title: "Choose Artist", single: true, artists: $artists, artistsAvailable: $artistsAvailable)
                 }
                 Button("Add Credit") {
                     let newCredit = Network.Credit(role: role, note: note, artist: artists[0])
@@ -72,5 +75,5 @@ struct AddCreditFormView: View {
 }
 
 #Preview {
-    CreditListView(credits: .constant([]))
+    CreditListView(credits: .constant([]), artistsAvailable: .constant([]))
 }

@@ -53,7 +53,7 @@ struct AddTrackFormView: View {
                     TextField("Name", text: $name)
                     TextField("Duration", value: $duration, formatter: NumberFormatter())
                 }
-                Button("Add Credit") {
+                Button("Add Track") {
                     let newTrack = Network.Track(name: name, duration: duration)
                     tracks.append(newTrack)
                     isPresented = false

@@ -5,13 +5,14 @@
 //  Created by Tom Andrivet on 13.08.2024.
 //
 
-import Foundation
+import SwiftUI
 import Apollo
 import VinylventoryAPI
+import Alamofire
 
 class Network {
     static let shared = Network()
-    var apollo = ApolloClient(url: URL(string: "http://localhost:4000/graphql")!)
+    var apollo = ApolloClient(url: URL(string: "http://192.168.1.189:4000/graphql")!)
     
     struct Artist: Identifiable {
         var id: UUID = UUID()
@@ -79,7 +80,6 @@ class Network {
         pocketState: String,
         state: String,
         readSpeed: String,
-        images: [String],
         completion: @escaping (Result<String, Error>) -> Void
     ) {
         apollo.perform(mutation: CreateVinylMutation(
@@ -165,10 +165,7 @@ class Network {
             boughtNote: .some(noteBought),
             pocketState: .some(pocketState),
             state: .some(state),
-            readSpeed: .some(readSpeed),
-            images: .some(images.map { imageId in
-                ImageWhereUniqueInput(idImage: .some(imageId))
-            })
+            readSpeed: .some(readSpeed)
         )) { result in
             switch result {
                 case .success(let graphQLResult):
@@ -189,6 +186,28 @@ class Network {
             }
         }
     }
+    
+    struct DecodableType: Decodable { let id: String }
+    
+    func uploadImage(_ image: UIImage, idVinyl: String, completion: @escaping (Result<String, Error>) -> Void) {
+        let url = "http://192.168.1.189:4000/upload"
+
+        AF.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(Data(idVinyl.utf8), withName: "idVinyl")
+            
+            if let imageData = image.jpegData(compressionQuality: 1.0) {
+                multipartFormData.append(imageData, withName: "image", fileName: "image.jpg", mimeType: "image/jpeg")
+            }
+        }, to: url, method: .post, headers: [.accept("application/json")])
+        .validate()
+        .responseDecodable(of: DecodableType.self) { response in
+            debugPrint(response)
+            DispatchQueue.main.async {
+                completion(.success(response.value!.id))
+            }
+        }
+    }
+    
     
     func fetchArtists(completion: @escaping (Result<[GetArtistsQuery.Data.Artist], Error>) -> Void) {
         apollo.fetch(query: GetArtistsQuery()) { result in

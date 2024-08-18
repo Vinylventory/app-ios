@@ -12,28 +12,21 @@ struct ImageListView: View {
     @State private var showPhotoPicker = false
     @State private var showCameraPicker = false
     
-    @State private var showFullScreenImage = false
-    @State private var selectedFullScreenImage: UIImage? = nil
-    
     @State var selectedItems: [PhotosPickerItem] = []
-    
-    @EnvironmentObject var camera: Camera
     
     var body: some View {
         Section(header: Text("Images")) {
             ForEach(images.indices, id: \.self) { index in
-                HStack {
-                    Image(uiImage: images[index])
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 100, height: 100)
-                        .clipped()
-                        .onTapGesture {
-                            selectedFullScreenImage = images[index]
-                            showFullScreenImage = true // TODO: Not Work correctly
-                        }
-                    
-                    Spacer()
+                NavigationLink(destination: FullScreenImageView(image: images[index])) {
+                    HStack {
+                        Image(uiImage: images[index])
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 100, height: 100)
+                            .clipped()
+                        
+                        Spacer()
+                    }
                 }
                 .swipeActions {
                     Button(role: .destructive) {
@@ -45,7 +38,10 @@ struct ImageListView: View {
             }
             
             Button(action: {
-                showPickers = true
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    showPickers = true
+                }
             }) {
                 Label("Add Image", systemImage: "plus")
             }
@@ -91,11 +87,6 @@ struct ImageListView: View {
                 }
             }
         }
-        .sheet(isPresented: $showFullScreenImage) {
-            if let fullScreenImage = selectedFullScreenImage {
-                FullScreenImageView(image: fullScreenImage)
-            }
-        }
     }
     
     @ViewBuilder
@@ -106,11 +97,18 @@ struct ImageListView: View {
             Text("Please authorize camera")
 
         case .denied, .restricted:
-            Label("Camera denied or restricted", systemImage: "video")
-                .frame(width: 200)
-                .symbolVariant(.slash)
-                .font(.headline)
-                .padding(32)
+            VStack {
+                Label("Camera denied or restricted", systemImage: "video")
+                    .frame(width: 200)
+                    .symbolVariant(.slash)
+                    .font(.headline)
+                    .padding(32)
+                Button(action: {
+                    self.showCameraPicker = false
+                }, label: {
+                    Text("Back").padding()
+                })
+            }
 
         case .authorized:
             CameraPhotoOverlay()
@@ -144,7 +142,9 @@ struct CameraPhotoOverlay: View {
 }
 
 struct FullScreenImageView: View {
+    
     var image: UIImage
+    
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
@@ -154,27 +154,20 @@ struct FullScreenImageView: View {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFit()
-                .onTapGesture {
-                    presentationMode.wrappedValue.dismiss()
-                }
             
             Spacer()
-            
-            Button("Close") {
-                presentationMode.wrappedValue.dismiss()
-            }
-            .padding()
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
+        .navigationBarTitle("Image Preview", displayMode: .inline)
     }
-}
-
-#Preview {
-    ImageListView(images: .constant([]))
 }
 
 extension UIImage: Identifiable {
     public var id: ObjectIdentifier {
         ObjectIdentifier(self)
     }
+}
+
+#Preview {
+    ImageListView(images: .constant([]))
 }

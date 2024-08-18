@@ -13,13 +13,9 @@ struct ArtistListView: View {
     @State private var showPopover: Bool = false
     @State private var showAddArtistForm: Bool = false
     @State private var searchText: String = ""
-    @Binding var artists: [Network.Artist]
     
-    let predefinedArtists: [Network.Artist] = [
-        Network.Artist(surname: "Smith", name: "John", origin: "USA"),
-        Network.Artist(surname: "Doe", name: "Jane", origin: "UK"),
-        Network.Artist(surname: "Lennon", name: "John", origin: "UK")
-    ]
+    @Binding var artists: [Network.Artist]
+    @Binding var artistsAvailable: [Network.Artist]
     
     var body: some View {
         Section(header: Text(title)) {
@@ -47,8 +43,7 @@ struct ArtistListView: View {
                 NavigationView {
                     Form {
                         List {
-                            // Filter predefined artists based on search text
-                            ForEach(predefinedArtists.filter {
+                            ForEach(artistsAvailable.filter {
                                 searchText.isEmpty ? true : $0.name.contains(searchText) || $0.surname.contains(searchText)
                             }) { artist in
                                 Button(action: {
@@ -61,24 +56,23 @@ struct ArtistListView: View {
                                     }
                                 }
                             }
-                            
-                            Button(action: {
-                                self.showPopover = false
-                                self.showAddArtistForm = true
-                            }) {
-                                Label("Add New Artist", systemImage: "person.crop.circle.badge.plus")
-                            }
                         }
                     }
                     .navigationBarTitle("Add Artist", displayMode: .inline)
+                    .navigationBarItems(leading: Button(action: {
+                        self.showPopover = false
+                        self.showAddArtistForm = true
+                    }) {
+                        Label("", systemImage: "person.crop.circle.badge.plus")
+                    }.padding())
                     .navigationBarItems(trailing: Button("Cancel") {
                         self.showPopover = false
-                    })
+                    }.padding())
                     .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
                 }
             }
             .sheet(isPresented: $showAddArtistForm) {
-                AddArtistFormView(artists: $artists, isPresented: $showAddArtistForm)
+                AddArtistFormView(artists: $artists, artistsAvailable: $artistsAvailable, isPresented: $showAddArtistForm)
             }
         }
     }
@@ -86,6 +80,7 @@ struct ArtistListView: View {
 
 struct AddArtistFormView: View {
     @Binding var artists: [Network.Artist]
+    @Binding var artistsAvailable: [Network.Artist]
     @Binding var isPresented: Bool
     
     @State private var surname = ""
@@ -103,6 +98,7 @@ struct AddArtistFormView: View {
                 Button("Add Artist") {
                     let newArtist = Network.Artist(surname: surname, name: name, origin: origin)
                     artists.append(newArtist)
+                    artistsAvailable.append(newArtist)
                     isPresented = false
                 }
                 .disabled(surname.isEmpty || name.isEmpty || origin.isEmpty)
@@ -116,5 +112,5 @@ struct AddArtistFormView: View {
 }
 
 #Preview {
-    ArtistListView(title: "Add Artist", artists: .constant([]))
+    ArtistListView(title: "Add Artist", artists: .constant([]), artistsAvailable: .constant([]))
 }

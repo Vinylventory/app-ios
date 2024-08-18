@@ -27,6 +27,7 @@
 		E9D3B74F2C6A717A00862236 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B74E2C6A717A00862236 /* AddView.swift */; };
 		E9D3B7512C6A720C00862236 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B7502C6A720C00862236 /* ListView.swift */; };
 		E9D3B7562C6BD72200862236 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = E9D3B7552C6BD72200862236 /* Apollo */; };
+		E9DAB75A2C72193B00782412 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E9DAB7592C72193B00782412 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9C8E13F2C700526003D0ECF /* Capture in Frameworks */,
+				E9DAB75A2C72193B00782412 /* Alamofire in Frameworks */,
 				E9C8E12F2C6BDFF0003D0ECF /* VinylventoryAPI in Frameworks */,
 				E9D3B7562C6BD72200862236 /* Apollo in Frameworks */,
 			);
@@ -187,6 +189,7 @@
 				E9D3B7552C6BD72200862236 /* Apollo */,
 				E9C8E12E2C6BDFF0003D0ECF /* VinylventoryAPI */,
 				E9C8E13E2C700526003D0ECF /* Capture */,
+				E9DAB7592C72193B00782412 /* Alamofire */,
 			);
 			productName = Vinylventory;
 			productReference = E9D3B71F2C6A3D0A00862236 /* Vinylventory.app */;
@@ -264,6 +267,7 @@
 				E9D3B7542C6BD6D100862236 /* XCRemoteSwiftPackageReference "apollo-ios" */,
 				E9C8E12D2C6BDFF0003D0ECF /* XCLocalSwiftPackageReference "VinylventoryAPI" */,
 				E9C8E13D2C700526003D0ECF /* XCRemoteSwiftPackageReference "Capture" */,
+				E9DAB7582C72193B00782412 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = E9D3B7202C6A3D0A00862236 /* Products */;
 			projectDirPath = "";
@@ -695,6 +699,14 @@
 				minimumVersion = 1.14.1;
 			};
 		};
+		E9DAB7582C72193B00782412 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -711,6 +723,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E9D3B7542C6BD6D100862236 /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = Apollo;
+		};
+		E9DAB7592C72193B00782412 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9DAB7582C72193B00782412 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -107,7 +107,6 @@ mutation CreateVinyl(
 	$pocketState: String
 	$state: String
 	$readSpeed: String
-	$images: [ImageWhereUniqueInput!]
 ) {
 	createOneVinyl(data: {
 		catNumber: $catNumber
@@ -183,9 +182,6 @@ mutation CreateVinyl(
 			connect: {
 				speed: $readSpeed
 			}
-		}
-		images: {
-			connect: $images
 		}
 	}) {
 		idVinyl
