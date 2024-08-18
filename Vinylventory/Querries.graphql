@@ -97,13 +97,10 @@ mutation CreateVinyl(
 	$playedBys: [PlayedByCreateWithoutVinylInput!]
 	$authoreds: [AuthoredCreateWithoutVinylInput!]
 	$credits: [CreditCreateWithoutVinylInput!]
-	$album: String!
-	$label: String!
+	$album: AlbumCreateNestedOneWithoutVinylsInput
+	$label: LabelCreateNestedOneWithoutVinylsInput
 	$tracks: [TrackCreateManyVinylInput!]!
-	$boughtLoc: String!
-	$boughtDate: DateTimeISO!
-	$boughtPrice: Int
-	$boughtNote: String
+	$bought: BoughtCreateNestedOneWithoutVinylsInput
 	$pocketState: String
 	$state: String
 	$readSpeed: String
@@ -127,47 +124,14 @@ mutation CreateVinyl(
 		credits: {
 			create: $credits
 		}
-		album: {
-			connectOrCreate: {
-				where: {
-					name: $album
-				}
-				create: {
-					name: $album
-				}
-			}
-		}
-		label: {
-			connectOrCreate: {
-				where: {
-					name: $label
-				}
-				create: {
-					name: $label
-				}
-			}
-		}
+		album: $album
+		label: $label
 		tracks: {
 			createMany: {
 				data: $tracks
 			}
 		}
-		bought: {
-			connectOrCreate: {
-				where: {
-					loc_date: {
-						loc: $boughtLoc
-						date: $boughtDate
-					}
-				}
-				create: {
-					loc: $boughtLoc
-					date: $boughtDate
-					price: $boughtPrice
-					note: $boughtNote
-				}
-			}
-		}
+		bought: $bought
 		pocketState: {
 			connect: {
 				name: $pocketState

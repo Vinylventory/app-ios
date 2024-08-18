@@ -84,14 +84,14 @@ class Network {
     ) {
         apollo.perform(mutation: CreateVinylMutation(
             catNumber: cartNumber,
-            dateReleased: .some(dateReleased),
-            dateEdited: .some(dateEdited),
-            notePocket: .some(notePocket),
-            pressingLoc: .some(pressingLoc),
-            edition: .some(edition),
-            weight: .some(weight),
-            rank: .some(rank),
-            notes: .some(notes),
+            dateReleased: dateReleased == "null" ? .none : .some(dateReleased),
+            dateEdited: dateEdited == "null" ? .none : .some(dateEdited),
+            notePocket: notePocket.isEmpty ? .none : .some(notePocket),
+            pressingLoc: pressingLoc.isEmpty ? .none : .some(pressingLoc),
+            edition: edition.isEmpty ? .none : .some(edition),
+            weight: weight == 0 ? .none : .some(weight),
+            rank: rank == 0 ? .none : .some(rank),
+            notes: notes.isEmpty ? .none : .some(notes),
             playedBys: .some(playedBys.map { playedBy in
                 PlayedByCreateWithoutVinylInput(
                     artist: ArtistCreateNestedOneWithoutPlayedByInput(
@@ -150,22 +150,52 @@ class Network {
                             ))
                         )
                     )),
-                    note: .some(credit.note),
-                    role: .some(credit.role)
+                    note: credit.note.isEmpty ? .none : .some(credit.note),
+                    role: credit.role.isEmpty ? .none : .some(credit.role)
                 )
             }),
-            album: album,
-            label: label,
+            album: album.isEmpty ? .none : .some(AlbumCreateNestedOneWithoutVinylsInput(
+                connectOrCreate: .some(AlbumCreateOrConnectWithoutVinylsInput(
+                    create: AlbumCreateWithoutVinylsInput(
+                        name: album
+                    ),
+                    where: AlbumWhereUniqueInput(
+                        name: .some(album)
+                    ))
+                )
+            )),
+            label: label.isEmpty ? .none : .some(LabelCreateNestedOneWithoutVinylsInput(
+                connectOrCreate: .some(LabelCreateOrConnectWithoutVinylsInput(
+                    create: LabelCreateWithoutVinylsInput(
+                        name: label
+                    ),
+                    where: LabelWhereUniqueInput(
+                        name: .some(label)
+                    ))
+                )
+            )),
             tracks: tracks.map { track in
                 TrackCreateManyVinylInput(duration: .some(track.duration), name: track.name)
             },
-            boughtLoc: locBought,
-            boughtDate: dateBought,
-            boughtPrice: .some(priceBought),
-            boughtNote: .some(noteBought),
-            pocketState: .some(pocketState),
-            state: .some(state),
-            readSpeed: .some(readSpeed)
+            bought: locBought.isEmpty && dateBought == "null" ? .none : .some(BoughtCreateNestedOneWithoutVinylsInput(
+                connectOrCreate: .some(BoughtCreateOrConnectWithoutVinylsInput(
+                    create: BoughtCreateWithoutVinylsInput(
+                        date: dateBought,
+                        loc: locBought,
+                        note: noteBought.isEmpty ? .none : .some(noteBought),
+                        price: priceBought == 0 ? .none : .some(priceBought)
+                    ),
+                    where: BoughtWhereUniqueInput(
+                        locDate: .some(BoughtLocDateCompoundUniqueInput(
+                            date: dateBought,
+                            loc: locBought
+                        ))
+                    ))
+                )
+            )),
+            pocketState: pocketState.isEmpty ? .none : .some(pocketState),
+            state: state.isEmpty ? .none : .some(state),
+            readSpeed: readSpeed.isEmpty ? .none : .some(readSpeed)
         )) { result in
             switch result {
                 case .success(let graphQLResult):
@@ -201,7 +231,6 @@ class Network {
         }, to: url, method: .post, headers: [.accept("application/json")])
         .validate()
         .responseDecodable(of: DecodableType.self) { response in
-            debugPrint(response)
             DispatchQueue.main.async {
                 completion(.success(response.value!.id))
             }

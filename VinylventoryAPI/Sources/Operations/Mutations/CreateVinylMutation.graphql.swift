@@ -7,7 +7,7 @@ public class CreateVinylMutation: GraphQLMutation {
   public static let operationName: String = "CreateVinyl"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation CreateVinyl($catNumber: String!, $dateReleased: DateTimeISO, $dateEdited: DateTimeISO, $notePocket: String, $pressingLoc: String, $edition: String, $weight: Int, $rank: Int, $notes: String, $playedBys: [PlayedByCreateWithoutVinylInput!], $authoreds: [AuthoredCreateWithoutVinylInput!], $credits: [CreditCreateWithoutVinylInput!], $album: String!, $label: String!, $tracks: [TrackCreateManyVinylInput!]!, $boughtLoc: String!, $boughtDate: DateTimeISO!, $boughtPrice: Int, $boughtNote: String, $pocketState: String, $state: String, $readSpeed: String) { createOneVinyl( data: { catNumber: $catNumber dateReleased: $dateReleased dateEdited: $dateEdited notePocket: $notePocket pressingLoc: $pressingLoc edition: $edition weight: $weight rank: $rank notes: $notes playedBy: { create: $playedBys } authored: { create: $authoreds } credits: { create: $credits } album: { connectOrCreate: { where: { name: $album }, create: { name: $album } } } label: { connectOrCreate: { where: { name: $label }, create: { name: $label } } } tracks: { createMany: { data: $tracks } } bought: { connectOrCreate: { where: { loc_date: { loc: $boughtLoc, date: $boughtDate } } create: { loc: $boughtLoc, date: $boughtDate, price: $boughtPrice, note: $boughtNote } } } pocketState: { connect: { name: $pocketState } } state: { connect: { name: $state } } readSpeed: { connect: { speed: $readSpeed } } } ) { __typename idVinyl } }"#
+      #"mutation CreateVinyl($catNumber: String!, $dateReleased: DateTimeISO, $dateEdited: DateTimeISO, $notePocket: String, $pressingLoc: String, $edition: String, $weight: Int, $rank: Int, $notes: String, $playedBys: [PlayedByCreateWithoutVinylInput!], $authoreds: [AuthoredCreateWithoutVinylInput!], $credits: [CreditCreateWithoutVinylInput!], $album: AlbumCreateNestedOneWithoutVinylsInput, $label: LabelCreateNestedOneWithoutVinylsInput, $tracks: [TrackCreateManyVinylInput!]!, $bought: BoughtCreateNestedOneWithoutVinylsInput, $pocketState: String, $state: String, $readSpeed: String) { createOneVinyl( data: { catNumber: $catNumber dateReleased: $dateReleased dateEdited: $dateEdited notePocket: $notePocket pressingLoc: $pressingLoc edition: $edition weight: $weight rank: $rank notes: $notes playedBy: { create: $playedBys } authored: { create: $authoreds } credits: { create: $credits } album: $album label: $label tracks: { createMany: { data: $tracks } } bought: $bought pocketState: { connect: { name: $pocketState } } state: { connect: { name: $state } } readSpeed: { connect: { speed: $readSpeed } } } ) { __typename idVinyl } }"#
     ))
 
   public var catNumber: String
@@ -22,13 +22,10 @@ public class CreateVinylMutation: GraphQLMutation {
   public var playedBys: GraphQLNullable<[PlayedByCreateWithoutVinylInput]>
   public var authoreds: GraphQLNullable<[AuthoredCreateWithoutVinylInput]>
   public var credits: GraphQLNullable<[CreditCreateWithoutVinylInput]>
-  public var album: String
-  public var label: String
+  public var album: GraphQLNullable<AlbumCreateNestedOneWithoutVinylsInput>
+  public var label: GraphQLNullable<LabelCreateNestedOneWithoutVinylsInput>
   public var tracks: [TrackCreateManyVinylInput]
-  public var boughtLoc: String
-  public var boughtDate: DateTimeISO
-  public var boughtPrice: GraphQLNullable<Int>
-  public var boughtNote: GraphQLNullable<String>
+  public var bought: GraphQLNullable<BoughtCreateNestedOneWithoutVinylsInput>
   public var pocketState: GraphQLNullable<String>
   public var state: GraphQLNullable<String>
   public var readSpeed: GraphQLNullable<String>
@@ -46,13 +43,10 @@ public class CreateVinylMutation: GraphQLMutation {
     playedBys: GraphQLNullable<[PlayedByCreateWithoutVinylInput]>,
     authoreds: GraphQLNullable<[AuthoredCreateWithoutVinylInput]>,
     credits: GraphQLNullable<[CreditCreateWithoutVinylInput]>,
-    album: String,
-    label: String,
+    album: GraphQLNullable<AlbumCreateNestedOneWithoutVinylsInput>,
+    label: GraphQLNullable<LabelCreateNestedOneWithoutVinylsInput>,
     tracks: [TrackCreateManyVinylInput],
-    boughtLoc: String,
-    boughtDate: DateTimeISO,
-    boughtPrice: GraphQLNullable<Int>,
-    boughtNote: GraphQLNullable<String>,
+    bought: GraphQLNullable<BoughtCreateNestedOneWithoutVinylsInput>,
     pocketState: GraphQLNullable<String>,
     state: GraphQLNullable<String>,
     readSpeed: GraphQLNullable<String>
@@ -72,10 +66,7 @@ public class CreateVinylMutation: GraphQLMutation {
     self.album = album
     self.label = label
     self.tracks = tracks
-    self.boughtLoc = boughtLoc
-    self.boughtDate = boughtDate
-    self.boughtPrice = boughtPrice
-    self.boughtNote = boughtNote
+    self.bought = bought
     self.pocketState = pocketState
     self.state = state
     self.readSpeed = readSpeed
@@ -97,10 +88,7 @@ public class CreateVinylMutation: GraphQLMutation {
     "album": album,
     "label": label,
     "tracks": tracks,
-    "boughtLoc": boughtLoc,
-    "boughtDate": boughtDate,
-    "boughtPrice": boughtPrice,
-    "boughtNote": boughtNote,
+    "bought": bought,
     "pocketState": pocketState,
     "state": state,
     "readSpeed": readSpeed
@@ -125,27 +113,10 @@ public class CreateVinylMutation: GraphQLMutation {
         "playedBy": ["create": .variable("playedBys")],
         "authored": ["create": .variable("authoreds")],
         "credits": ["create": .variable("credits")],
-        "album": ["connectOrCreate": [
-          "where": ["name": .variable("album")],
-          "create": ["name": .variable("album")]
-        ]],
-        "label": ["connectOrCreate": [
-          "where": ["name": .variable("label")],
-          "create": ["name": .variable("label")]
-        ]],
+        "album": .variable("album"),
+        "label": .variable("label"),
         "tracks": ["createMany": ["data": .variable("tracks")]],
-        "bought": ["connectOrCreate": [
-          "where": ["loc_date": [
-            "loc": .variable("boughtLoc"),
-            "date": .variable("boughtDate")
-          ]],
-          "create": [
-            "loc": .variable("boughtLoc"),
-            "date": .variable("boughtDate"),
-            "price": .variable("boughtPrice"),
-            "note": .variable("boughtNote")
-          ]
-        ]],
+        "bought": .variable("bought"),
         "pocketState": ["connect": ["name": .variable("pocketState")]],
         "state": ["connect": ["name": .variable("state")]],
         "readSpeed": ["connect": ["speed": .variable("readSpeed")]]

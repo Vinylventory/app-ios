@@ -10,7 +10,9 @@ import VinylventoryAPI
 
 struct AddView: View {
     @State private var cartNumber = ""
+    @State private var released: Bool = false
     @State private var dateReleased: Date = .now
+    @State private var edited: Bool = false
     @State private var dateEdited: Date = .now
     @State private var notePocket = ""
     @State private var pressingLoc = ""
@@ -29,6 +31,7 @@ struct AddView: View {
     @State private var tracks: [Network.Track] = []
     
     @State private var locBought = ""
+    @State private var bought: Bool = false
     @State private var dateBought: Date = .now
     @State private var priceBought = 0
     @State private var noteBought = ""
@@ -54,8 +57,19 @@ struct AddView: View {
         Form {
             Section(header: Text("Vinyl Information")) {
                 TextField("Cart Number", text: $cartNumber)
-                DatePicker("Date Released", selection: $dateReleased, displayedComponents: .date).foregroundStyle(.gray)
-                DatePicker("Date Edited", selection: $dateEdited, displayedComponents: .date).foregroundStyle(.gray)
+                
+                Toggle("Include Date Released", isOn: $released)
+                
+                if released {
+                    DatePicker("Date Released", selection: $dateReleased, displayedComponents: .date)
+                }
+                
+                Toggle("Include Date Edited", isOn: $edited)
+                
+                if edited {
+                    DatePicker("Date Edited", selection: $dateEdited, displayedComponents: .date)
+                }
+                
                 TextField("Note Pocket", text: $notePocket)
                 TextField("Pressing Location", text: $pressingLoc)
                 TextField("Edition", text: $edition)
@@ -87,7 +101,13 @@ struct AddView: View {
             
             Section(header: Text("Purchase Information")) {
                 TextField("Location Bought", text: $locBought)
-                DatePicker("Date Bought", selection: $dateBought, displayedComponents: .date).foregroundStyle(.gray)
+                
+                Toggle("Include Date Bought", isOn: $bought)
+                
+                if bought {
+                    DatePicker("Date Bought", selection: $dateBought, displayedComponents: .date)
+                }
+                
                 HStack {
                     Text("Price Bought").foregroundStyle(.gray)
                     TextField("Enter Price", value: $priceBought, formatter: NumberFormatter())
@@ -197,8 +217,8 @@ struct AddView: View {
         
         Network.shared.createVinyl(
             cartNumber: cartNumber,
-            dateReleased: dateReleased.ISO8601Format(),
-            dateEdited: dateEdited.ISO8601Format(),
+            dateReleased: released ? DateFormatter().apply { $0.dateFormat = "yyyy-MM-dd" }.string(from: dateReleased) + "T00:00:00Z" : "null",
+            dateEdited: edited ? DateFormatter().apply { $0.dateFormat = "yyyy-MM-dd" }.string(from: dateEdited) + "T00:00:00Z" : "null",
             notePocket: notePocket,
             pressingLoc: pressingLoc,
             edition: edition,
@@ -212,7 +232,7 @@ struct AddView: View {
             label: label,
             tracks: tracks,
             locBought: locBought,
-            dateBought: dateBought.ISO8601Format(),
+            dateBought: bought ? DateFormatter().apply { $0.dateFormat = "yyyy-MM-dd" }.string(from: dateBought) + "T00:00:00Z" : "null",
             priceBought: priceBought,
             noteBought: noteBought,
             pocketState: pocketState,
@@ -248,6 +268,13 @@ struct AddView: View {
                 return
             }
         }
+    }
+}
+
+extension DateFormatter {
+    func apply(_ block: (DateFormatter) -> Void) -> DateFormatter {
+        block(self)
+        return self
     }
 }
 
