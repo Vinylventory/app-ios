@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @AppStorage("url") private var url: String = "http://192.168.1.189:4000"
+    @AppStorage("url") private var url: String = "http://localhost:4000"
     @AppStorage("token") private var token: String = ""
     
     var body: some View {

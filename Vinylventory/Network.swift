@@ -18,7 +18,7 @@ class Network {
     private var currentURL: String?
     
     func apollo() -> ApolloClient {
-        let url = UserDefaults.standard.string(forKey: "url")!
+        let url = UserDefaults.standard.string(forKey: "url") ?? "http://localhost:4000"
 
         if apolloClient == nil || url != currentURL {
             let sclient = URLSessionClient()
@@ -241,7 +241,7 @@ class Network {
     struct DecodableType: Decodable { let id: String }
     
     func uploadImage(_ image: UIImage, idVinyl: String, completion: @escaping (Result<String, Error>) -> Void) {
-        let url = "\(String(describing: UserDefaults.standard.string(forKey: "url")))/upload"
+        let url = "\(UserDefaults.standard.string(forKey: "url") ?? "http://localhost:4000")/upload"
 
         AF.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(Data(idVinyl.utf8), withName: "idVinyl")
