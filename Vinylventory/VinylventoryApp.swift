@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct VinylventoryApp: App {
@@ -13,5 +14,10 @@ struct VinylventoryApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Vinyl.self)
     }
+}
+
+extension Date {
+    public static var none: Date { return Date(timeIntervalSince1970: 0) }
 }

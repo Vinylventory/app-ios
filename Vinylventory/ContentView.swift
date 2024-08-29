@@ -6,71 +6,53 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     
-    var body: some View {
-        GeometryReader { geometry in
-            let screenWidth = geometry.size.width
-            
-            NavigationView {
-                VStack(spacing: 20) {
-                    
-                    Image("Logo")
-                        .resizable()
-                        .frame(width: screenWidth > 375 ? 300 : 150, height: screenWidth > 375 ? 300 : 150)
-                        .clipShape(Circle())
-                        .padding(.top, 40)
-                    
-                    Text("Vinylventory")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    
-                    Spacer()
-                    
-                    HStack(spacing: 20) {
-                        NavigationLink(destination: ListView()) {
-                            ButtonView(iconName: "list.bullet")
-                        }
-                        NavigationLink(destination: AddView()) {
-                            ButtonView(iconName: "plus")
-                        }
-                    }
-                    .padding(.horizontal)
-                    
-                    HStack(spacing: 20) {
-                        ButtonView(iconName: "square.slash", disabled: true)
-                        NavigationLink(destination: SettingsView()) {
-                            ButtonView(iconName: "gear")
-                        }
-                    }
-                    .padding(.horizontal)
-                }
-                .navigationBarTitleDisplayMode(.inline)
-                .padding(.bottom)
-            }
-        }
-    }
-}
-
-struct ButtonView: View {
-    var iconName: String
-    var disabled: Bool = false
+    @Environment(\.modelContext) var modelContext
+    
+    @State private var path = NavigationPath()
+    
+    @State private var sortOrder = [SortDescriptor(\Vinyl.catNumber)]
+    @State private var searchText = ""
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 12)
-                .fill(disabled ? Color.gray : Color.blue)
-                .frame(width: UIScreen.main.bounds.width / 2 - 30, height: UIScreen.main.bounds.width / 2 - 30)
-            
-            Image(systemName: iconName)
-                .font(.system(size: 50))
-                .foregroundColor(.white)
+        NavigationStack(path: $path) {
+            VinylsView()
+            .navigationTitle("Vinylventory")
+            .navigationDestination(for: Vinyl.self) { vinyl in
+                EditVinylView(vinyl: vinyl)
+            }
+            Menu("Sort", systemImage: "arrow.up.arrow.down") {
+                Picker("Sort", selection: $sortOrder) {
+                    Text("Name (A-Z)")
+                        .tag([SortDescriptor(\Vinyl.catNumber)])
+
+                    Text("Name (Z-A)")
+                        .tag([SortDescriptor(\Vinyl.catNumber, order: .reverse)])
+                }
+            }
+
+            Button("Add Vinyl", systemImage: "plus", action: addVinyl)
+            .searchable(text: $searchText)
         }
-        .opacity(disabled ? 0.5 : 1.0)
+    }
+    
+    func addVinyl() {
+        let vinyl = Vinyl(catNumber: "", dateCreated: .now, dateReleased: .none, dateEdited: .none, notePocket: "", pressingLoc: "", edition: "", weight: 0, rank: 0, notes: "", playedBy: [], authored: [], credits: [], album: .none, label: .none, tracks: [], bought: .none, pocketState: .none, state: .none, readSpeed: .s78)
+        modelContext.insert(vinyl)
+        path.append(vinyl)
     }
 }
 
 #Preview {
-    ContentView()
+    do {
+        let previewer = try Previewer()
+
+        return ContentView()
+            .modelContainer(previewer.container)
+    } catch {
+        return Text("Failed to create preview: \(error.localizedDescription)")
+    }
 }
