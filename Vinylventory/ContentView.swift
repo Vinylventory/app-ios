@@ -10,41 +10,45 @@ import SwiftUI
 struct ContentView: View {
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 20) {
-                
-                Image("Logo")
-                    .resizable()
-                    .frame(width: 300, height: 300)
-                    .clipShape(Circle())
-                    .padding(.top, 40)
-                
-                Text("Vinylventory")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                
-                Spacer()
-                
-                HStack(spacing: 20) {
-                    NavigationLink(destination: ListView()) {
-                        ButtonView(iconName: "list.bullet")
+        GeometryReader { geometry in
+            let screenWidth = geometry.size.width
+            
+            NavigationView {
+                VStack(spacing: 20) {
+                    
+                    Image("Logo")
+                        .resizable()
+                        .frame(width: screenWidth > 375 ? 300 : 150, height: screenWidth > 375 ? 300 : 150)
+                        .clipShape(Circle())
+                        .padding(.top, 40)
+                    
+                    Text("Vinylventory")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    Spacer()
+                    
+                    HStack(spacing: 20) {
+                        NavigationLink(destination: ListView()) {
+                            ButtonView(iconName: "list.bullet")
+                        }
+                        NavigationLink(destination: AddView()) {
+                            ButtonView(iconName: "plus")
+                        }
                     }
-                    NavigationLink(destination: AddView()) {
-                        ButtonView(iconName: "plus")
+                    .padding(.horizontal)
+                    
+                    HStack(spacing: 20) {
+                        ButtonView(iconName: "square.slash", disabled: true)
+                        NavigationLink(destination: SettingsView()) {
+                            ButtonView(iconName: "gear")
+                        }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
-                
-                HStack(spacing: 20) {
-                    ButtonView(iconName: "square.slash", disabled: true)
-                    NavigationLink(destination: SettingsView()) {
-                        ButtonView(iconName: "gear")
-                    }
-                }
-                .padding(.horizontal)
+                .navigationBarTitleDisplayMode(.inline)
+                .padding(.bottom)
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .padding(.bottom)
         }
     }
 }
