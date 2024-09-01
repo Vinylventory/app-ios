@@ -7,8 +7,7 @@
 
 import Foundation
 
-enum PocketState: Codable {
-    case none
+enum PocketState: Codable, Identifiable, CaseIterable {
     case mint
     case nearMint
     case veryGoodPlus
@@ -18,10 +17,10 @@ enum PocketState: Codable {
     case fair
     case poor
     
+    var id: String { self.description }
+    
     var description: String {
         switch self {
-        case .none:
-            return "None"
         case .mint:
             return "Mint (M)"
         case .nearMint:

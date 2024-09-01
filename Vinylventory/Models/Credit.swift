@@ -10,13 +10,17 @@ import SwiftData
 
 @Model
 class Credit {
-    var role: String
-    var note: String
-    var artist: Artist
+    var role: String = ""
+    var note: String = ""
     
-    init(role: String, note: String, artist: Artist) {
+    @Relationship(inverse: \Artist.credits) var artist: Artist?
+    
+    var vinyl: Vinyl?
+    
+    init(role: String, note: String, artist: Artist? = nil, vinyl: Vinyl? = nil) {
         self.role = role
         self.note = note
         self.artist = artist
+        self.vinyl = vinyl
     }
 }

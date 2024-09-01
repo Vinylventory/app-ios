@@ -10,28 +10,30 @@ import SwiftData
 
 @Model
 class Vinyl {
-    var catNumber: String
-    var dateCreated: Date
-    var dateReleased: Date
-    var dateEdited: Date
-    var notePocket: String
-    var pressingLoc: String
-    var edition: String
-    var weight: Int
-    var rank: Int
-    var notes: String
-    var playedBy: [Artist] = []
-    var authored: [Artist] = []
-    var credits: [Credit] = []
-    var album: Album
-    var label: Label
-    var tracks: [Track] = []
-    var bought: Bought
-    var pocketState: PocketState
-    var state: VinylState
-    var readSpeed: ReadSpeed
+    var catNumber: String = ""
+    var dateCreated: Date?
+    var dateReleased: Date?
+    var dateEdited: Date?
+    var notePocket: String = ""
+    var pressingLoc: String = ""
+    var edition: String = ""
+    var weight: Float? = nil
+    var rank: Int? = nil
+    var notes: String = ""
     
-    init(catNumber: String, dateCreated: Date, dateReleased: Date, dateEdited: Date, notePocket: String, pressingLoc: String, edition: String, weight: Int, rank: Int, notes: String, playedBy: [Artist], authored: [Artist], credits: [Credit], album: Album, label: Label, tracks: [Track], bought: Bought, pocketState: PocketState, state: VinylState, readSpeed: ReadSpeed) {
+    @Relationship(inverse: \Artist.playedBy) var playedBy: [Artist]?
+    @Relationship(inverse: \Artist.authored) var authored: [Artist]?
+    @Relationship(inverse: \Credit.vinyl) var credits: [Credit]?
+    @Relationship(inverse: \Album.vinyls) var album: Album?
+    @Relationship(inverse: \LabelGroup.vinyls) var label: LabelGroup?
+    @Relationship(inverse: \Track.vinyls) var tracks: [Track]?
+    @Relationship(inverse: \Bought.vinyls) var bought: Bought?
+    
+    var pocketState: PocketState?
+    var state: VinylState?
+    var readSpeed: ReadSpeed?
+
+    init(catNumber: String, dateCreated: Date? = nil, dateReleased: Date? = nil, dateEdited: Date? = nil, notePocket: String, pressingLoc: String, edition: String, weight: Float? = nil, rank: Int? = nil, notes: String, playedBy: [Artist]? = nil, authored: [Artist]? = nil, credits: [Credit]? = nil, album: Album? = nil, label: LabelGroup? = nil, tracks: [Track]? = nil, bought: Bought? = nil, pocketState: PocketState? = nil, state: VinylState? = nil, readSpeed: ReadSpeed? = .s78) {
         self.catNumber = catNumber
         self.dateCreated = dateCreated
         self.dateReleased = dateReleased

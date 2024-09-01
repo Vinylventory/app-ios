@@ -10,11 +10,14 @@ import SwiftData
 
 @Model
 class Track {
-    var name: String
-    var duration: Int
+    var name: String = ""
+    var duration: Int?
     
-    init(name: String, duration: Int) {
+    var vinyls: [Vinyl]?
+    
+    init(name: String, duration: Int? = nil, vinyls: [Vinyl]? = nil) {
         self.name = name
         self.duration = duration
+        self.vinyls = vinyls
     }
 }

@@ -7,10 +7,12 @@
 
 import Foundation
 
-enum ReadSpeed: Codable {
+enum ReadSpeed: Codable, Identifiable, CaseIterable {
     case s78
     case s45
     case s33
+    
+    var id: String { self.description }
     
     var description: String {
         switch self {

@@ -10,9 +10,13 @@ import SwiftData
 
 @Model
 class Artist {
-    var surname: String
-    var name: String
-    var origin: String
+    var surname: String = ""
+    var name: String = ""
+    var origin: String = ""
+    
+    var playedBy: [Vinyl]?
+    var authored: [Vinyl]?
+    var credits: [Credit]?
     
     init(surname: String, name: String, origin: String) {
         self.surname = surname

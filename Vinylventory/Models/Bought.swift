@@ -9,19 +9,19 @@ import Foundation
 import SwiftData
 
 @Model
-class Bought {
+class Bought {    
+    var loc: String = ""
+    var date: Date?
+    var price: Int = 0
+    var note: String = ""
     
-    public static var none: Bought { return Bought(loc: "", date: .none, price: 0, note: "") }
+    var vinyls: [Vinyl]?
     
-    var loc: String
-    var date: Date
-    var price: Int
-    var note: String
-    
-    init(loc: String, date: Date, price: Int, note: String) {
+    init(loc: String, date: Date? = nil, price: Int, note: String, vinyls: [Vinyl]? = nil) {
         self.loc = loc
         self.date = date
         self.price = price
         self.note = note
+        self.vinyls = vinyls
     }
 }

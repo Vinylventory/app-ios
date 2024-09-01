@@ -10,9 +10,9 @@ import SwiftData
 
 @Model
 class Album {
-    public static var none: Album { return Album(name: "") }
+    var name: String = ""
     
-    var name: String
+    var vinyls: [Vinyl]?
     
     init(name: String) {
         self.name = name

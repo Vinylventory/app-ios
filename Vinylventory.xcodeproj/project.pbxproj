@@ -11,15 +11,27 @@
 		E951F3502C80AA6100AB25FF /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F34F2C80AA6100AB25FF /* Artist.swift */; };
 		E951F3522C80AAA500AB25FF /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3512C80AAA500AB25FF /* Album.swift */; };
 		E951F3542C80AAB200AB25FF /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3532C80AAB200AB25FF /* Track.swift */; };
-		E951F3562C80AABD00AB25FF /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3552C80AABD00AB25FF /* Label.swift */; };
+		E951F3562C80AABD00AB25FF /* LabelGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3552C80AABD00AB25FF /* LabelGroup.swift */; };
 		E951F3582C80AACA00AB25FF /* Bought.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3572C80AACA00AB25FF /* Bought.swift */; };
 		E951F35A2C80AAD900AB25FF /* PocketState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3592C80AAD900AB25FF /* PocketState.swift */; };
 		E951F35C2C80AADE00AB25FF /* VinylState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F35B2C80AADE00AB25FF /* VinylState.swift */; };
 		E951F35E2C80AAEB00AB25FF /* ReadSpeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F35D2C80AAEB00AB25FF /* ReadSpeed.swift */; };
 		E951F3602C80AAF700AB25FF /* Credit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F35F2C80AAF700AB25FF /* Credit.swift */; };
-		E951F3632C80B0D800AB25FF /* EditVinylView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3622C80B0D800AB25FF /* EditVinylView.swift */; };
-		E951F3652C80BC6200AB25FF /* VinylsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3642C80BC6200AB25FF /* VinylsView.swift */; };
+		E951F3632C80B0D800AB25FF /* AddOrEditVinylView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3622C80B0D800AB25FF /* AddOrEditVinylView.swift */; };
+		E951F3652C80BC6200AB25FF /* ListVinylView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3642C80BC6200AB25FF /* ListVinylView.swift */; };
 		E951F3672C80BE6600AB25FF /* Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3662C80BE6600AB25FF /* Previewer.swift */; };
+		E951F36A2C8201B400AB25FF /* DatePickerOptional.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3692C8201B400AB25FF /* DatePickerOptional.swift */; };
+		E951F36F2C825A3700AB25FF /* AddOrEditAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F36E2C825A3700AB25FF /* AddOrEditAlbumView.swift */; };
+		E951F3712C825BB500AB25FF /* ListAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3702C825BB500AB25FF /* ListAlbumView.swift */; };
+		E951F3732C8349DE00AB25FF /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3722C8349DE00AB25FF /* Utils.swift */; };
+		E951F3792C83510000AB25FF /* AddOrEditLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3782C83510000AB25FF /* AddOrEditLabelView.swift */; };
+		E951F37B2C83511500AB25FF /* ListLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F37A2C83511500AB25FF /* ListLabelView.swift */; };
+		E951F3802C83577C00AB25FF /* AddOrEditBoughtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F37F2C83577C00AB25FF /* AddOrEditBoughtView.swift */; };
+		E951F3822C83578500AB25FF /* ListBoughtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3812C83578500AB25FF /* ListBoughtView.swift */; };
+		E951F3842C84826400AB25FF /* AddOrEditArtistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3832C84826400AB25FF /* AddOrEditArtistView.swift */; };
+		E951F3862C84827200AB25FF /* ListArtistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3852C84827100AB25FF /* ListArtistView.swift */; };
+		E951F3882C848CDB00AB25FF /* AddOrEditCreditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F3872C848CDB00AB25FF /* AddOrEditCreditView.swift */; };
+		E951F38C2C84A6FF00AB25FF /* AddOrEditTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951F38B2C84A6FF00AB25FF /* AddOrEditTrackView.swift */; };
 		E9D3B7232C6A3D0A00862236 /* VinylventoryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B7222C6A3D0A00862236 /* VinylventoryApp.swift */; };
 		E9D3B7252C6A3D0A00862236 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3B7242C6A3D0A00862236 /* ContentView.swift */; };
 		E9D3B7272C6A3D0B00862236 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9D3B7262C6A3D0B00862236 /* Assets.xcassets */; };
@@ -51,15 +63,28 @@
 		E951F34F2C80AA6100AB25FF /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		E951F3512C80AAA500AB25FF /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		E951F3532C80AAB200AB25FF /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
-		E951F3552C80AABD00AB25FF /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		E951F3552C80AABD00AB25FF /* LabelGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelGroup.swift; sourceTree = "<group>"; };
 		E951F3572C80AACA00AB25FF /* Bought.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bought.swift; sourceTree = "<group>"; };
 		E951F3592C80AAD900AB25FF /* PocketState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketState.swift; sourceTree = "<group>"; };
 		E951F35B2C80AADE00AB25FF /* VinylState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinylState.swift; sourceTree = "<group>"; };
 		E951F35D2C80AAEB00AB25FF /* ReadSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadSpeed.swift; sourceTree = "<group>"; };
 		E951F35F2C80AAF700AB25FF /* Credit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credit.swift; sourceTree = "<group>"; };
-		E951F3622C80B0D800AB25FF /* EditVinylView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVinylView.swift; sourceTree = "<group>"; };
-		E951F3642C80BC6200AB25FF /* VinylsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinylsView.swift; sourceTree = "<group>"; };
+		E951F3622C80B0D800AB25FF /* AddOrEditVinylView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditVinylView.swift; sourceTree = "<group>"; };
+		E951F3642C80BC6200AB25FF /* ListVinylView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVinylView.swift; sourceTree = "<group>"; };
 		E951F3662C80BE6600AB25FF /* Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Previewer.swift; sourceTree = "<group>"; };
+		E951F3692C8201B400AB25FF /* DatePickerOptional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerOptional.swift; sourceTree = "<group>"; };
+		E951F36B2C8204D800AB25FF /* Vinylventory.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Vinylventory.entitlements; sourceTree = "<group>"; };
+		E951F36E2C825A3700AB25FF /* AddOrEditAlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditAlbumView.swift; sourceTree = "<group>"; };
+		E951F3702C825BB500AB25FF /* ListAlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAlbumView.swift; sourceTree = "<group>"; };
+		E951F3722C8349DE00AB25FF /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		E951F3782C83510000AB25FF /* AddOrEditLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditLabelView.swift; sourceTree = "<group>"; };
+		E951F37A2C83511500AB25FF /* ListLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLabelView.swift; sourceTree = "<group>"; };
+		E951F37F2C83577C00AB25FF /* AddOrEditBoughtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditBoughtView.swift; sourceTree = "<group>"; };
+		E951F3812C83578500AB25FF /* ListBoughtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBoughtView.swift; sourceTree = "<group>"; };
+		E951F3832C84826400AB25FF /* AddOrEditArtistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditArtistView.swift; sourceTree = "<group>"; };
+		E951F3852C84827100AB25FF /* ListArtistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListArtistView.swift; sourceTree = "<group>"; };
+		E951F3872C848CDB00AB25FF /* AddOrEditCreditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditCreditView.swift; sourceTree = "<group>"; };
+		E951F38B2C84A6FF00AB25FF /* AddOrEditTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditTrackView.swift; sourceTree = "<group>"; };
 		E9D3B71F2C6A3D0A00862236 /* Vinylventory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vinylventory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9D3B7222C6A3D0A00862236 /* VinylventoryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinylventoryApp.swift; sourceTree = "<group>"; };
 		E9D3B7242C6A3D0A00862236 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -104,14 +129,92 @@
 				E951F34F2C80AA6100AB25FF /* Artist.swift */,
 				E951F3512C80AAA500AB25FF /* Album.swift */,
 				E951F3532C80AAB200AB25FF /* Track.swift */,
-				E951F3552C80AABD00AB25FF /* Label.swift */,
+				E951F3552C80AABD00AB25FF /* LabelGroup.swift */,
 				E951F3572C80AACA00AB25FF /* Bought.swift */,
+				E951F35F2C80AAF700AB25FF /* Credit.swift */,
 				E951F3592C80AAD900AB25FF /* PocketState.swift */,
 				E951F35B2C80AADE00AB25FF /* VinylState.swift */,
 				E951F35D2C80AAEB00AB25FF /* ReadSpeed.swift */,
-				E951F35F2C80AAF700AB25FF /* Credit.swift */,
+				E951F3722C8349DE00AB25FF /* Utils.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		E951F3682C80D56900AB25FF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E951F37E2C83560F00AB25FF /* Track */,
+				E951F37D2C8355FE00AB25FF /* Credit */,
+				E951F37C2C8355F600AB25FF /* Bought */,
+				E951F3772C8350C800AB25FF /* Artist */,
+				E951F3762C8350BD00AB25FF /* Label */,
+				E951F3752C8350B500AB25FF /* Vinyl */,
+				E951F3742C83508600AB25FF /* Album */,
+				E9D3B7242C6A3D0A00862236 /* ContentView.swift */,
+				E951F3692C8201B400AB25FF /* DatePickerOptional.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E951F3742C83508600AB25FF /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				E951F36E2C825A3700AB25FF /* AddOrEditAlbumView.swift */,
+				E951F3702C825BB500AB25FF /* ListAlbumView.swift */,
+			);
+			path = Album;
+			sourceTree = "<group>";
+		};
+		E951F3752C8350B500AB25FF /* Vinyl */ = {
+			isa = PBXGroup;
+			children = (
+				E951F3622C80B0D800AB25FF /* AddOrEditVinylView.swift */,
+				E951F3642C80BC6200AB25FF /* ListVinylView.swift */,
+			);
+			path = Vinyl;
+			sourceTree = "<group>";
+		};
+		E951F3762C8350BD00AB25FF /* Label */ = {
+			isa = PBXGroup;
+			children = (
+				E951F3782C83510000AB25FF /* AddOrEditLabelView.swift */,
+				E951F37A2C83511500AB25FF /* ListLabelView.swift */,
+			);
+			path = Label;
+			sourceTree = "<group>";
+		};
+		E951F3772C8350C800AB25FF /* Artist */ = {
+			isa = PBXGroup;
+			children = (
+				E951F3832C84826400AB25FF /* AddOrEditArtistView.swift */,
+				E951F3852C84827100AB25FF /* ListArtistView.swift */,
+			);
+			path = Artist;
+			sourceTree = "<group>";
+		};
+		E951F37C2C8355F600AB25FF /* Bought */ = {
+			isa = PBXGroup;
+			children = (
+				E951F37F2C83577C00AB25FF /* AddOrEditBoughtView.swift */,
+				E951F3812C83578500AB25FF /* ListBoughtView.swift */,
+			);
+			path = Bought;
+			sourceTree = "<group>";
+		};
+		E951F37D2C8355FE00AB25FF /* Credit */ = {
+			isa = PBXGroup;
+			children = (
+				E951F3872C848CDB00AB25FF /* AddOrEditCreditView.swift */,
+			);
+			path = Credit;
+			sourceTree = "<group>";
+		};
+		E951F37E2C83560F00AB25FF /* Track */ = {
+			isa = PBXGroup;
+			children = (
+				E951F38B2C84A6FF00AB25FF /* AddOrEditTrackView.swift */,
+			);
+			path = Track;
 			sourceTree = "<group>";
 		};
 		E9D3B7162C6A3D0A00862236 = {
@@ -137,10 +240,9 @@
 		E9D3B7212C6A3D0A00862236 /* Vinylventory */ = {
 			isa = PBXGroup;
 			children = (
+				E951F36B2C8204D800AB25FF /* Vinylventory.entitlements */,
 				E951F3612C80AB6900AB25FF /* Models */,
-				E951F3622C80B0D800AB25FF /* EditVinylView.swift */,
-				E951F3642C80BC6200AB25FF /* VinylsView.swift */,
-				E9D3B7242C6A3D0A00862236 /* ContentView.swift */,
+				E951F3682C80D56900AB25FF /* Views */,
 				E9D3B7222C6A3D0A00862236 /* VinylventoryApp.swift */,
 				E9D3B7262C6A3D0B00862236 /* Assets.xcassets */,
 				E9D3B7282C6A3D0B00862236 /* Preview Content */,
@@ -311,18 +413,30 @@
 				E951F34E2C80A98200AB25FF /* Vinyl.swift in Sources */,
 				E9D3B7252C6A3D0A00862236 /* ContentView.swift in Sources */,
 				E9D3B7232C6A3D0A00862236 /* VinylventoryApp.swift in Sources */,
+				E951F3792C83510000AB25FF /* AddOrEditLabelView.swift in Sources */,
+				E951F3882C848CDB00AB25FF /* AddOrEditCreditView.swift in Sources */,
 				E951F35E2C80AAEB00AB25FF /* ReadSpeed.swift in Sources */,
+				E951F36F2C825A3700AB25FF /* AddOrEditAlbumView.swift in Sources */,
+				E951F3842C84826400AB25FF /* AddOrEditArtistView.swift in Sources */,
 				E951F35C2C80AADE00AB25FF /* VinylState.swift in Sources */,
+				E951F36A2C8201B400AB25FF /* DatePickerOptional.swift in Sources */,
 				E951F3582C80AACA00AB25FF /* Bought.swift in Sources */,
+				E951F37B2C83511500AB25FF /* ListLabelView.swift in Sources */,
+				E951F3822C83578500AB25FF /* ListBoughtView.swift in Sources */,
+				E951F38C2C84A6FF00AB25FF /* AddOrEditTrackView.swift in Sources */,
 				E951F3502C80AA6100AB25FF /* Artist.swift in Sources */,
-				E951F3652C80BC6200AB25FF /* VinylsView.swift in Sources */,
+				E951F3652C80BC6200AB25FF /* ListVinylView.swift in Sources */,
 				E951F3522C80AAA500AB25FF /* Album.swift in Sources */,
 				E951F3672C80BE6600AB25FF /* Previewer.swift in Sources */,
 				E951F35A2C80AAD900AB25FF /* PocketState.swift in Sources */,
 				E951F3602C80AAF700AB25FF /* Credit.swift in Sources */,
-				E951F3562C80AABD00AB25FF /* Label.swift in Sources */,
+				E951F3562C80AABD00AB25FF /* LabelGroup.swift in Sources */,
 				E951F3542C80AAB200AB25FF /* Track.swift in Sources */,
-				E951F3632C80B0D800AB25FF /* EditVinylView.swift in Sources */,
+				E951F3712C825BB500AB25FF /* ListAlbumView.swift in Sources */,
+				E951F3862C84827200AB25FF /* ListArtistView.swift in Sources */,
+				E951F3732C8349DE00AB25FF /* Utils.swift in Sources */,
+				E951F3802C83577C00AB25FF /* AddOrEditBoughtView.swift in Sources */,
+				E951F3632C80B0D800AB25FF /* AddOrEditVinylView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
