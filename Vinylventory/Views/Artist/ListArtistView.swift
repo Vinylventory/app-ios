@@ -2,7 +2,7 @@
 //  ListArtistView.swift
 //  Vinylventory
 //
-//  Created by Tom Andrivet on 01.09.2024.
+//  Created by Tom Andrivet on 03.09.2024.
 //
 
 import SwiftUI
@@ -12,60 +12,41 @@ struct ListArtistView: View {
     
     @Environment(\.modelContext) var modelContext
     
-    @Binding var showPopover: Bool
-    
-    var addArtist: (Artist) -> Void
-    var setArtist: (Artist) -> Void
-    
-    @State private var searchText: String = ""
-    @State private var showAdd: Bool = false
+    @Query var artists: [Artist]
     
     @State private var error: Bool = false
     @State private var errorMessage: String = ""
     
-    @Query private var artists: [Artist]
-    
     var body: some View {
-        NavigationView {
-            Form {
-                List {
-                    ForEach(artists.filter {
-                        searchText.isEmpty ? true : $0.name.contains(searchText) || $0.surname.contains(searchText) || $0.origin.contains(searchText)
-                    }) { artist in
-                        Button(action: {
-                            self.showPopover = false
-                            setArtist(artist)
-                        }) {
-                            HStack {
-                                Text(artist.surname + " " + artist.name)
-                                Spacer()
-                                Text(artist.origin)
-                            }
-                        }
-                    }.onDelete(perform: deleteArtist)
+        List {
+            ForEach(artists) { artist in
+                NavigationLink(value: SeeArtist(artist: artist)) {
+                    HStack {
+                        Text(artist.surname + " " + artist.name)
+                        Spacer()
+                        Text(artist.origin)
+                    }
                 }
             }
-            .navigationBarTitle("Add Artist", displayMode: .inline)
-            .navigationBarItems(leading: Button(action: {
-                self.showAdd = true
-            }) {
-                Label("", systemImage: "plus")
-            }.padding())
-            .navigationBarItems(trailing: Button("Cancel") {
-                self.showPopover = false
-            }.padding())
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-        }
-        .sheet(isPresented: $showAdd) {
-            AddOrEditArtistView(artist: Artist(surname: "", name: "", origin: ""), showPopover: $showAdd, addAfter: true) { artist in
-                addArtist(artist)
-            }
+            .onDelete(perform: deleteArtist)
         }
         .alert("Error", isPresented: $error) {
             Button("OK") { }
         } message: {
             Text(errorMessage)
         }
+    }
+    
+    init(searchString: String = "", sortOrder: [SortDescriptor<Artist>] = []) {
+        _artists = Query(filter: #Predicate { artist in
+            if searchString.isEmpty {
+                true
+            } else {
+                artist.surname.localizedStandardContains(searchString)
+                || artist.name.localizedStandardContains(searchString)
+                || artist.origin.localizedStandardContains(searchString)
+            }
+        }, sort: sortOrder)
     }
     
     func deleteArtist(at offsets: IndexSet) {
@@ -82,8 +63,3 @@ struct ListArtistView: View {
         }
     }
 }
-
-#Preview {
-    ListArtistView(showPopover: .constant(true), addArtist: {artist in}, setArtist: {artist in})
-}
-

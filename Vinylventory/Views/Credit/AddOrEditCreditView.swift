@@ -62,7 +62,7 @@ struct AddOrEditCreditView: View {
                 self.showPopover = false
             }.padding())
             .sheet(isPresented: $showListArtist) {
-                ListArtistView(showPopover: $showListArtist, addArtist: { artist in
+                ListContextArtistView(showPopover: $showListArtist, addArtist: { artist in
                     modelContext.insert(artist)
                 }, setArtist: { artist in
                     credit.artist = artist

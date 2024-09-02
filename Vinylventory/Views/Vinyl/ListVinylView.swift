@@ -17,7 +17,7 @@ struct ListVinylView: View {
     var body: some View {
         List {
             ForEach(vinyls) { vinyl in
-                NavigationLink(value: EditVinyl(vinyl: vinyl)) {
+                NavigationLink(value: SeeVinyl(vinyl: vinyl)) {
                     Text(vinyl.catNumber)
                 }
             }
@@ -42,8 +42,4 @@ struct ListVinylView: View {
             modelContext.delete(vinyl)
         }
     }
-}
-
-#Preview {
-    ListVinylView()
 }

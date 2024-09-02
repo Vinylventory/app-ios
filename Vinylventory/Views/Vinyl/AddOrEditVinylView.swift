@@ -14,9 +14,9 @@ struct AddOrEditVinylView: View {
     
     @Bindable var vinyl: Vinyl
     
-    @Binding var navigationPath: NavigationPath
-    
     var add: Bool
+    
+    @Binding var path: NavigationPath
     
     @State private var showListAlbum: Bool = false
     @State private var showListLabel: Bool = false
@@ -230,13 +230,13 @@ struct AddOrEditVinylView: View {
             
             //ImageListView(images: $images)
         }
-        .navigationBarTitle((add ? "Add" : "Edit") + " Vinyl", displayMode: .large)
+        .navigationBarTitle((add ? "Add" : "Edit") + " Vinyl " + vinyl.catNumber, displayMode: .large)
         .if(add) { view in
             view.toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
                         modelContext.insert(vinyl)
-                        navigationPath.removeLast()
+                        path.removeLast()
                     }) {
                         Label("", systemImage: "plus")
                     }.padding()
@@ -265,7 +265,7 @@ struct AddOrEditVinylView: View {
             })
         }
         .sheet(isPresented: $showListArtist) {
-            ListArtistView(showPopover: $showListArtist, addArtist: { artist in
+            ListContextArtistView(showPopover: $showListArtist, addArtist: { artist in
                 modelContext.insert(artist)
             }, setArtist: { artist in
                 if playedBy {
@@ -306,7 +306,7 @@ struct AddOrEditVinylView: View {
     do {
         let previewer = try Previewer()
 
-        return AddOrEditVinylView(vinyl: previewer.vinyl, navigationPath: .constant(NavigationPath()), add: false)
+        return AddOrEditVinylView(vinyl: previewer.vinyl, add: false, path: .constant(NavigationPath()))
             .modelContainer(previewer.container)
     } catch {
         return Text("Failed to create preview: \(error.localizedDescription)")
