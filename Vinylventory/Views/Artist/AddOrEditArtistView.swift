@@ -22,6 +22,7 @@ struct AddOrEditArtistView: View {
     var placement: ToolbarItemPlacement {
         return !revertButtons ? .topBarLeading : .topBarTrailing
     }
+    
     var displayMode: NavigationBarItem.TitleDisplayMode {
         return !revertButtons ? .inline : .large
     }
