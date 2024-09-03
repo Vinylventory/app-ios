@@ -13,7 +13,7 @@ struct SeeVinylView: View {
     
     var body: some View {
         Form {
-            Section(header: Text("Vinyl Information")) {
+            Section(header: Text("Informations")) {
                 HStack {
                     Text("Cart Number")
                     Spacer()

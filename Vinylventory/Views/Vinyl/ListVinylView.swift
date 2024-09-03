@@ -18,7 +18,12 @@ struct ListVinylView: View {
         List {
             ForEach(vinyls) { vinyl in
                 NavigationLink(value: SeeVinyl(vinyl: vinyl)) {
-                    Text(vinyl.catNumber)
+                    HStack {
+                        if vinyl.label != nil {
+                            Text(vinyl.label!.name)
+                        }
+                        Text(vinyl.catNumber)
+                    }
                 }
             }
             .onDelete(perform: deleteVinyl)

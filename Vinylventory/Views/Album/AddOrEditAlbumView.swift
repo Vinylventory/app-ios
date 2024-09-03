@@ -9,37 +9,15 @@ import SwiftUI
 
 struct AddOrEditAlbumView: View {
     
-    @Bindable var album: Album
-    
-    @Binding var showPopover: Bool
-    
-    var addAfter: Bool
-    
-    var addAlbum: (Album) -> Void
+    @StateObject var options: AddOrEditOptions<Album>
     
     var body: some View {
-        NavigationView {
+        AddOrEditView(options: options) {
             Form {
-                Section(header: Text("Name")) {
-                    TextField("Name", text: $album.name)
+                Section(header: Text("Informations")) {
+                    TextField("Name", text: $options.value.name)
                 }
             }
-            .navigationBarTitle((addAfter ? "Add New" : "Edit") + " Album", displayMode: .inline)
-            .if(addAfter) { view in
-                view.toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            addAlbum(album)
-                            self.showPopover = false
-                        }) {
-                            Label("", systemImage: "plus")
-                        }.padding()
-                    }
-                }
-            }
-            .navigationBarItems(trailing: Button("Cancel") {
-                self.showPopover = false
-            }.padding())
         }
     }
 }

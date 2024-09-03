@@ -11,29 +11,23 @@ struct AddOrEditTrackView: View {
     
     @Environment(\.modelContext) var modelContext
     
-    @Bindable var track: Track
-    
-    @Binding var showPopover: Bool
-    
-    var addAfter: Bool
-    
-    var addTrack: (Track) -> Void
+    @StateObject var options: AddOrEditOptions<Track>
     
     @State private var duration: Bool = false
     
     @State private var durationVal: Int = 0
     
     var body: some View {
-        NavigationView {
+        AddOrEditView(options: options) {
             Form {
                 Section(header: Text("Informations")) {
-                    TextField("Name", text: $track.name)
+                    TextField("Name", text: $options.value.name)
                     
                     Toggle("Enable Duration Time", isOn: $duration)
                     
                     if duration {
                         HStack {
-                            Text("Duration").foregroundStyle(.gray)
+                            Text("Duration (seconds)").foregroundStyle(.gray)
                             Spacer()
                             TextField("Enter Duration", value: $durationVal, formatter: NumberFormatter())
                                 .keyboardType(.numberPad)
@@ -41,31 +35,15 @@ struct AddOrEditTrackView: View {
                     }
                 }
             }
-            .navigationBarTitle((addAfter ? "Add New" : "Edit") + " Track", displayMode: .inline)
-            .if(addAfter) { view in
-                view.toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            addTrack(track)
-                            self.showPopover = false
-                        }) {
-                            Label("", systemImage: "plus")
-                        }.padding()
-                    }
-                }
-            }
-            .navigationBarItems(trailing: Button("Cancel") {
-                self.showPopover = false
-            }.padding())
             .onChange(of: durationVal) {
-                track.duration = durationVal
+                options.value.duration = durationVal
             }
             .onChange(of: duration) {
                 if duration {
                     durationVal = 0
-                    track.duration = 0
+                    options.value.duration = 0
                 } else {
-                    track.duration = nil
+                    options.value.duration = nil
                 }
             }
         }

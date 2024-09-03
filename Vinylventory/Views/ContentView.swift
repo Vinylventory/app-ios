@@ -19,7 +19,7 @@ struct ContentView: View {
             
             GeometryReader { geometry in
                 let screenWidth = geometry.size.width
-                VStack(spacing: 20) {
+                VStack(spacing: 30) {
                     
                     Image("Logo")
                         .resizable()
@@ -40,15 +40,21 @@ struct ContentView: View {
                         NavigationLink(value: "artistView") {
                             ButtonView(iconName: "person.3")
                         }
+                        NavigationLink(value: "albumView") {
+                            ButtonView(iconName: "books.vertical.fill")
+                        }
                     }
                     .padding(.horizontal)
                     
                     HStack(spacing: 20) {
-                        NavigationLink(value: "") {
-                            ButtonView(iconName: "books.vertical.fill")
-                        }
-                        NavigationLink(value: "") {
+                        NavigationLink(value: "labelView") {
                             ButtonView(iconName: "network")
+                        }
+                        NavigationLink(value: "boughtView") {
+                            ButtonView(iconName: "doc.text")
+                        }
+                        NavigationLink(value: "settingsView") {
+                            ButtonView(iconName: "gear")
                         }
                     }
                     .padding(.horizontal)
@@ -60,31 +66,82 @@ struct ContentView: View {
                 switch str {
                 case "vinylView": VinylView(path: $path)
                 case "artistView": ArtistView(path: $path)
+                case "albumView": AlbumView(path: $path)
+                case "labelView": LabelGroupView(path: $path)
+                case "boughtView": BoughtView(path: $path)
+                case "settingsView": SettingsView(path: $path)
                 default: exit(1)
                 }
             }
-            .navigationDestination(for: Vinyl.self) { vinyl in
-                AddOrEditVinylView(vinyl: vinyl, add: true, path: $path)
+            .navigationDestination(for: Vinyl.self) { value in
+                AddOrEditVinylView(vinyl: value, add: true, path: $path)
             }
-            .navigationDestination(for: EditVinyl.self) { editVinyl in
-                AddOrEditVinylView(vinyl: editVinyl.vinyl, add: false, path: $path)
+            .navigationDestination(for: EditVinyl.self) { edit in
+                AddOrEditVinylView(vinyl: edit.vinyl, add: false, path: $path)
             }
-            .navigationDestination(for: SeeVinyl.self) { seeVinyl in
-                SeeVinylView(vinyl: seeVinyl.vinyl)
+            .navigationDestination(for: SeeVinyl.self) { see in
+                SeeVinylView(vinyl: see.vinyl)
             }
-            .navigationDestination(for: Artist.self) { artist in
-                AddOrEditArtistView(artist: artist, showPopover: { value in
+            .navigationDestination(for: Artist.self) { value in
+                AddOrEditArtistView(options: AddOrEditOptions(value: value, showPopover: { value in
                     path.removeLast()
-                }, addAfter: true, addArtist: {artist in
-                    modelContext.insert(artist)
-                }, revertButtons: true)
-            }/*
-            .navigationDestination(for: EditArtist.self) { editArtist in
-                SeeVinylView(vinyl: editArtist.artist)
+                }, addAfter: true, addValue: {value in
+                    modelContext.insert(value)
+                }, revertButtons: true))
             }
-            .navigationDestination(for: SeeArtist.self) { seeArtist in
-                SeeArtistView(vinyl: seeArtist.artist)
-            }*/
+            .navigationDestination(for: EditArtist.self) { edit in
+                AddOrEditArtistView(options: AddOrEditOptions(value: edit.artist, showPopover: { value in
+                    path.removeLast()
+                }, addAfter: false, addValue: { value in }))
+            }
+            .navigationDestination(for: SeeArtist.self) { see in
+                SeeArtistView(artist: see.artist)
+            }
+            .navigationDestination(for: Album.self) { value in
+                AddOrEditAlbumView(options: AddOrEditOptions(value: value, showPopover: { value in
+                    path.removeLast()
+                }, addAfter: true, addValue: {value in
+                    modelContext.insert(value)
+                }, revertButtons: true))
+            }
+            .navigationDestination(for: EditAlbum.self) { edit in
+                AddOrEditAlbumView(options: AddOrEditOptions(value: edit.album, showPopover: { value in
+                    path.removeLast()
+                }, addAfter: false, addValue: { value in }))
+            }
+            .navigationDestination(for: SeeAlbum.self) { see in
+                SeeAlbumView(album: see.album)
+            }
+            .navigationDestination(for: LabelGroup.self) { value in
+                AddOrEditLabelView(options: AddOrEditOptions(value: value, showPopover: { value in
+                    path.removeLast()
+                }, addAfter: true, addValue: {value in
+                    modelContext.insert(value)
+                }, revertButtons: true))
+            }
+            .navigationDestination(for: EditLabelGroup.self) { edit in
+                AddOrEditLabelView(options: AddOrEditOptions(value: edit.labelGroup, showPopover: { value in
+                    path.removeLast()
+                }, addAfter: false, addValue: { value in }))
+            }
+            .navigationDestination(for: SeeLabelGroup.self) { see in
+                SeeLabelGroupView(labelGroup: see.labelGroup)
+            }
+            .navigationDestination(for: Bought.self) { value in
+                AddOrEditBoughtView(options: AddOrEditOptions(value: value, showPopover: { value in
+                    path.removeLast()
+                }, addAfter: true, addValue: {value in
+                    modelContext.insert(value)
+                }, revertButtons: true))
+            }
+            .navigationDestination(for: EditBought.self) { edit in
+                AddOrEditBoughtView(options: AddOrEditOptions(value: edit.bought, showPopover: { value in
+                    path.removeLast()
+                }, addAfter: false, addValue: { value in }))
+            }
+            .navigationDestination(for: SeeBought.self) { see in
+                SeeBoughtView(bought: see.bought)
+            }
         }
     }
 }
@@ -98,7 +155,7 @@ struct ButtonView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
                 .fill(disabled ? Color.gray : Color.blue)
-                .frame(width: UIScreen.main.bounds.width / 2 - 30, height: UIScreen.main.bounds.width / 2 - 30)
+                .frame(width: UIScreen.main.bounds.width / 3 - 25, height: UIScreen.main.bounds.width / 3 - 25)
             
             if iconName != "" {
                 Image(systemName: iconName)
@@ -114,8 +171,4 @@ struct ButtonView: View {
         }
         .opacity(disabled ? 0.5 : 1.0)
     }
-}
-
-#Preview {
-    ContentView()
 }

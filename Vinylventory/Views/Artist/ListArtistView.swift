@@ -30,11 +30,7 @@ struct ListArtistView: View {
             }
             .onDelete(perform: deleteArtist)
         }
-        .alert("Error", isPresented: $error) {
-            Button("OK") { }
-        } message: {
-            Text(errorMessage)
-        }
+        .modifier(ErrorAlertModifier(isPresented: $error, errorMessage: errorMessage))
     }
     
     init(searchString: String = "", sortOrder: [SortDescriptor<Artist>] = []) {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import PhotosUI
 
 struct AddOrEditVinylView: View {
     
@@ -28,18 +29,35 @@ struct AddOrEditVinylView: View {
     @State private var showAddCredit: Bool = false
     @State private var showAddTrack: Bool = false
     
+    @State private var showImageContext: Bool = false
+    @State private var selectedImage: UIImage? = nil
+    
+    
+    
+    @State private var isPresentingPicker = false
+    @State private var isPresentingCamera = false
+    @State var showActionSheet = false
+    
+    @State private var imageImported: PhotosPickerItem? = nil
+    
+    @State private var error: Bool = false
+    @State private var errorMessage: String = ""
+    
+    
+    
     var body: some View {
         Form {
-            Section(header: Text("Vinyl Information")) {
-                TextField("Cart Number", text: $vinyl.catNumber)
+            Section(header: Text("Informations")) {
+                TextField("Identifier", text: $vinyl.catNumber)
                 
                 DatePickerOptional(title: "Date Released", displayedComponents: .date, selection: $vinyl.dateReleased)
                 
                 DatePickerOptional(title: "Date Edited", displayedComponents: .date, selection: $vinyl.dateEdited)
                 
-                TextField("Note Pocket", text: $vinyl.notePocket)
-                TextField("Pressing Location", text: $vinyl.pressingLoc)
                 TextField("Edition", text: $vinyl.edition)
+                TextField("Note about Pocket", text: $vinyl.notePocket)
+                TextField("Pressing Location", text: $vinyl.pressingLoc)
+                
                 HStack {
                     Text("Weight").foregroundStyle(.gray)
                     Spacer()
@@ -52,159 +70,105 @@ struct AddOrEditVinylView: View {
                     TextField("Enter Rank", value: $vinyl.rank, formatter: NumberFormatter())
                         .keyboardType(.numberPad)
                 }
-                TextField("Notes", text: $vinyl.notes)
+                TextField("Note about the vinyl", text: $vinyl.notes)
             }
             
-            Section(header: Text("Played By")) {
-                List {
-                    if vinyl.playedBy != nil && !vinyl.playedBy!.isEmpty {
-                        ForEach(vinyl.playedBy!) { artist in
-                            HStack {
-                                Text(artist.surname + " " + artist.name)
-                                Spacer()
-                                Text(artist.origin)
-                            }
-                        }
-                        .onDelete(perform: { offsets in
-                            for offset in offsets {
-                                vinyl.playedBy!.remove(at: offset)
-                            }
-                        })
-                    }
-                    Button("Add Musician", systemImage: "plus", action: { 
-                        playedBy = true
-                        showListArtist = true
-                    })
+            VinylMultipleAdd(list: $vinyl.playedBy, title: "Played By", button: "Add Musician", addButton: {
+                playedBy = true
+                showListArtist = true
+            }) { value in
+                HStack {
+                    Text(value.surname + " " + value.name)
+                    Spacer()
+                    Text(value.origin)
                 }
             }
             
-            Section(header: Text("Authored By")) {
-                List {
-                    if vinyl.authored != nil && !vinyl.authored!.isEmpty {
-                        ForEach(vinyl.authored!) { artist in
-                            HStack {
-                                Text(artist.surname + " " + artist.name)
-                                Spacer()
-                                Text(artist.origin)
-                            }
-                        }
-                        .onDelete(perform: { offsets in
-                            for offset in offsets {
-                                vinyl.authored!.remove(at: offset)
-                            }
-                        })
-                    }
-                    Button("Add Author", systemImage: "plus", action: {
-                        playedBy = false
-                        showListArtist = true
-                    })
+            VinylMultipleAdd(list: $vinyl.authored, title: "Authored By", button: "Add Author", addButton: {
+                playedBy = false
+                showListArtist = true
+            }) { value in
+                HStack {
+                    Text(value.surname + " " + value.name)
+                    Spacer()
+                    Text(value.origin)
                 }
             }
             
-            Section(header: Text("Credits")) {
-                List {
-                    if vinyl.credits != nil && !vinyl.credits!.isEmpty {
-                        ForEach(vinyl.credits!) { credit in
-                            HStack {
-                                if credit.artist != nil {
-                                    Text(credit.artist!.surname + " " + credit.artist!.name)
-                                } else {
-                                    Text("")
-                                }
-                                Spacer()
-                                Text(credit.role)
-                            }
-                        }
-                        .onDelete(perform: { offsets in
-                            for offset in offsets {
-                                vinyl.credits!.remove(at: offset)
-                            }
-                        })
+            VinylMultipleAdd(list: $vinyl.credits, title: "Credits", button: "Add Credit", addButton: {
+                showAddCredit = true
+            }) { value in
+                HStack {
+                    if value.artist != nil {
+                        Text(value.artist!.surname + " " + value.artist!.name)
+                    } else {
+                        Text("")
                     }
-                    Button("Add Credit", systemImage: "plus", action: {
-                        showAddCredit = true
-                    })
+                    Spacer()
+                    Text(value.role)
                 }
             }
             
-            Section(header: Text("Album")) {
-                if vinyl.album == nil {
-                    Button("Add Album", systemImage: "plus", action: { showListAlbum = true })
-                } else {
-                    HStack {
-                        Text(vinyl.album?.name ?? "")
+            VinylSingleAdd(value: $vinyl.album, title: "Album", button: "Add Album", addButton: {
+                showListAlbum = true
+            }) {
+                HStack {
+                    Text(vinyl.album!.name)
+                    Spacer()
+                    Button(action: {
+                        vinyl.album = nil
+                    }) {
+                        Image(systemName: "trash")
+                            .foregroundColor(.red)
+                    }
+                }
+            }
+            
+            VinylSingleAdd(value: $vinyl.label, title: "Label", button: "Add Label", addButton: {
+                showListLabel = true
+            }) {
+                HStack {
+                    Text(vinyl.label!.name)
+                    Spacer()
+                    Button(action: {
+                        vinyl.label = nil
+                    }) {
+                        Image(systemName: "trash")
+                            .foregroundColor(.red)
+                    }
+                }
+            }
+            
+            VinylMultipleAdd(list: $vinyl.tracks, title: "Tracks", button: "Add Track", addButton: {
+                showAddTrack = true
+            }) { value in
+                HStack {
+                    Text(value.name)
+                    if value.duration != nil {
                         Spacer()
-                        Button(action: {
-                            vinyl.album = nil
-                        }) {
-                            Image(systemName: "trash")
-                                .foregroundColor(.red)
-                        }
+                        Text(String(value.duration!))
                     }
                 }
             }
             
-            Section(header: Text("Label")) {
-                if vinyl.label == nil {
-                    Button("Add Label", systemImage: "plus", action: { showListLabel = true })
-                } else {
-                    HStack {
-                        Text(vinyl.label?.name ?? "")
-                        Spacer()
-                        Button(action: {
-                            vinyl.label = nil
-                        }) {
-                            Image(systemName: "trash")
-                                .foregroundColor(.red)
-                        }
+            VinylSingleAdd(value: $vinyl.label, title: "v", button: "Add Purchase Informations", addButton: {
+                showListBought = true
+            }) {
+                HStack {
+                    Text(vinyl.bought!.loc)
+                    Spacer()
+                    Text(vinyl.bought!.date != nil ? DateFormatter().apply {$0.dateStyle = .short} .string(from: vinyl.bought!.date!) : "")
+                    Spacer()
+                    Button(action: {
+                        vinyl.bought = nil
+                    }) {
+                        Image(systemName: "trash")
+                            .foregroundColor(.red)
                     }
                 }
             }
             
-            Section(header: Text("Tracks")) {
-                List {
-                    if vinyl.tracks != nil && !vinyl.tracks!.isEmpty {
-                        ForEach(vinyl.tracks!) { track in
-                            HStack {
-                                Text(track.name)
-                                if track.duration != nil {
-                                    Spacer()
-                                    Text(String(track.duration!))
-                                }
-                            }
-                        }
-                        .onDelete(perform: { offsets in
-                            for offset in offsets {
-                                vinyl.tracks!.remove(at: offset)
-                            }
-                        })
-                    }
-                    Button("Add Track", systemImage: "plus", action: {
-                        showAddTrack = true
-                    })
-                }
-            }
-            
-            Section(header: Text("Purchase Information")) {
-                if vinyl.bought == nil {
-                    Button("Add Purchase Informations", systemImage: "plus", action: { showListBought = true })
-                } else {
-                    HStack {
-                        Text(vinyl.bought?.loc ?? "")
-                        Spacer()
-                        Text(vinyl.bought!.date != nil ? DateFormatter().apply {$0.dateStyle = .short} .string(from: vinyl.bought!.date!) : "")
-                        Spacer()
-                        Button(action: {
-                            vinyl.bought = nil
-                        }) {
-                            Image(systemName: "trash")
-                                .foregroundColor(.red)
-                        }
-                    }
-                }
-            }
-            
-            Section(header: Text("State & Other Information")) {
+            Section(header: Text("State & Other Informations")) {
                 Picker("Pocket State", selection: $vinyl.pocketState) {
                     Text("None")
                         .tag(Optional<PocketState>.none)
@@ -213,7 +177,7 @@ struct AddOrEditVinylView: View {
                         Text(state.description).tag(Optional(state))
                     }
                 }
-                Picker("State", selection: $vinyl.state) {
+                Picker("Vinyl State", selection: $vinyl.state) {
                     Text("None")
                         .tag(Optional<VinylState>.none)
                     Divider()
@@ -228,7 +192,7 @@ struct AddOrEditVinylView: View {
                 }
             }
             
-            //ImageListView(images: $images)
+            VinylImageList(vinyl: vinyl, showImageContext: $showImageContext)
         }
         .navigationBarTitle((add ? "Add" : "Edit") + " Vinyl " + vinyl.catNumber, displayMode: .large)
         .if(add) { view in
@@ -244,21 +208,21 @@ struct AddOrEditVinylView: View {
             }
         }
         .sheet(isPresented: $showListAlbum) {
-            ListAlbumView(showPopover: $showListAlbum, addAlbum: { album in
+            ListContextAlbumView(showPopover: $showListAlbum, addAlbum: { album in
                 modelContext.insert(album)
             }, setAlbum: { album in
                 vinyl.album = album
             })
         }
         .sheet(isPresented: $showListLabel) {
-            ListLabelView(showPopover: $showListLabel, addLabel: { label in
+            ListContextLabelView(showPopover: $showListLabel, addLabel: { label in
                 modelContext.insert(label)
             }, setLabel: { label in
                 vinyl.label = label
             })
         }
         .sheet(isPresented: $showListBought) {
-            ListBoughtView(showPopover: $showListBought, addBought: { bought in
+            ListContextBoughtView(showPopover: $showListBought, addBought: { bought in
                 modelContext.insert(bought)
             }, setBought: { bought in
                 vinyl.bought = bought
@@ -282,33 +246,74 @@ struct AddOrEditVinylView: View {
             })
         }
         .sheet(isPresented: $showAddCredit) {
-            AddOrEditCreditView(credit: Credit(role: "", note: ""), showPopover: $showAddCredit, addAfter: true) { credit in
-                modelContext.insert(credit)
-                if vinyl.credits == nil {
-                    vinyl.credits = []
-                }
-                vinyl.credits!.append(credit)
+            NavigationStack {
+                AddOrEditCreditView(options: AddOrEditOptions(value: Credit(role: "", note: ""), showPopover: { value in
+                    showAddCredit = value
+                }, addAfter: true) { credit in
+                    modelContext.insert(credit)
+                    if vinyl.credits == nil {
+                        vinyl.credits = []
+                    }
+                    vinyl.credits!.append(credit)
+                })
             }
         }
         .sheet(isPresented: $showAddTrack) {
-            AddOrEditTrackView(track: Track(name: "", duration: nil), showPopover: $showAddTrack, addAfter: true) { track in
-                modelContext.insert(track)
-                if vinyl.tracks == nil {
-                    vinyl.tracks = []
-                }
-                vinyl.tracks!.append(track)
+            NavigationStack {
+                AddOrEditTrackView(options: AddOrEditOptions(value: Track(name: "", duration: nil), showPopover: { value in
+                    showAddTrack = value
+                }, addAfter: true) { track in
+                    modelContext.insert(track)
+                    if vinyl.tracks == nil {
+                        vinyl.tracks = []
+                    }
+                    vinyl.tracks!.append(track)
+                })
             }
         }
-    }
-}
-
-#Preview {
-    do {
-        let previewer = try Previewer()
-
-        return AddOrEditVinylView(vinyl: previewer.vinyl, add: false, path: .constant(NavigationPath()))
-            .modelContainer(previewer.container)
-    } catch {
-        return Text("Failed to create preview: \(error.localizedDescription)")
+        .onChange(of: selectedImage) {
+            if selectedImage != nil {
+                let image = ImageModel(data: selectedImage!.pngData())
+                modelContext.insert(image)
+                if vinyl.images == nil {
+                    vinyl.images = []
+                }
+                vinyl.images!.append(image)
+            }
+        }
+        .actionSheet(isPresented: $showImageContext) {
+            ActionSheet(
+                title: Text("Select Image"),
+                message: Text("Choose an image from your library or take a new photo"),
+                buttons: [
+                    .default(Text("Photo Library")) {
+                        isPresentingPicker = true
+                    },
+                    .default(Text("Camera")) {
+                        isPresentingCamera = true
+                    },
+                    .cancel()
+                ]
+            )
+        }
+        .photosPicker(isPresented: $isPresentingPicker, selection: $imageImported)
+        .sheet(isPresented: $isPresentingCamera) {
+            ImagePicker(sourceType: .camera, selectedImage: $selectedImage)
+        }
+        .onChange(of: imageImported) {
+            Task {
+                if imageImported != nil {
+                    do {
+                        if let data = try await imageImported!.loadTransferable(type: Data.self) {
+                            selectedImage = UIImage(data: data)
+                        }
+                    } catch {
+                        self.error = true
+                        errorMessage = error.localizedDescription
+                    }
+                }
+            }
+        }
+        .modifier(ErrorAlertModifier(isPresented: $error, errorMessage: errorMessage))
     }
 }

@@ -2,56 +2,24 @@
 //  AddOrEditArtistView.swift
 //  Vinylventory
 //
-//  Created by Tom Andrivet on 01.09.2024.
+//  Created by Tom Andrivet on 03.09.2024.
 //
 
 import SwiftUI
 
 struct AddOrEditArtistView: View {
     
-    @Bindable var artist: Artist
-    
-    var showPopover: (Bool) -> Void
-    
-    var addAfter: Bool
-    
-    var addArtist: (Artist) -> Void
-    
-    var revertButtons: Bool = false
-    
-    var placement: ToolbarItemPlacement {
-        return !revertButtons ? .topBarLeading : .topBarTrailing
-    }
-    
-    var displayMode: NavigationBarItem.TitleDisplayMode {
-        return !revertButtons ? .inline : .large
-    }
+    @StateObject var options: AddOrEditOptions<Artist>
     
     var body: some View {
-        Form {
-            Section(header: Text("Details")) {
-                TextField("Surname", text: $artist.surname)
-                TextField("Name", text: $artist.name)
-                TextField("Origin", text: $artist.origin)
-            }
-        }
-        .navigationBarTitle((addAfter ? "Add New" : "Edit") + " Artist", displayMode: displayMode)
-        .if(addAfter) { view in
-            view.toolbar {
-                ToolbarItem(placement: placement) {
-                    Button(action: {
-                        addArtist(artist)
-                        showPopover(false)
-                    }) {
-                        Label("", systemImage: "plus")
-                    }.padding()
+        AddOrEditView(options: options) {
+            Form {
+                Section(header: Text("Informations")) {
+                    TextField("Surname", text: $options.value.surname)
+                    TextField("Name", text: $options.value.name)
+                    TextField("Origin", text: $options.value.origin)
                 }
             }
-        }
-        .if(!revertButtons) { view in
-            view.navigationBarItems(trailing: Button("Cancel") {
-                showPopover(false)
-            }.padding())
         }
     }
 }

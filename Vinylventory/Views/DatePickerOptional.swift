@@ -27,20 +27,16 @@ struct DatePickerOptional: View {
                 DatePicker(title, selection: $date, displayedComponents: .date)
             }
         }
-        .onChange(of: option) {
-            if option {
-                selection = .now
-            } else {
-                selection = nil
-            }
-            date = .now
-        }
         .onChange(of: date) {
             selection = date
         }
+        .onChange(of: option) {
+            if option {
+                selection = .now
+                date = .now
+            } else {
+                selection = nil
+            }
+        }
     }
-}
-
-#Preview {
-    DatePickerOptional(title: "Date Released", displayedComponents: .date, selection: .constant(.now))
 }

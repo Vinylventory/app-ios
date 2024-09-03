@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct ListLabelView: View {
+struct ListContextLabelView: View {
     @Environment(\.modelContext) var modelContext
     
     @Binding var showPopover: Bool
@@ -25,7 +25,7 @@ struct ListLabelView: View {
     @Query private var labels: [LabelGroup]
         
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 List {
                     ForEach(labels.filter {
@@ -57,15 +57,15 @@ struct ListLabelView: View {
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         }
         .sheet(isPresented: $showAdd) {
-            AddOrEditLabelView(label: LabelGroup(name: ""), showPopover: $showAdd, addAfter: true) { label in
-                addLabel(label)
+            NavigationStack {
+                AddOrEditLabelView(options: AddOrEditOptions(value: LabelGroup(name: ""), showPopover: { value in
+                    showAdd = value
+                }, addAfter: true) { label in
+                    addLabel(label)
+                })
             }
         }
-        .alert("Error", isPresented: $error) {
-            Button("OK") { }
-        } message: {
-            Text(errorMessage)
-        }
+        .modifier(ErrorAlertModifier(isPresented: $error, errorMessage: errorMessage))
     }
         
     func deleteLabel(at offsets: IndexSet) {
@@ -79,8 +79,4 @@ struct ListLabelView: View {
             }
         }
     }
-}
-
-#Preview {
-    ListLabelView(showPopover: .constant(true), addLabel: {label in}, setLabel: {label in})
 }

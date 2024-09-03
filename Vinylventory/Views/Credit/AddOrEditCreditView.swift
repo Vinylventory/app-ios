@@ -11,32 +11,26 @@ struct AddOrEditCreditView: View {
     
     @Environment(\.modelContext) var modelContext
     
-    @Bindable var credit: Credit
-    
-    @Binding var showPopover: Bool
-    
-    var addAfter: Bool
-    
-    var addCredit: (Credit) -> Void
+    @StateObject var options: AddOrEditOptions<Credit>
     
     @State private var showListArtist: Bool = false
     
     var body: some View {
-        NavigationView {
+        AddOrEditView(options: options) {
             Form {
                 Section(header: Text("Informations")) {
-                    TextField("Role", text: $credit.role)
-                    TextField("Note", text: $credit.note)
-                    if credit.artist == nil {
+                    TextField("Role", text: $options.value.role)
+                    TextField("Note", text: $options.value.note)
+                    if options.value.artist == nil {
                         Button("Select Artist", systemImage: "plus", action: { showListArtist = true })
                     } else {
                         HStack {
-                            Text(credit.artist!.surname + " " + credit.artist!.name)
+                            Text(options.value.artist!.surname + " " + options.value.artist!.name)
                             Spacer()
-                            Text(credit.artist!.origin)
+                            Text(options.value.artist!.origin)
                             Spacer()
                             Button(action: {
-                                credit.artist = nil
+                                options.value.artist = nil
                             }) {
                                 Image(systemName: "trash")
                                     .foregroundColor(.red)
@@ -45,27 +39,11 @@ struct AddOrEditCreditView: View {
                     }
                 }
             }
-            .navigationBarTitle((addAfter ? "Add New" : "Edit") + " Credit", displayMode: .inline)
-            .if(addAfter) { view in
-                view.toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            addCredit(credit)
-                            self.showPopover = false
-                        }) {
-                            Label("", systemImage: "plus")
-                        }.padding()
-                    }
-                }
-            }
-            .navigationBarItems(trailing: Button("Cancel") {
-                self.showPopover = false
-            }.padding())
             .sheet(isPresented: $showListArtist) {
                 ListContextArtistView(showPopover: $showListArtist, addArtist: { artist in
                     modelContext.insert(artist)
                 }, setArtist: { artist in
-                    credit.artist = artist
+                    options.value.artist = artist
                 })
             }
         }

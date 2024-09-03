@@ -9,47 +9,25 @@ import SwiftUI
 
 struct AddOrEditBoughtView: View {
     
-    @Bindable var bought: Bought
-    
-    @Binding var showPopover: Bool
-    
-    var addAfter: Bool
-    
-    var addBought: (Bought) -> Void
+    @StateObject var options: AddOrEditOptions<Bought>
     
     var body: some View {
-        NavigationView {
+        AddOrEditView(options: options) {
             Form {
                 Section(header: Text("Informations")) {
-                    TextField("Location Bought", text: $bought.loc)
+                    TextField("Location", text: $options.value.loc)
                     
-                    DatePickerOptional(title: "Date Bought", displayedComponents: .date, selection: $bought.date)
+                    DatePickerOptional(title: "Date", displayedComponents: .date, selection: $options.value.date)
                     
                     HStack {
-                        Text("Price Bought").foregroundStyle(.gray)
+                        Text("Price").foregroundStyle(.gray)
                         Spacer()
-                        TextField("Enter Price", value: $bought.price, formatter: NumberFormatter())
+                        TextField("Enter Price", value: $options.value.price, formatter: NumberFormatter())
                             .keyboardType(.decimalPad)
                     }
-                    TextField("Note Bought", text: $bought.note)
+                    TextField("Note", text: $options.value.note)
                 }
             }
-            .navigationBarTitle((addAfter ? "Add New" : "Edit") + " Bought", displayMode: .inline)
-            .if(addAfter) { view in
-                view.toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            addBought(bought)
-                            self.showPopover = false
-                        }) {
-                            Label("", systemImage: "plus")
-                        }.padding()
-                    }
-                }
-            }
-            .navigationBarItems(trailing: Button("Cancel") {
-                self.showPopover = false
-            }.padding())
         }
     }
 }
