@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct VinylMultipleAdd<T: PersistentModel, Content: View>: View {
+struct VinylMultipleAdd<T: PersistentModel, Content: View, Content2: View>: View {
     
     @Binding var list: [T]?
     
@@ -16,9 +16,11 @@ struct VinylMultipleAdd<T: PersistentModel, Content: View>: View {
     
     var button: String
     
-    var addButton: () -> Void
+    let sheet: (Binding<Bool>) -> Content
     
-    let content: (T) -> Content
+    let content: (T) -> Content2
+    
+    @State private var show: Bool = false
     
     var body: some View {
         Section(header: Text(title)) {
@@ -33,7 +35,12 @@ struct VinylMultipleAdd<T: PersistentModel, Content: View>: View {
                         }
                     })
                 }
-                Button(button, systemImage: "plus", action: addButton)
+                Button(action: { show = true }) {
+                    Label(button, systemImage: "plus")
+                }
+                .sheet(isPresented: $show) {
+                    sheet($show)
+                }
             }
         }
     }

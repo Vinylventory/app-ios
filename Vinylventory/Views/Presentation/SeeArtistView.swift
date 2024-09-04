@@ -91,7 +91,7 @@ struct SeeArtistView: View {
                 }
             }
         }
-        .navigationTitle("Artist " + artist.surname + " " + artist.name)
+        .navigationTitle(artist.surname + " " + artist.name)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(value: EditArtist(artist: artist))  {

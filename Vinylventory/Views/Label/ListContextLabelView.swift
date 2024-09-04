@@ -60,8 +60,10 @@ struct ListContextLabelView: View {
             NavigationStack {
                 AddOrEditLabelView(options: AddOrEditOptions(value: LabelGroup(name: ""), showPopover: { value in
                     showAdd = value
-                }, addAfter: true) { label in
+                }, addAfter: true, addValue: { label in
                     addLabel(label)
+                }) { value in
+                    value.name.isEmpty
                 })
             }
         }

@@ -39,13 +39,19 @@ struct AddOrEditView<T: PersistentModel, Content: View>: View {
                         }) {
                             Label("", systemImage: "plus")
                         }.padding()
+                            .disabled(options.check(options.value))
                     }
                 }
             }
             .if(!options.revertButtons) { view in
-                view.navigationBarItems(trailing: Button("Cancel") {
-                    options.showPopover(false)
-                }.padding())
+                view.toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Cancel") {
+                            options.showPopover(false)
+                        }
+                        .padding()
+                    }
+                }
             }
     }
 }

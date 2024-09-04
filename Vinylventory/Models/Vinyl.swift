@@ -17,8 +17,8 @@ class Vinyl {
     var notePocket: String = ""
     var pressingLoc: String = ""
     var edition: String = ""
-    var weight: Float? = nil
-    var rank: Int? = nil
+    var weight: Float = 0
+    var rank: Int = 0
     var notes: String = ""
     
     @Relationship(inverse: \Artist.playedBy) var playedBy: [Artist]?
@@ -35,7 +35,7 @@ class Vinyl {
     
     @Relationship(deleteRule: .cascade, inverse: \ImageModel.vinyl) var images: [ImageModel]?
 
-    init(catNumber: String, dateCreated: Date? = nil, dateReleased: Date? = nil, dateEdited: Date? = nil, notePocket: String, pressingLoc: String, edition: String, weight: Float? = nil, rank: Int? = nil, notes: String, playedBy: [Artist]? = nil, authored: [Artist]? = nil, credits: [Credit]? = nil, album: Album? = nil, label: LabelGroup? = nil, tracks: [Track]? = nil, bought: Bought? = nil, pocketState: PocketState? = nil, state: VinylState? = nil, readSpeed: ReadSpeed? = .s78, images: [ImageModel]? = nil) {
+    init(catNumber: String, dateCreated: Date? = nil, dateReleased: Date? = nil, dateEdited: Date? = nil, notePocket: String, pressingLoc: String, edition: String, weight: Float = 0, rank: Int = 0, notes: String, playedBy: [Artist]? = nil, authored: [Artist]? = nil, credits: [Credit]? = nil, album: Album? = nil, label: LabelGroup? = nil, tracks: [Track]? = nil, bought: Bought? = nil, pocketState: PocketState? = nil, state: VinylState? = nil, readSpeed: ReadSpeed? = .s78, images: [ImageModel]? = nil) {
         self.catNumber = catNumber
         self.dateCreated = dateCreated
         self.dateReleased = dateReleased

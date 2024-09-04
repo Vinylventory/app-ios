@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E906FAC22C889EC000A79A37 /* StatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E906FAC12C889EC000A79A37 /* StatView.swift */; };
+		E906FAC42C88A25400A79A37 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E906FAC32C88A25400A79A37 /* ImageView.swift */; };
 		E910B6C22C866BA800BA2C24 /* SeeVinylView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6C12C866BA800BA2C24 /* SeeVinylView.swift */; };
 		E910B6C42C8673D400BA2C24 /* ArtistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6C32C8673D400BA2C24 /* ArtistView.swift */; };
 		E910B6C62C8674D000BA2C24 /* ListArtistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6C52C8674D000BA2C24 /* ListArtistView.swift */; };
@@ -23,7 +25,6 @@
 		E910B6DD2C8797C300BA2C24 /* SeeLabelGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6DC2C8797C300BA2C24 /* SeeLabelGroupView.swift */; };
 		E910B6DF2C87987800BA2C24 /* ListLabelGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6DE2C87987800BA2C24 /* ListLabelGroupView.swift */; };
 		E910B6E12C879C6C00BA2C24 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6E02C879C6C00BA2C24 /* SettingsView.swift */; };
-		E910B6E32C87A7D000BA2C24 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6E22C87A7D000BA2C24 /* ImageView.swift */; };
 		E910B6E62C87A90500BA2C24 /* ImagePickerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6E52C87A90500BA2C24 /* ImagePickerModifier.swift */; };
 		E910B6E82C87AA7C00BA2C24 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6E72C87AA7C00BA2C24 /* ImagePicker.swift */; };
 		E910B6EA2C87AF7D00BA2C24 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6E92C87AF7D00BA2C24 /* Image.swift */; };
@@ -83,6 +84,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E906FAC12C889EC000A79A37 /* StatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatView.swift; sourceTree = "<group>"; };
+		E906FAC32C88A25400A79A37 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		E910B6C12C866BA800BA2C24 /* SeeVinylView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeVinylView.swift; sourceTree = "<group>"; };
 		E910B6C32C8673D400BA2C24 /* ArtistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistView.swift; sourceTree = "<group>"; };
 		E910B6C52C8674D000BA2C24 /* ListArtistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListArtistView.swift; sourceTree = "<group>"; };
@@ -99,7 +102,6 @@
 		E910B6DC2C8797C300BA2C24 /* SeeLabelGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeLabelGroupView.swift; sourceTree = "<group>"; };
 		E910B6DE2C87987800BA2C24 /* ListLabelGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLabelGroupView.swift; sourceTree = "<group>"; };
 		E910B6E02C879C6C00BA2C24 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		E910B6E22C87A7D000BA2C24 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		E910B6E52C87A90500BA2C24 /* ImagePickerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerModifier.swift; sourceTree = "<group>"; };
 		E910B6E72C87AA7C00BA2C24 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		E910B6E92C87AF7D00BA2C24 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 			children = (
 				E910B6E52C87A90500BA2C24 /* ImagePickerModifier.swift */,
 				E910B6E72C87AA7C00BA2C24 /* ImagePicker.swift */,
+				E906FAC32C88A25400A79A37 /* ImageView.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -222,8 +225,8 @@
 				E9D3B7242C6A3D0A00862236 /* ContentView.swift */,
 				E951F3692C8201B400AB25FF /* DatePickerOptional.swift */,
 				E910B6E02C879C6C00BA2C24 /* SettingsView.swift */,
-				E910B6E22C87A7D000BA2C24 /* ImageView.swift */,
 				E9728A042C87BC160009A65C /* ErrorAlertModifier.swift */,
+				E906FAC12C889EC000A79A37 /* StatView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -510,8 +513,8 @@
 				E951F34E2C80A98200AB25FF /* Vinyl.swift in Sources */,
 				E9D3B7252C6A3D0A00862236 /* ContentView.swift in Sources */,
 				E9D3B7232C6A3D0A00862236 /* VinylventoryApp.swift in Sources */,
+				E906FAC42C88A25400A79A37 /* ImageView.swift in Sources */,
 				E951F39B2C85008600AB25FF /* Utils.swift in Sources */,
-				E910B6E32C87A7D000BA2C24 /* ImageView.swift in Sources */,
 				E951F3792C83510000AB25FF /* AddOrEditLabelView.swift in Sources */,
 				E951F3882C848CDB00AB25FF /* AddOrEditCreditView.swift in Sources */,
 				E951F35E2C80AAEB00AB25FF /* ReadSpeed.swift in Sources */,
@@ -550,6 +553,7 @@
 				E951F3562C80AABD00AB25FF /* LabelGroup.swift in Sources */,
 				E910B6C82C8720F100BA2C24 /* AddOrEditOptions.swift in Sources */,
 				E910B6CA2C87248400BA2C24 /* AddOrEditArtistView.swift in Sources */,
+				E906FAC22C889EC000A79A37 /* StatView.swift in Sources */,
 				E951F3542C80AAB200AB25FF /* Track.swift in Sources */,
 				E951F3712C825BB500AB25FF /* ListContextAlbumView.swift in Sources */,
 				E910B6CF2C87850000BA2C24 /* ListAlbumView.swift in Sources */,
@@ -739,7 +743,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.advtools.Vinylventory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -779,7 +783,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.advtools.Vinylventory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct VinylSingleAdd<T: PersistentModel, Content: View>: View {
+struct VinylSingleAdd<T: PersistentModel, Content: View, Content2: View>: View {
     
     @Binding var value: T?
     
@@ -16,16 +16,24 @@ struct VinylSingleAdd<T: PersistentModel, Content: View>: View {
     
     var button: String
     
-    var addButton: () -> Void
+    var sheet: (Binding<Bool>) -> Content
     
-    let content: () -> Content
+    var content: () -> Content2
+    
+    @State private var show: Bool = false
     
     var body: some View {
         Section(header: Text(title)) {
             if value == nil {
-                Button(title, systemImage: "plus", action: addButton)
+                Button(title, systemImage: "plus", action: { show = true })
+                    .sheet(isPresented: $show) {
+                        sheet($show)
+                    }
             } else {
                 content()
+                    .sheet(isPresented: $show) {
+                        sheet($show)
+                    }
             }
         }
     }

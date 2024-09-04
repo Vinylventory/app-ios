@@ -61,6 +61,14 @@ struct ContentView: View {
                 }
                 .navigationBarTitleDisplayMode(.inline)
                 .padding(.bottom)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationLink(value: "statView") {
+                            Label("", systemImage: "chart.bar")
+                        }
+                        .padding()
+                    }
+                }
             }
             .navigationDestination(for: String.self) { str in
                 switch str {
@@ -70,6 +78,7 @@ struct ContentView: View {
                 case "labelView": LabelGroupView(path: $path)
                 case "boughtView": BoughtView(path: $path)
                 case "settingsView": SettingsView(path: $path)
+                case "statView": StatView(path: $path)
                 default: exit(1)
                 }
             }
@@ -85,14 +94,18 @@ struct ContentView: View {
             .navigationDestination(for: Artist.self) { value in
                 AddOrEditArtistView(options: AddOrEditOptions(value: value, showPopover: { value in
                     path.removeLast()
-                }, addAfter: true, addValue: {value in
+                }, addAfter: true, addValue: { value in
                     modelContext.insert(value)
-                }, revertButtons: true))
+                }, revertButtons: true, check: { value in
+                    value.name.isEmpty
+                }))
             }
             .navigationDestination(for: EditArtist.self) { edit in
                 AddOrEditArtistView(options: AddOrEditOptions(value: edit.artist, showPopover: { value in
                     path.removeLast()
-                }, addAfter: false, addValue: { value in }))
+                }, addAfter: false, addValue: { value in }, check: { value in
+                    value.name.isEmpty
+                }))
             }
             .navigationDestination(for: SeeArtist.self) { see in
                 SeeArtistView(artist: see.artist)
@@ -100,14 +113,18 @@ struct ContentView: View {
             .navigationDestination(for: Album.self) { value in
                 AddOrEditAlbumView(options: AddOrEditOptions(value: value, showPopover: { value in
                     path.removeLast()
-                }, addAfter: true, addValue: {value in
+                }, addAfter: true, addValue: { value in
                     modelContext.insert(value)
-                }, revertButtons: true))
+                }, revertButtons: true, check: { value in
+                    value.name.isEmpty
+                }))
             }
             .navigationDestination(for: EditAlbum.self) { edit in
                 AddOrEditAlbumView(options: AddOrEditOptions(value: edit.album, showPopover: { value in
                     path.removeLast()
-                }, addAfter: false, addValue: { value in }))
+                }, addAfter: false, addValue: { value in }, check: { value in
+                    value.name.isEmpty
+                }))
             }
             .navigationDestination(for: SeeAlbum.self) { see in
                 SeeAlbumView(album: see.album)
@@ -115,14 +132,18 @@ struct ContentView: View {
             .navigationDestination(for: LabelGroup.self) { value in
                 AddOrEditLabelView(options: AddOrEditOptions(value: value, showPopover: { value in
                     path.removeLast()
-                }, addAfter: true, addValue: {value in
+                }, addAfter: true, addValue: { value in
                     modelContext.insert(value)
-                }, revertButtons: true))
+                }, revertButtons: true, check: { value in
+                    value.name.isEmpty
+                }))
             }
             .navigationDestination(for: EditLabelGroup.self) { edit in
                 AddOrEditLabelView(options: AddOrEditOptions(value: edit.labelGroup, showPopover: { value in
                     path.removeLast()
-                }, addAfter: false, addValue: { value in }))
+                }, addAfter: false, addValue: { value in }, check: { value in
+                    value.name.isEmpty
+                }))
             }
             .navigationDestination(for: SeeLabelGroup.self) { see in
                 SeeLabelGroupView(labelGroup: see.labelGroup)
@@ -130,17 +151,25 @@ struct ContentView: View {
             .navigationDestination(for: Bought.self) { value in
                 AddOrEditBoughtView(options: AddOrEditOptions(value: value, showPopover: { value in
                     path.removeLast()
-                }, addAfter: true, addValue: {value in
+                }, addAfter: true, addValue: { value in
                     modelContext.insert(value)
-                }, revertButtons: true))
+                }, revertButtons: true, check: { value in
+                    value.loc.isEmpty
+                }))
             }
             .navigationDestination(for: EditBought.self) { edit in
                 AddOrEditBoughtView(options: AddOrEditOptions(value: edit.bought, showPopover: { value in
                     path.removeLast()
-                }, addAfter: false, addValue: { value in }))
+                }, addAfter: false, addValue: { value in }, check: { value in
+                    value.loc.isEmpty
+                }))
             }
             .navigationDestination(for: SeeBought.self) { see in
                 SeeBoughtView(bought: see.bought)
+            }
+            .navigationDestination(for: SeeImage.self) { see in
+                ImageView(image: see.image)
+                    .ignoresSafeArea()
             }
         }
     }

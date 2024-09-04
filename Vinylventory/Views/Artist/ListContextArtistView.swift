@@ -26,7 +26,7 @@ struct ListContextArtistView: View {
     @Query private var artists: [Artist]
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 List {
                     ForEach(artists.filter {
@@ -60,8 +60,10 @@ struct ListContextArtistView: View {
             NavigationStack {
                 AddOrEditArtistView(options: AddOrEditOptions(value: Artist(surname: "", name: "", origin: ""), showPopover: { value in
                     showAdd = value
-                }, addAfter: true) { artist in
+                }, addAfter: true, addValue: { artist in
                     addArtist(artist)
+                }) { value in
+                    value.name.isEmpty
                 })
             }
         }

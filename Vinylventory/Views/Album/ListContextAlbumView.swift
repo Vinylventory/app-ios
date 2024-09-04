@@ -61,8 +61,10 @@ struct ListContextAlbumView: View {
             NavigationStack {
                 AddOrEditAlbumView(options: AddOrEditOptions(value: Album(name: ""), showPopover: { value in
                     showAdd = value
-                }, addAfter: true) { album in
+                }, addAfter: true, addValue: { album in
                     addAlbum(album)
+                }) { value in
+                    value.name.isEmpty
                 })
             }
         }

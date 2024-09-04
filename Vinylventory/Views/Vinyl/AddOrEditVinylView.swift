@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftData
-import PhotosUI
 
 struct AddOrEditVinylView: View {
     
@@ -19,31 +18,8 @@ struct AddOrEditVinylView: View {
     
     @Binding var path: NavigationPath
     
-    @State private var showListAlbum: Bool = false
-    @State private var showListLabel: Bool = false
-    @State private var showListBought: Bool = false
-    @State private var showListArtist: Bool = false
-    
-    @State private var playedBy: Bool = false
-    
-    @State private var showAddCredit: Bool = false
-    @State private var showAddTrack: Bool = false
-    
     @State private var showImageContext: Bool = false
     @State private var selectedImage: UIImage? = nil
-    
-    
-    
-    @State private var isPresentingPicker = false
-    @State private var isPresentingCamera = false
-    @State var showActionSheet = false
-    
-    @State private var imageImported: PhotosPickerItem? = nil
-    
-    @State private var error: Bool = false
-    @State private var errorMessage: String = ""
-    
-    
     
     var body: some View {
         Form {
@@ -73,34 +49,58 @@ struct AddOrEditVinylView: View {
                 TextField("Note about the vinyl", text: $vinyl.notes)
             }
             
-            VinylMultipleAdd(list: $vinyl.playedBy, title: "Played By", button: "Add Musician", addButton: {
-                playedBy = true
-                showListArtist = true
+            VinylMultipleAdd(list: $vinyl.playedBy, title: "Played By", button: "Add Musician", sheet: { value in
+                ListContextArtistView(showPopover: value, addArtist: { artist in
+                    modelContext.insert(artist)
+                }, setArtist: { artist in
+                    if vinyl.playedBy == nil {
+                        vinyl.playedBy = []
+                    }
+                    vinyl.playedBy!.append(artist)
+                })
             }) { value in
                 HStack {
-                    Text(value.surname + " " + value.name)
+                    Text("\(value.surname) \(value.name)")
                     Spacer()
                     Text(value.origin)
                 }
             }
             
-            VinylMultipleAdd(list: $vinyl.authored, title: "Authored By", button: "Add Author", addButton: {
-                playedBy = false
-                showListArtist = true
+            VinylMultipleAdd(list: $vinyl.authored, title: "Authored By", button: "Add Author", sheet: { value in
+                ListContextArtistView(showPopover: value, addArtist: { artist in
+                    modelContext.insert(artist)
+                }, setArtist: { artist in
+                    if vinyl.authored == nil {
+                        vinyl.authored = []
+                    }
+                    vinyl.authored!.append(artist)
+                })
             }) { value in
                 HStack {
-                    Text(value.surname + " " + value.name)
+                    Text("\(value.surname) \(value.name)")
                     Spacer()
                     Text(value.origin)
                 }
             }
             
-            VinylMultipleAdd(list: $vinyl.credits, title: "Credits", button: "Add Credit", addButton: {
-                showAddCredit = true
+            VinylMultipleAdd(list: $vinyl.credits, title: "Credits", button: "Add Credit", sheet: { value in
+                NavigationStack {
+                    AddOrEditCreditView(options: AddOrEditOptions(value: Credit(role: "", note: ""), showPopover: { v in
+                        value.wrappedValue = v
+                    }, addAfter: true, addValue: { credit in
+                        modelContext.insert(credit)
+                        if vinyl.credits == nil {
+                            vinyl.credits = []
+                        }
+                        vinyl.credits!.append(credit)
+                    }) { value in
+                        value.role.isEmpty && value.artist == nil
+                    })
+                }
             }) { value in
                 HStack {
                     if value.artist != nil {
-                        Text(value.artist!.surname + " " + value.artist!.name)
+                        Text("\(value.artist!.surname) \(value.artist!.name)")
                     } else {
                         Text("")
                     }
@@ -109,8 +109,12 @@ struct AddOrEditVinylView: View {
                 }
             }
             
-            VinylSingleAdd(value: $vinyl.album, title: "Album", button: "Add Album", addButton: {
-                showListAlbum = true
+            VinylSingleAdd(value: $vinyl.album, title: "Album", button: "Add Album", sheet: { value in
+                ListContextAlbumView(showPopover: value, addAlbum: { album in
+                    modelContext.insert(album)
+                }, setAlbum: { album in
+                    vinyl.album = album
+                })
             }) {
                 HStack {
                     Text(vinyl.album!.name)
@@ -124,8 +128,12 @@ struct AddOrEditVinylView: View {
                 }
             }
             
-            VinylSingleAdd(value: $vinyl.label, title: "Label", button: "Add Label", addButton: {
-                showListLabel = true
+            VinylSingleAdd(value: $vinyl.label, title: "Label", button: "Add Label", sheet: { value in
+                ListContextLabelView(showPopover: value, addLabel: { label in
+                    modelContext.insert(label)
+                }, setLabel: { label in
+                    vinyl.label = label
+                })
             }) {
                 HStack {
                     Text(vinyl.label!.name)
@@ -138,9 +146,20 @@ struct AddOrEditVinylView: View {
                     }
                 }
             }
-            
-            VinylMultipleAdd(list: $vinyl.tracks, title: "Tracks", button: "Add Track", addButton: {
-                showAddTrack = true
+            VinylMultipleAdd(list: $vinyl.tracks, title: "Tracks", button: "Add Track", sheet: { value in
+                NavigationStack {
+                    AddOrEditTrackView(options: AddOrEditOptions(value: Track(name: "", duration: nil), showPopover: { v in
+                        value.wrappedValue = v
+                    }, addAfter: true, addValue: { track in
+                        modelContext.insert(track)
+                        if vinyl.tracks == nil {
+                            vinyl.tracks = []
+                        }
+                        vinyl.tracks!.append(track)
+                    }) { value in
+                        value.name.isEmpty
+                    })
+                }
             }) { value in
                 HStack {
                     Text(value.name)
@@ -151,13 +170,17 @@ struct AddOrEditVinylView: View {
                 }
             }
             
-            VinylSingleAdd(value: $vinyl.label, title: "v", button: "Add Purchase Informations", addButton: {
-                showListBought = true
+            VinylSingleAdd(value: $vinyl.bought, title: "Purchase Informations", button: "Add Purchase Informations", sheet: { value in
+                ListContextBoughtView(showPopover: value, addBought: { bought in
+                    modelContext.insert(bought)
+                }, setBought: { bought in
+                    vinyl.bought = bought
+                })
             }) {
                 HStack {
                     Text(vinyl.bought!.loc)
                     Spacer()
-                    Text(vinyl.bought!.date != nil ? DateFormatter().apply {$0.dateStyle = .short} .string(from: vinyl.bought!.date!) : "")
+                    Text(vinyl.bought!.date != nil ? DateFormatter().apply {$0.dateStyle = .short} .string(from: vinyl.bought!.date!) : "N/A")
                     Spacer()
                     Button(action: {
                         vinyl.bought = nil
@@ -192,7 +215,7 @@ struct AddOrEditVinylView: View {
                 }
             }
             
-            VinylImageList(vinyl: vinyl, showImageContext: $showImageContext)
+            VinylImageList(vinyl: vinyl, showImageContext: $showImageContext, selectedImage: $selectedImage)
         }
         .navigationBarTitle((add ? "Add" : "Edit") + " Vinyl " + vinyl.catNumber, displayMode: .large)
         .if(add) { view in
@@ -203,72 +226,10 @@ struct AddOrEditVinylView: View {
                         path.removeLast()
                     }) {
                         Label("", systemImage: "plus")
-                    }.padding()
+                    }
+                    .padding()
+                    .disabled(vinyl.catNumber.isEmpty)
                 }
-            }
-        }
-        .sheet(isPresented: $showListAlbum) {
-            ListContextAlbumView(showPopover: $showListAlbum, addAlbum: { album in
-                modelContext.insert(album)
-            }, setAlbum: { album in
-                vinyl.album = album
-            })
-        }
-        .sheet(isPresented: $showListLabel) {
-            ListContextLabelView(showPopover: $showListLabel, addLabel: { label in
-                modelContext.insert(label)
-            }, setLabel: { label in
-                vinyl.label = label
-            })
-        }
-        .sheet(isPresented: $showListBought) {
-            ListContextBoughtView(showPopover: $showListBought, addBought: { bought in
-                modelContext.insert(bought)
-            }, setBought: { bought in
-                vinyl.bought = bought
-            })
-        }
-        .sheet(isPresented: $showListArtist) {
-            ListContextArtistView(showPopover: $showListArtist, addArtist: { artist in
-                modelContext.insert(artist)
-            }, setArtist: { artist in
-                if playedBy {
-                    if vinyl.playedBy == nil {
-                        vinyl.playedBy = []
-                    }
-                    vinyl.playedBy!.append(artist)
-                } else {
-                    if vinyl.authored == nil {
-                        vinyl.authored = []
-                    }
-                    vinyl.authored!.append(artist)
-                }
-            })
-        }
-        .sheet(isPresented: $showAddCredit) {
-            NavigationStack {
-                AddOrEditCreditView(options: AddOrEditOptions(value: Credit(role: "", note: ""), showPopover: { value in
-                    showAddCredit = value
-                }, addAfter: true) { credit in
-                    modelContext.insert(credit)
-                    if vinyl.credits == nil {
-                        vinyl.credits = []
-                    }
-                    vinyl.credits!.append(credit)
-                })
-            }
-        }
-        .sheet(isPresented: $showAddTrack) {
-            NavigationStack {
-                AddOrEditTrackView(options: AddOrEditOptions(value: Track(name: "", duration: nil), showPopover: { value in
-                    showAddTrack = value
-                }, addAfter: true) { track in
-                    modelContext.insert(track)
-                    if vinyl.tracks == nil {
-                        vinyl.tracks = []
-                    }
-                    vinyl.tracks!.append(track)
-                })
             }
         }
         .onChange(of: selectedImage) {
@@ -281,39 +242,5 @@ struct AddOrEditVinylView: View {
                 vinyl.images!.append(image)
             }
         }
-        .actionSheet(isPresented: $showImageContext) {
-            ActionSheet(
-                title: Text("Select Image"),
-                message: Text("Choose an image from your library or take a new photo"),
-                buttons: [
-                    .default(Text("Photo Library")) {
-                        isPresentingPicker = true
-                    },
-                    .default(Text("Camera")) {
-                        isPresentingCamera = true
-                    },
-                    .cancel()
-                ]
-            )
-        }
-        .photosPicker(isPresented: $isPresentingPicker, selection: $imageImported)
-        .sheet(isPresented: $isPresentingCamera) {
-            ImagePicker(sourceType: .camera, selectedImage: $selectedImage)
-        }
-        .onChange(of: imageImported) {
-            Task {
-                if imageImported != nil {
-                    do {
-                        if let data = try await imageImported!.loadTransferable(type: Data.self) {
-                            selectedImage = UIImage(data: data)
-                        }
-                    } catch {
-                        self.error = true
-                        errorMessage = error.localizedDescription
-                    }
-                }
-            }
-        }
-        .modifier(ErrorAlertModifier(isPresented: $error, errorMessage: errorMessage))
     }
 }

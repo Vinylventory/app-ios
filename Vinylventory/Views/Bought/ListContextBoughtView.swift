@@ -63,8 +63,10 @@ struct ListContextBoughtView: View {
             NavigationStack {
                 AddOrEditBoughtView(options: AddOrEditOptions(value: Bought(loc: "", price: 0, note: ""), showPopover: { value in
                     showAdd = value
-                }, addAfter: true) { bought in
+                }, addAfter: true, addValue: { bought in
                     addBought(bought)
+                }) { value in
+                    value.loc.isEmpty
                 })
             }
         }

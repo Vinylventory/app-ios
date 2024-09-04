@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import PhotosUI
 
 class EditVinyl: Hashable {
     
@@ -174,5 +175,17 @@ class SeeBought: Hashable {
 
     static func == (lhs: SeeBought, rhs: SeeBought) -> Bool {
         return lhs.bought.id == rhs.bought.id
+    }
+}
+
+struct SeeImage: Hashable {
+    let image: UIImage
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(image.hash)
+    }
+
+    static func == (lhs: SeeImage, rhs: SeeImage) -> Bool {
+        return lhs.image.hash == rhs.image.hash
     }
 }
