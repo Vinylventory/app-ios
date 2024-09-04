@@ -11,6 +11,8 @@ A simple IOS application that lets you take inventory of these vinyls.
 
 This application is available free of charge from the Apple App Store for iOS, iPadOS and MacOS (although it's mainly for iOS).
 
+[App Store Link](https://apps.apple.com/ch/app/vinylventory/id6654882461)
+
 # Installation
 
 The project was created on Xcode 15.4, so you just need to open it with Xcode (which means it only works on MacOS).
